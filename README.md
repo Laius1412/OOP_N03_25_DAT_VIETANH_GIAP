@@ -1,7 +1,7 @@
 # OOP_Project
 
 - Tên dự án: Hệ thống quản lý gia tộc
-- Mô tả: Hệ thống quản lý gia tộc bao gồm các nhóm chức năng chính như quản lý thành viên, cây gia phả, quản lý thu chi, quản lý sự kiện,... trong dòng họ.
+- Mô tả: Hệ thống quản lý gia tộc bao gồm các nhóm chức năng chính như quản lý thành viên, cây gia phả, quản lý tài chính, quản lý sự kiện,... trong dòng họ.
 - Đối tượng sử dụng: Hội đồng quản lý gia tộc (tộc cán).
 
 # 1. Members (Thành viên dự án)
@@ -50,5 +50,19 @@
 ```
 - String id (mã gia đình)
 - String nameFamily (tên của gia đình, lấy tên con trai lớn tuổi nhất hiện tại trong gia đình)
-- 
+- List <Person> familyMembers (danh sách thành viên trong gia đình)
 ```
+### 2.3.2. Methods (Phương thức)
+
+## 2.4. FamilyTree (Cây gia phả)
+
+### 2.4.1. Attribute (Thuộc tính)
+
+```
+- Person root (thành viên đời thứ nhất - tổ tiên)
+- List <Person> members (danh sách thành viên)
+```
+
+### 2.4.2. Methods (Phương thức)
+
+## 2.5. FinanceManagement (Quản lý tài chính)
