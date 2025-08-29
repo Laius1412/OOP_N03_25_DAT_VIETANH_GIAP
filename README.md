@@ -206,7 +206,7 @@ getCategoryReport(),
 
 ## 3.1 UML Class Diagram
 
-<img width="1231" height="1310" alt="oop" src="https://github.com/user-attachments/assets/e83f7027-8071-4b93-9b12-f8ee39e40700" />
+<img width="1241" height="1284" alt="OPP2 drawio" src="https://github.com/user-attachments/assets/f000eac5-b27d-414d-891f-535525d108c2" />
 
 ## 3.2 UML Sequence Diagram
 ### 3.2.1 Sơ đồ tuần tự chức năng thêm thành viên
