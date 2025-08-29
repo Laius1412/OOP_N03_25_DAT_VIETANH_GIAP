@@ -146,10 +146,41 @@
 - float money (số tiền thu).
 - String type (hạng mục thu).
 - String description (mô tả).
+- Date date
 - List <ReceiveManagement> finishedmembers (danh sách thành viên đóng tiền).
 ```
 
 ### 2.5.2. Methods (Phương thức)
 
 ```
-- 
+- getName()
+- getMoney()
+- getType()
+- getdescription()
+- getDate()
+```
+## 2.6. ExpenseManagement (Quản lý chi)
+
+### 2.6.1. Attribute (Thuộc tính)
+
+```
+- String id (mã khoản chi).
+- String name (tên khoản chi).
+- float money (số tiền chi).
+- String type (hạng mục chi).
+- String description (mô tả).
+- Date date
+- List <ReceiveManagement> finishedmembers (danh sách thành viên chi tiền).
+```
+
+### 2.6.2. Methods (Phương thức)
+
+```
+- getName()
+- getMoney()
+- getType()
+- getdescription()
+- getDate()
+```
+
+
