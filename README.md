@@ -213,6 +213,16 @@ getCategoryReport(),
 
 <img width="3840" height="2101" alt="add" src="https://github.com/user-attachments/assets/2c696061-ece1-4d2b-9502-3b6e888d452a" />
 
+### 3.2.2 Sơ đồ tuần tự chức năng xóa thành viên
+
+<img width="3840" height="2669" alt="xóa" src="https://github.com/user-attachments/assets/d1fc8d27-a1b7-45b3-9150-fb2ea0f198c9" />
+
+### 3.2.3 Sơ đò tuần tự chức năng xem thông tin
+
+<img width="3840" height="1994" alt="thongtin" src="https://github.com/user-attachments/assets/fc318cbc-c17a-4ff5-98ac-00e7601a8d8e" />
+
+
+
 
 
 
