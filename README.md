@@ -146,7 +146,7 @@
 - float money (số tiền thu).
 - String type (hạng mục thu).
 - String description (mô tả).
-- Date date
+- Date date (ngày thu tiền),
 - List <ReceiveManagement> finishedmembers (danh sách thành viên đóng tiền).
 ```
 
@@ -169,8 +169,7 @@
 - float money (số tiền chi).
 - String type (hạng mục chi).
 - String description (mô tả).
-- Date date
-- List <ReceiveManagement> finishedmembers (danh sách thành viên chi tiền).
+- Date date (ngày chi tiền),
 ```
 
 ### 2.6.2. Methods (Phương thức)
@@ -182,5 +181,24 @@
 - getdescription()
 - getDate()
 ```
+## 2.7. FinancialManagement (Quản lý tài chính)
 
+### 2.7.1. Attribute (Thuộc tính)
+
+```
+- incomes: List<ReceiveManagement>,
+- expenses: List<ExpenseManagement>,
+
+```
+
+### 2.7.2. Methods (Phương thức)
+
+```
+addIncome(receive: ReceiveManagement),
+addExpense(expense: ExpenseManagement),
+getTotalReceive(),
+getTotalExpense(),
+getBalance(),
+getCategoryReport(),
+```
 
