@@ -209,3 +209,10 @@ getCategoryReport(),
 <img width="1231" height="1310" alt="oop" src="https://github.com/user-attachments/assets/e83f7027-8071-4b93-9b12-f8ee39e40700" />
 
 ## 3.2 UML Sequence Diagram
+### 3.2.1 Sơ đồ tuần tự chức năng thêm thành viên
+
+<img width="3840" height="2101" alt="add" src="https://github.com/user-attachments/assets/2c696061-ece1-4d2b-9502-3b6e888d452a" />
+
+
+
+
