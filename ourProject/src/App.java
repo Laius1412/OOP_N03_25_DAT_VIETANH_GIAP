@@ -1,7 +1,9 @@
-public class App {
+import Test.testPerson;
 
-    //Main: trong mot Project chỉ có một Main là dòng 04
-    public static void main(String[] args) throws Exception {
-        System.out.println("Ban Giap VietAnh và Dat Xin chào cả lớp!");
+public class App {
+    public static void main(String[] args) {
+        System.out.println("=== Bắt đầu chạy chương trình ===\n");
+        testPerson.runTest();
+        System.out.println("\n=== Kết thúc chương trình ===");
     }
 }
