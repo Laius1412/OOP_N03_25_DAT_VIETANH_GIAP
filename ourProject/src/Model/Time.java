@@ -58,9 +58,9 @@ public class Time {
     @Override
     public String toString() {
         int displayHour = (hour == 12 || hour == 0) ? 12 : (hour % 12);
-        String amPm = (hour < 12) ? " AM" : " PM";
-        String mm = (minute < 10 ? "0" : "") + minute;
-        String ss = (second < 10 ? "0" : "") + second;
-        return displayHour + ":" + mm + ":" + ss + amPm;
+        String h = (hour < 12) ? " AM" : " PM";
+        String m = (minute < 10 ? "0" : "") + minute;
+        String s = (second < 10 ? "0" : "") + second;
+        return displayHour + ":" + m + ":" + s + h;
     }
 }
