@@ -1,11 +1,13 @@
 import Test.TestUser;
 import Test.TestTime;
+import Test.TestRecursion;
 
 public class App {
     public static void main(String[] args) {
-        System.out.println("=== Bắt đầu chạy chương trình ===\n");
+        System.out.println("=== Bat dau chuong trinh ===\n");
         TestTime.runTest();
         TestUser.runTest();
-        System.out.println("\n=== Kết thúc chương trình ===");
+        TestRecursion.runTest();
+        System.out.println("\n=== Ket thuc chuong trinh ===");
     }
 }
