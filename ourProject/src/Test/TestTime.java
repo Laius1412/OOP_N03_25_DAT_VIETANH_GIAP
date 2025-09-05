@@ -11,12 +11,7 @@ public class TestTime {
 		System.out.println("Expect 09: " + (t.getSecond() < 10 ? "0" : "") + t.getSecond());
 		t.printTime();
 
-		// Invalid values should reset to 0 per implementation (>0 and within range)
 		t.setTime(0, 60, -1);
 		System.out.println("Expect 0 0 0: " + t.getHour() + " " + t.getMinute() + " " + t.getSecond());
-	}
-
-	public static void main(String[] args) {
-		runTest();
 	}
 }

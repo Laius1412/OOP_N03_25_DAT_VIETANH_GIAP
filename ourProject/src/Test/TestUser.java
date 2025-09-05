@@ -13,8 +13,4 @@ public class TestUser {
 		System.out.println("Password: " + u.getPassword());
 		System.out.println("Role: " + u.getRole());
 	}
-
-	public static void main(String[] args) {
-		runTest();
-	}
 }
