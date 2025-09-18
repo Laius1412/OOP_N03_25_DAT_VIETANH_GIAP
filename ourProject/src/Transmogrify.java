@@ -3,11 +3,15 @@ abstract class Actor{
 }
 
 class HappyActor extends Actor{
-    public void act(){};
+    public void act(){
+        System.out.println("Happy");
+    };
 }
 
 class SadActor extends Actor{
-    public void act(){};
+    public void act(){
+        System.out.println("Sad");
+    };
 }
 
 class Stage{
