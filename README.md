@@ -254,19 +254,19 @@ getCategoryReport(),
 
 - Read
 
-  <img width="3840" height="1960" alt="xem danh sách" src="https://github.com/user-attachments/assets/cca3238a-567d-467a-9daa-470f9eb1f9a3" />
+<img width="3840" height="1960" alt="xem danh sách" src="https://github.com/user-attachments/assets/cca3238a-567d-467a-9daa-470f9eb1f9a3" />
   
 - Update
   
-  <img width="3840" height="2753" alt="sửatk" src="https://github.com/user-attachments/assets/91e5053d-fc34-44d2-a874-5df5a0a8eadc" />
+<img width="3840" height="2753" alt="sửatk" src="https://github.com/user-attachments/assets/91e5053d-fc34-44d2-a874-5df5a0a8eadc" />
   
 - Delete
   
-  <img width="3840" height="3019" alt="xoatk" src="https://github.com/user-attachments/assets/bcce7f8c-1f04-43ff-addb-1b9c293c3809" />
+<img width="3840" height="3019" alt="xoatk" src="https://github.com/user-attachments/assets/bcce7f8c-1f04-43ff-addb-1b9c293c3809" />
   
 - Search
   
-  <img width="3840" height="2150" alt="tìm kiếm" src="https://github.com/user-attachments/assets/a8100e59-8908-479e-8e82-2b2bc7aaa5d4" />
+<img width="3840" height="2150" alt="tìm kiếm" src="https://github.com/user-attachments/assets/a8100e59-8908-479e-8e82-2b2bc7aaa5d4" />
 
 
 
