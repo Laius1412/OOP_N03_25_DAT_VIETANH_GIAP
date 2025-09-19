@@ -228,4 +228,25 @@ getCategoryReport(),
 
 <img width="827" height="576" alt="deleteUser" src="https://github.com/user-attachments/assets/e8d7717a-8fd4-413d-8051-1df1d0028088" />
 
-### 3.2.2 Sơ đồ thuật toán CRUD của 
+### 3.2.2 Sơ đồ thuật toán CRUD của đối tượng Person
+
+- Create
+
+<img width="3730" height="3840" alt="themPerson" src="https://github.com/user-attachments/assets/550ab705-7e96-4794-a931-69972fb610c7" />
+
+- Read
+
+<img width="3840" height="3574" alt="XemPerson" src="https://github.com/user-attachments/assets/af45512f-d536-441e-9c2c-45ff4ea728ab" />
+
+- Update
+
+<img width="2875" height="3840" alt="Chinhsua" src="https://github.com/user-attachments/assets/3f33bb46-7f80-4f67-8c84-8489623b38ba" />
+
+- Delete
+
+<img width="2712" height="3840" alt="xóa" src="https://github.com/user-attachments/assets/e575d163-0abc-4b35-8702-051d01ff764f" />
+
+### 3.2.3 Sơ đồ thuật toán CRUD của đối tượng 
+
+
+
