@@ -213,7 +213,8 @@ getCategoryReport(),
 
 - Create
 
-<img width="895" height="576" alt="createUser" src="https://github.com/user-attachments/assets/aec98907-31c7-419d-aca5-39bc5cbf1665" />
+<img width="1077" height="680" alt="createUser" src="https://github.com/user-attachments/assets/dc7863b9-22c0-46d2-ba61-5eabe009f52b" />
+
 
 - Read
 
