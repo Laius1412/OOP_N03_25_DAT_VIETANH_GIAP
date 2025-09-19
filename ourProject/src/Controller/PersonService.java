@@ -1,10 +1,10 @@
 package Controller;
 
-import Controller.interfaces.Crud;
+import Controller.interfaces.CrudPerson;
 import Model.Person;
 import java.util.ArrayList;
 
-public class PersonService implements Crud<Person, String> {
+public class PersonService implements CrudPerson<Person, String> {
         private final ArrayList<Person> people = new ArrayList<>();
 
         @Override

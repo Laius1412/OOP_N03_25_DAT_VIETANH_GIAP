@@ -1,12 +1,12 @@
 package Test;
 
 import Controller.PersonService;
-import Controller.interfaces.Crud;
+import Controller.interfaces.CrudPerson;
 import Model.Person;
 import java.util.ArrayList;
 
 public class testPerson {
-        private static final Crud<Person, String> service = new PersonService();
+        private static final CrudPerson<Person, String> service = new PersonService();
 
         public static void runTest() {
                 java.util.Scanner sc = new java.util.Scanner(System.in);

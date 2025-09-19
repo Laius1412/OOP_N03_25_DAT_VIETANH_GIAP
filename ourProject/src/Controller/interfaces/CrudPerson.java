@@ -2,7 +2,7 @@ package Controller.interfaces;
 
 import java.util.ArrayList;
 
-public interface Crud<T, ID> {
+public interface CrudPerson<T, ID> {
         void create(T entity);
         boolean update(ID id, T newData);
         boolean delete(ID id);
