@@ -1,4 +1,5 @@
 import Test.TestUser;
+import Test.testPerson;
 import Test.testReceive;
 
 public class App {
@@ -8,6 +9,8 @@ public class App {
         testReceive.runTest();
         System.out.println("=== Kiem thu User ===");
         TestUser.runTest();
+        System.out.println("=== Kiem thu Person ===");
+        testPerson.runTest();
         System.out.println("\n=== ket thuc chuong trinh ===");
     }
 }
