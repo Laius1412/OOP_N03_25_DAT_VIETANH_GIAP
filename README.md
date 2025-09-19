@@ -209,20 +209,22 @@ getCategoryReport(),
 <img width="1241" height="1284" alt="OPP2 drawio" src="https://github.com/user-attachments/assets/f000eac5-b27d-414d-891f-535525d108c2" />
 
 ## 3.2 UML Sequence Diagram
-### 3.2.1 Sơ đồ tuần tự chức năng thêm thành viên
+### 3.2.1 Sơ đồ thuật toán CRUD của đối tượng User
 
-<img width="3840" height="2101" alt="add" src="https://github.com/user-attachments/assets/2c696061-ece1-4d2b-9502-3b6e888d452a" />
+- Create
 
-### 3.2.2 Sơ đồ tuần tự chức năng xóa thành viên
+<img width="895" height="576" alt="createUser" src="https://github.com/user-attachments/assets/aec98907-31c7-419d-aca5-39bc5cbf1665" />
 
-<img width="3840" height="2669" alt="xóa" src="https://github.com/user-attachments/assets/d1fc8d27-a1b7-45b3-9150-fb2ea0f198c9" />
+- Read
 
-### 3.2.3 Sơ đò tuần tự chức năng xem thông tin
+<img width="840" height="518" alt="readUser" src="https://github.com/user-attachments/assets/b608274b-efe1-4bd6-b598-260e662431e9" />
 
-<img width="3840" height="1994" alt="thongtin" src="https://github.com/user-attachments/assets/fc318cbc-c17a-4ff5-98ac-00e7601a8d8e" />
+- Update
 
+<img width="904" height="576" alt="updateUser" src="https://github.com/user-attachments/assets/45161c96-d7a0-4a28-aca5-307f748c7949" />
 
+- Delete
 
+<img width="827" height="576" alt="deleteUser" src="https://github.com/user-attachments/assets/e8d7717a-8fd4-413d-8051-1df1d0028088" />
 
-
-
+### 3.2.2 Sơ đồ thuật toán CRUD của 
