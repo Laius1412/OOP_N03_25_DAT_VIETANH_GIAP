@@ -1,16 +1,18 @@
-import Test.TestUser;
+// import Test.TestTime;
+// import Test.TestUser;
+// import Test.TestRecursion;
 import Test.testPerson;
-import Test.testReceive;
 
 public class App {
     public static void main(String[] args) {
         System.out.println("=== Bat dau chay chuong trinh ===\n");
-        System.out.println("\n=== Kiem thu Receive ===");
-        testReceive.runTest();
-        System.out.println("=== Kiem thu User ===");
-        TestUser.runTest();
-        System.out.println("=== Kiem thu Person ===");
         testPerson.runTest();
-        System.out.println("\n=== ket thuc chuong trinh ===");
+        // System.out.println();
+        // TestTime.runTest();
+        // System.out.println();
+        // TestUser.runTest();
+        // System.out.println();
+        // TestRecursion.runTest();
+        System.out.println("\n=== Ket thuc chuong trinh ===");
     }
 }
