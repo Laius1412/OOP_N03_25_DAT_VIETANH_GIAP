@@ -1,61 +1,89 @@
 package com.example.servingwebcontent.service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.servingwebcontent.model.Transaction;
+import com.example.servingwebcontent.model.Transaction.Type;
+import com.example.servingwebcontent.repository.TransactionRepository;
 
 @Service
+@Transactional
 public class TransactionService {
-    private final List<Transaction> items = new ArrayList<>();
-    private final AtomicLong idSeq = new AtomicLong(1);
+    
+    @Autowired
+    private TransactionRepository transactionRepository;
 
-    public List<Transaction> findAll() { return items; }
-
-    public Transaction findById(long id) {
-        return items.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
+    public Transaction save(Transaction transaction) {
+        return transactionRepository.save(transaction);
     }
 
-    public void save(Transaction t) {
-        if (t.getId() == 0) {
-            t.setId(idSeq.getAndIncrement());
-            items.add(t);
-        }
-    }
-
-    public boolean update(long id, Transaction data) {
-        Transaction t = findById(id);
-        if (t == null) return false;
-        if (data.getType() != null) t.setType(data.getType());
-        if (data.getAmount() != null) t.setAmount(data.getAmount());
-        if (data.getDescription() != null) t.setDescription(data.getDescription());
-        if (data.getEventName() != null) t.setEventName(data.getEventName());
-        if (data.getPayerName() != null) t.setPayerName(data.getPayerName());
-        if (data.getDate() != null) t.setDate(data.getDate());
+    public boolean update(Long id, Transaction newData) {
+        Optional<Transaction> transactionOpt = transactionRepository.findById(id);
+        if (transactionOpt.isEmpty()) return false;
+        
+        Transaction transaction = transactionOpt.get();
+        if (newData.getType() != null) transaction.setType(newData.getType());
+        if (newData.getAmount() != null) transaction.setAmount(newData.getAmount());
+        if (newData.getDescription() != null) transaction.setDescription(newData.getDescription());
+        if (newData.getDate() != null) transaction.setDate(newData.getDate());
+        if (newData.getEventName() != null) transaction.setEventName(newData.getEventName());
+        if (newData.getPayerName() != null) transaction.setPayerName(newData.getPayerName());
+        
+        transactionRepository.save(transaction);
         return true;
     }
 
-    public boolean delete(long id) {
-        Transaction t = findById(id);
-        if (t == null) return false;
-        return items.remove(t);
+    public boolean delete(Long id) {
+        if (transactionRepository.existsById(id)) {
+            transactionRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
+    public Transaction findById(Long id) {
+        return transactionRepository.findById(id).orElse(null);
+    }
+
+    public List<Transaction> findAll() {
+        return transactionRepository.findAllOrderByDateDesc();
+    }
+    
+    public List<Transaction> findByType(Type type) {
+        return transactionRepository.findByType(type);
+    }
+    
+    public List<Transaction> findByDateRange(LocalDate startDate, LocalDate endDate) {
+        return transactionRepository.findByDateBetween(startDate, endDate);
+    }
+    
+    public List<Transaction> findByEventName(String eventName) {
+        return transactionRepository.findByEventNameContainingIgnoreCase(eventName);
+    }
+    
+    public List<Transaction> findByPayerName(String payerName) {
+        return transactionRepository.findByPayerNameContainingIgnoreCase(payerName);
+    }
+    
+    public BigDecimal getTotalIncome() {
+        BigDecimal total = transactionRepository.sumAmountByType(Type.INCOME);
+        return total != null ? total : BigDecimal.ZERO;
+    }
+    
+    public BigDecimal getTotalExpense() {
+        BigDecimal total = transactionRepository.sumAmountByType(Type.EXPENSE);
+        return total != null ? total : BigDecimal.ZERO;
+    }
+    
     public BigDecimal getBalance() {
-        BigDecimal income = items.stream()
-            .filter(i -> i.getType() == Transaction.Type.INCOME)
-            .map(i -> i.getAmount())
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal expense = items.stream()
-            .filter(i -> i.getType() == Transaction.Type.EXPENSE)
-            .map(i -> i.getAmount())
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
-        return income.subtract(expense);
+        BigDecimal balance = transactionRepository.calculateBalance();
+        return balance != null ? balance : BigDecimal.ZERO;
     }
 }
-
-

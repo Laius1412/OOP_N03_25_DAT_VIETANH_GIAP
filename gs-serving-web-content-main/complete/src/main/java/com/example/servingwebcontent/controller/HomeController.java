@@ -27,9 +27,9 @@ public class HomeController {
     }
 
     private void seedData() {
-        Person a = new Person("Đạt", "Nam", LocalDate.of(2000, 5, 10), null, 123456789, "Hà Nội");
-        Person b = new Person("Việt Anh", "Nam", LocalDate.of(2001, 7, 20), null, 987654321, "Hải Phòng");
-        Person c = new Person("Giáp", "Nam", LocalDate.of(2002, 3, 15), null, 555666777, "Nam Định");
+        Person a = new Person("Đạt", "Nam", LocalDate.of(2000, 5, 10), null, 123456789L, "Hà Nội");
+        Person b = new Person("Việt Anh", "Nam", LocalDate.of(2001, 7, 20), null, 987654321L, "Hải Phòng");
+        Person c = new Person("Giáp", "Nam", LocalDate.of(2002, 3, 15), null, 555666777L, "Nam Định");
         personService.create(a);
         personService.create(b);
         personService.create(c);

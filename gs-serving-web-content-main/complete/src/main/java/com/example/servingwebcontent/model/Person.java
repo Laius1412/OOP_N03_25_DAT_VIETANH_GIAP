@@ -2,21 +2,51 @@ package com.example.servingwebcontent.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "persons")
 public class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @NotBlank
+    @Column(name = "name", nullable = false)
     private String name;
+    
+    @Column(name = "gender")
     private String gender;
+    
+    @Column(name = "date_of_birth")
     private LocalDate dob;
+    
+    @Column(name = "date_of_death")
     private LocalDate dod;
-    private int phone;
+    
+    @Column(name = "phone")
+    private Long phone;
+    
+    @Column(name = "address")
     private String address;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "father_id")
     private Person father;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mother_id")
     private Person mother;
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "spouse_id")
     private Person spouse;
 
     public Person() {
     }
 
-    public Person(String name, String gender, LocalDate dob, LocalDate dod, int phone, String address) {
+    public Person(String name, String gender, LocalDate dob, LocalDate dod, Long phone, String address) {
         this.name = name;
         this.gender = gender;
         this.dob = dob;
@@ -57,11 +87,19 @@ public class Person {
         this.dod = dod;
     }
 
-    public int getPhone() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(Long phone) {
         this.phone = phone;
     }
 

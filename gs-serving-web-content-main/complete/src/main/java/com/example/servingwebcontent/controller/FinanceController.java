@@ -47,13 +47,13 @@ public class FinanceController {
     }
 
     @GetMapping("/finance/{id}/edit")
-    public String edit(@PathVariable long id, Model model) {
+    public String edit(@PathVariable Long id, Model model) {
         model.addAttribute("t", transactionService.findById(id));
         return "finance/edit";
     }
 
     @PostMapping("/finance/{id}")
-    public String update(@PathVariable long id,
+    public String update(@PathVariable Long id,
                          @RequestParam String type,
                          @RequestParam String amount,
                          @RequestParam String description,
@@ -72,7 +72,7 @@ public class FinanceController {
     }
 
     @PostMapping("/finance/{id}/delete")
-    public String delete(@PathVariable long id) {
+    public String delete(@PathVariable Long id) {
         transactionService.delete(id);
         return "redirect:/finance";
     }
