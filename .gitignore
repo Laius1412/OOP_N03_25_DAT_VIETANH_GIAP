@@ -1,0 +1,8 @@
+# Ignore real config with secrets
+config.properties
+
+# Common OS files
+*.class
+*.log
+target/
+build/
