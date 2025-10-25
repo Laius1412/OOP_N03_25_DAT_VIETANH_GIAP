@@ -1,0 +1,102 @@
+# General OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Logs and PIDs
+logs/
+*.log
+*.log.*
+*.pid
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+.tmp/
+
+# Archives (usually not source)
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# Java
+*.class
+*.war
+*.ear
+*.nar
+*.car
+hs_err_pid*
+replay_pid*
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+.gradle/
+build/
+# Keep Gradle wrapper files – they should be committed
+!gradle/wrapper/gradle-wrapper.jar
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# Ensure nested Gradle/Maven outputs in subprojects are ignored
+**/.gradle/
+**/build/
+**/target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Ignore IDE/build dirs anywhere in the tree
+**/.idea/
+**/out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+**/bin/
+
+# NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# VS Code (uncomment if you prefer to commit shared settings)
+.vscode/
+
+# Test reports / coverage
+coverage/
+.coverage
+jacoco.exec
+*.ec
+*.exec
+test-results/
+surefire-reports/
+failsafe-reports/
+target/surefire-reports/
+target/failsafe-reports/
+
+# Tooling caches
+.DS_Store?
+.idea_modules/
+.factorypath
+.sts4-cache/

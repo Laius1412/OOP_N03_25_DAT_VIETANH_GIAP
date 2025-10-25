@@ -1,25 +1,48 @@
-# Ignore IDE & build folders
-/.idea/
-/.vscode/
-/target/
+# Build outputs
+.gradle/
+build/
+target/
+out/
+bin/
 
-# Ignore Maven wrapper files
-mvnw
-mvnw.cmd
+# Apply to nested modules too
+**/.gradle/
+**/build/
+**/target/
+**/out/
+**/bin/
 
-# Ignore OS specific files
+# IDE configs
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+
+# NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Logs / temp
+logs/
 *.log
+*.log.*
 *.tmp
-*.bak
+*~
 *.swp
-.DS_Store
+*.swo
 
-# Ignore sensitive config
-project\complete\src\main\resources\application.yml
-project\complete\src\main\resources\application.properties
-# project\complete\src\main\resources\ca.pem
-project\complete\target\classes\application.yml
-project\complete\target\classes\application.properties
-# project\complete\target\classes\ca.pem
-# (optional) If you later use .env for secrets
-.env
+# Java artifacts
+*.class
+hs_err_pid*
+replay_pid*
+
+# Keep Gradle wrapper files
+!gradle/wrapper/gradle-wrapper.jar
+!**/gradle/wrapper/gradle-wrapper.jar
