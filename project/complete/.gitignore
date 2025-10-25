@@ -12,6 +12,9 @@ mvnw.cmd
 *.tmp
 *.bak
 *.swp
+*.bin
+*.lock
+*.iml
 .DS_Store
 
 # Ignore sensitive config
@@ -22,6 +25,9 @@ src\main\resources\ca.pem
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !gradle/wrapper/gradle-wrapper.properties
+out/
+project/complete/.gradle/
+project/complete/build/
 
 # (optional) If you later use .env for secrets
 .env
