@@ -1,6 +1,7 @@
 package com.example.servingwebcontent.controller;
 
 import com.example.servingwebcontent.Model.User;
+import com.example.servingwebcontent.Model.Role;
 import com.example.servingwebcontent.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class AuthController {
     // Hiển thị trang đăng nhập
     @GetMapping("/login")
     public String loginPage() {
-        return "login";
+        return "auth/login";
     }
     
     // Xử lý đăng nhập
@@ -47,7 +48,7 @@ public class AuthController {
             return "redirect:/home";
         } else {
             model.addAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
-            return "login";
+            return "auth/login";
         }
     }
     
@@ -69,6 +70,48 @@ public class AuthController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/login";
+    }
+    
+    // Hiển thị trang đăng ký
+    @GetMapping("/register")
+    public String registerPage() {
+        return "auth/register";
+    }
+    
+    // Xử lý đăng ký
+    @PostMapping("/register")
+    public String register(@RequestParam String username,
+                          @RequestParam String password,
+                          @RequestParam String name,
+                          @RequestParam String email,
+                          @RequestParam String phone,
+                          Model model,
+                          RedirectAttributes redirectAttributes) {
+        
+        try {
+            // Kiểm tra username đã tồn tại chưa
+            if (userRepository.findByUsername(username).isPresent()) {
+                model.addAttribute("error", "Tên đăng nhập đã tồn tại!");
+                return "auth/register";
+            }
+            
+            // Kiểm tra email đã tồn tại chưa
+            if (userRepository.findByEmail(email).isPresent()) {
+                model.addAttribute("error", "Email đã tồn tại!");
+                return "auth/register";
+            }
+            
+            // Tạo user mới với role USER
+            User newUser = new User(username, password, Role.USER, name, email, phone);
+            userRepository.save(newUser);
+            
+            redirectAttributes.addFlashAttribute("success", "Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.");
+            return "redirect:/login";
+            
+        } catch (Exception e) {
+            model.addAttribute("error", "Lỗi khi đăng ký: " + e.getMessage());
+            return "auth/register";
+        }
     }
     
     // Trang chủ mặc định

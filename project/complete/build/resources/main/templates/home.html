@@ -17,6 +17,29 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .dropdown-menu {
+            z-index: 1050;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: none;
+            border-radius: 10px;
+            padding: 10px 0;
+            margin-top: 5px;
+        }
+        
+        .dropdown-item {
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+            margin: 2px 10px;
+        }
+        
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateX(5px);
         }
         
         .navbar-brand {
@@ -30,6 +53,8 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
             margin: 30px 0;
+            position: relative;
+            z-index: 1;
         }
         
         .feature-card {
@@ -92,22 +117,27 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/home">
                 <i class="fas fa-users me-2"></i>
                 Hệ thống Quản lý Gia phả
             </a>
-            <div class="navbar-nav ms-auto">
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                        <i class="fas fa-user-circle me-1"></i>
-                        <span th:text="${user.name}">Tên người dùng</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Thông tin cá nhân</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Cài đặt</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
-                    </ul>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i>
+                            <span th:text="${user.name}">Tên người dùng</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Thông tin cá nhân</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Cài đặt</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -139,28 +169,103 @@
 
         <!-- Features Grid -->
         <div class="row">
+            <!-- Quản lý Gia phả - Tất cả đều có thể xem -->
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="feature-card">
                     <i class="fas fa-sitemap feature-icon"></i>
                     <h4>Quản lý Gia phả</h4>
                     <p class="text-muted">Xây dựng và quản lý cây gia phả của gia đình</p>
                     <button class="btn btn-feature">
-                        <i class="fas fa-plus me-2"></i>Tạo mới
+                        <i class="fas fa-eye me-2"></i>Xem gia phả
                     </button>
                 </div>
             </div>
             
-            <div class="col-lg-4 col-md-6 mb-4">
+            <!-- Quản lý Thành viên - Chỉ ADMIN và MEMBER_MANAGER -->
+            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'MEMBER_MANAGER'}">
                 <div class="feature-card">
                     <i class="fas fa-users feature-icon"></i>
                     <h4>Quản lý Thành viên</h4>
                     <p class="text-muted">Thêm, sửa, xóa thông tin các thành viên trong gia đình</p>
+                    <a href="/members" class="btn btn-feature">
+                        <i class="fas fa-list me-2"></i>Quản lý thành viên
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Xem Thành viên - Các role khác -->
+            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'MEMBER_MANAGER'}">
+                <div class="feature-card">
+                    <i class="fas fa-users feature-icon"></i>
+                    <h4>Xem Thành viên</h4>
+                    <p class="text-muted">Xem thông tin các thành viên trong gia đình</p>
                     <button class="btn btn-feature">
-                        <i class="fas fa-list me-2"></i>Xem danh sách
+                        <i class="fas fa-eye me-2"></i>Xem danh sách
                     </button>
                 </div>
             </div>
             
+            <!-- Quản lý Sự kiện - Chỉ ADMIN và EVENT_MANAGER -->
+            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'EVENT_MANAGER'}">
+                <div class="feature-card">
+                    <i class="fas fa-calendar-alt feature-icon"></i>
+                    <h4>Quản lý Sự kiện</h4>
+                    <p class="text-muted">Quản lý các sự kiện quan trọng của gia đình</p>
+                    <a href="/events" class="btn btn-feature">
+                        <i class="fas fa-calendar-plus me-2"></i>Quản lý sự kiện
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Xem Sự kiện - Các role khác -->
+            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'EVENT_MANAGER'}">
+                <div class="feature-card">
+                    <i class="fas fa-calendar-alt feature-icon"></i>
+                    <h4>Xem Sự kiện</h4>
+                    <p class="text-muted">Xem các sự kiện quan trọng của gia đình</p>
+                    <button class="btn btn-feature">
+                        <i class="fas fa-eye me-2"></i>Xem sự kiện
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quản lý Tài chính - Chỉ ADMIN và FINANCE_MANAGER -->
+            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'FINANCE_MANAGER'}">
+                <div class="feature-card">
+                    <i class="fas fa-money-bill-wave feature-icon"></i>
+                    <h4>Quản lý Tài chính</h4>
+                    <p class="text-muted">Quản lý thu chi của gia đình</p>
+                    <a href="/finance" class="btn btn-feature">
+                        <i class="fas fa-calculator me-2"></i>Quản lý tài chính
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Xem Tài chính - Các role khác -->
+            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'FINANCE_MANAGER'}">
+                <div class="feature-card">
+                    <i class="fas fa-money-bill-wave feature-icon"></i>
+                    <h4>Xem Tài chính</h4>
+                    <p class="text-muted">Xem báo cáo tài chính gia đình</p>
+                    <button class="btn btn-feature">
+                        <i class="fas fa-eye me-2"></i>Xem báo cáo
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quản lý User - Chỉ ADMIN -->
+            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN'}">
+                <div class="feature-card">
+                    <i class="fas fa-user-cog feature-icon"></i>
+                    <h4>Quản lý User</h4>
+                    <p class="text-muted">Cấp tài khoản và quản lý người dùng</p>
+                    <a href="/admin/users" class="btn btn-feature">
+                        <i class="fas fa-users-cog me-2"></i>Quản lý user
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Thống kê - Tất cả đều có thể xem -->
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="feature-card">
                     <i class="fas fa-chart-line feature-icon"></i>
@@ -172,35 +277,14 @@
                 </div>
             </div>
             
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-calendar-alt feature-icon"></i>
-                    <h4>Sự kiện Gia đình</h4>
-                    <p class="text-muted">Quản lý các sự kiện quan trọng của gia đình</p>
-                    <button class="btn btn-feature">
-                        <i class="fas fa-calendar-plus me-2"></i>Thêm sự kiện
-                    </button>
-                </div>
-            </div>
-            
+            <!-- Album Ảnh - Tất cả đều có thể xem -->
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="feature-card">
                     <i class="fas fa-images feature-icon"></i>
                     <h4>Album Ảnh</h4>
                     <p class="text-muted">Lưu trữ và quản lý ảnh gia đình</p>
                     <button class="btn btn-feature">
-                        <i class="fas fa-upload me-2"></i>Upload ảnh
-                    </button>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-cog feature-icon"></i>
-                    <h4>Cài đặt</h4>
-                    <p class="text-muted">Cấu hình hệ thống và tài khoản</p>
-                    <button class="btn btn-feature">
-                        <i class="fas fa-wrench me-2"></i>Cấu hình
+                        <i class="fas fa-eye me-2"></i>Xem album
                     </button>
                 </div>
             </div>
