@@ -50,6 +50,11 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/gradle/wrapper/gradle-wrapper.jar
 
+# Ensure nested Gradle/Maven outputs in subprojects are ignored
+**/.gradle/
+**/build/
+**/target/
+
 # IntelliJ IDEA
 .idea/
 *.iml
@@ -57,11 +62,16 @@ build/
 *.iws
 out/
 
+# Ignore IDE/build dirs anywhere in the tree
+**/.idea/
+**/out/
+
 # Eclipse
 .project
 .classpath
 .settings/
 bin/
+**/bin/
 
 # NetBeans
 nbproject/private/
