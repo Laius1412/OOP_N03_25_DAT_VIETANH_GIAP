@@ -11,318 +11,704 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
         }
         
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+        /* Main Navigation Bar */
+        .main-navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
             z-index: 1000;
         }
         
+        .navbar-brand {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand:hover {
+            color: white;
+        }
+        
+        .navbar-brand i {
+            margin-right: 10px;
+        }
+        
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .nav-link i {
+            margin-right: 8px;
+        }
+        
         .dropdown-menu {
+            background: white;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 10px 0;
+            margin-top: 5px;
+            min-width: 200px;
+        }
+        
+        .dropdown-item {
+            padding: 10px 20px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .dropdown-item i {
+            margin-right: 10px;
+            width: 16px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            min-height: 100vh;
+        }
+        
+        .user-dropdown {
+            position: relative;
+        }
+        
+        .user-dropdown .dropdown-menu {
             z-index: 1050;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             border: none;
             border-radius: 10px;
             padding: 10px 0;
             margin-top: 5px;
+            min-width: 200px;
         }
         
-        .dropdown-item {
+        .user-dropdown .dropdown-item {
             padding: 10px 20px;
             transition: all 0.3s ease;
             border-radius: 5px;
             margin: 2px 10px;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
         }
         
-        .dropdown-item:hover {
+        .user-dropdown .dropdown-item:hover {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             transform: translateX(5px);
         }
         
-        .navbar-brand {
-            font-weight: 600;
-            color: #667eea !important;
+        .user-dropdown .dropdown-item i {
+            margin-right: 10px;
+            width: 16px;
         }
         
-        .welcome-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            margin: 30px 0;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .feature-card {
-            background: rgba(255, 255, 255, 0.9);
+        /* Carousel Styles */
+        .carousel-container {
+            margin: 20px 30px;
             border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-        
-        .feature-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+        .carousel-item {
+            height: 400px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
         }
         
-        .btn-feature {
+        .carousel-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .carousel-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .carousel-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .carousel-btn:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-control-prev {
+            left: 20px;
+        }
+        
+        .carousel-control-next {
+            right: 20px;
+        }
+        
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            background: white;
+            color: #667eea;
+        }
+        
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .carousel-indicators {
+            bottom: 20px;
+        }
+        
+        .carousel-indicators button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin: 0 5px;
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-indicators button.active {
+            background: white;
+        }
+        
+        /* Content Cards */
+        .content-section {
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            margin: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .card-text {
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+        
+        .btn-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
-            border-radius: 10px;
-            padding: 12px 30px;
             color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
             font-weight: 600;
             transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
         }
         
-        .btn-feature:hover {
+        .btn-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
             color: white;
         }
         
-        .user-info {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                flex-direction: row;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            
+            .main-navbar {
+                padding: 10px 15px;
+            }
+            
+            .navbar-brand {
+                font-size: 18px;
+            }
+            
+            .nav-link {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
         }
         
-        .stats-card {
-            background: rgba(255, 255, 255, 0.9);
+        @media (max-width: 576px) {
+            .navbar-nav {
+                flex-direction: column;
+                gap: 5px;
+                align-items: flex-start;
+            }
+            
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
+        
+        /* Welcome Message */
+        .welcome-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            margin: 20px 30px;
             border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            border-left: 4px solid #667eea;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="/home">
-                <i class="fas fa-users me-2"></i>
-                Hệ thống Quản lý Gia phả
+    <!-- Main Navigation Bar -->
+    <nav class="main-navbar">
+        <div class="d-flex justify-content-between align-items-center">
+            <!-- Brand -->
+            <a href="/home" class="navbar-brand">
+                <i class="fas fa-users"></i>
+                Gia Phả System
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="navbar-nav ms-auto">
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user-circle me-1"></i>
-                            <span th:text="${user.name}">Tên người dùng</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Thông tin cá nhân</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Cài đặt</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
-                        </ul>
-                    </div>
+            
+            <!-- Navigation Menu -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/home">
+                        <i class="fas fa-home"></i>
+                        Trang chủ
+                    </a>
+                </li>
+                
+                <!-- Quản lý Thành viên Dropdown -->
+                <li class="nav-item dropdown" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'MEMBER_MANAGER'}">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-users"></i>
+                        Thành viên
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/members"><i class="fas fa-list"></i>Danh sách thành viên</a></li>
+                        <li><a class="dropdown-item" href="/members/add"><i class="fas fa-plus"></i>Thêm thành viên</a></li>
+                        <li><a class="dropdown-item" href="/members/search"><i class="fas fa-search"></i>Tìm kiếm</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Xem Thành viên -->
+                <li class="nav-item" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'MEMBER_MANAGER'}">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-users"></i>
+                        Thành viên
+                    </a>
+                </li>
+                
+                <!-- Quản lý Sự kiện Dropdown -->
+                <li class="nav-item dropdown" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'EVENT_MANAGER'}">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-calendar-alt"></i>
+                        Sự kiện
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/events"><i class="fas fa-list"></i>Danh sách sự kiện</a></li>
+                        <li><a class="dropdown-item" href="/events/add"><i class="fas fa-plus"></i>Tạo sự kiện</a></li>
+                        <li><a class="dropdown-item" href="/events/calendar"><i class="fas fa-calendar"></i>Lịch sự kiện</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Xem Sự kiện -->
+                <li class="nav-item" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'EVENT_MANAGER'}">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-calendar-alt"></i>
+                        Sự kiện
+                    </a>
+                </li>
+                
+                <!-- Quản lý Tài chính Dropdown -->
+                <li class="nav-item dropdown" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'FINANCE_MANAGER'}">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-money-bill-wave"></i>
+                        Tài chính
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/finance"><i class="fas fa-chart-pie"></i>Tổng quan</a></li>
+                        <li><a class="dropdown-item" href="/finance/income"><i class="fas fa-arrow-up"></i>Thu nhập</a></li>
+                        <li><a class="dropdown-item" href="/finance/expense"><i class="fas fa-arrow-down"></i>Chi tiêu</a></li>
+                        <li><a class="dropdown-item" href="/finance/report"><i class="fas fa-file-alt"></i>Báo cáo</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Xem Tài chính -->
+                <li class="nav-item" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'FINANCE_MANAGER'}">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-money-bill-wave"></i>
+                        Tài chính
+                    </a>
+                </li>
+                
+                <!-- Quản lý User (Admin only) -->
+                <li class="nav-item" th:if="${user.role.name() == 'ADMIN'}">
+                    <a class="nav-link" href="/admin/users">
+                        <i class="fas fa-user-cog"></i>
+                        Quản lý User
+                    </a>
+                </li>
+                
+                <!-- Gia phả -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-sitemap"></i>
+                        Gia phả
+                    </a>
+                </li>
+                
+                <!-- Thống kê -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-chart-line"></i>
+                        Thống kê
+                    </a>
+                </li>
+                
+                <!-- Album Ảnh -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-images"></i>
+                        Album
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- User Dropdown -->
+            <div class="user-dropdown">
+                <div class="dropdown">
+                    <a class="btn btn-outline-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle me-2"></i>
+                        <span th:text="${user.name}">Tên người dùng</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i>Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i>Cài đặt</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt"></i>Đăng xuất</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </nav>
 
-    <div class="container">
-        <!-- Welcome Message -->
-        <div class="welcome-card">
-            <div class="user-info">
-                <div class="row align-items-center">
-                    <div class="col-md-8">
-                        <h2><i class="fas fa-home me-2"></i>Chào mừng trở lại!</h2>
-                        <p class="mb-0">Xin chào <strong th:text="${user.name}">Tên người dùng</strong>, chúc bạn một ngày làm việc hiệu quả!</p>
-                        <small><i class="fas fa-shield-alt me-1"></i>Vai trò: <span th:text="${user.role}">Vai trò</span></small>
-                    </div>
-                    <div class="col-md-4 text-end">
-                        <i class="fas fa-user-circle" style="font-size: 80px; opacity: 0.3;"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    <!-- Main Content -->
+    <div class="main-content">
         <!-- Success Message -->
-        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert" style="margin: 20px 30px;">
             <i class="fas fa-check-circle me-2"></i>
             <span th:text="${success}"></span>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
 
-        <!-- Features Grid -->
-        <div class="row">
-            <!-- Quản lý Gia phả - Tất cả đều có thể xem -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-sitemap feature-icon"></i>
-                    <h4>Quản lý Gia phả</h4>
-                    <p class="text-muted">Xây dựng và quản lý cây gia phả của gia đình</p>
-                    <button class="btn btn-feature">
-                        <i class="fas fa-eye me-2"></i>Xem gia phả
-                    </button>
+        <!-- Carousel Section -->
+        <div class="carousel-container">
+            <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
                 </div>
-            </div>
-            
-            <!-- Quản lý Thành viên - Chỉ ADMIN và MEMBER_MANAGER -->
-            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'MEMBER_MANAGER'}">
-                <div class="feature-card">
-                    <i class="fas fa-users feature-icon"></i>
-                    <h4>Quản lý Thành viên</h4>
-                    <p class="text-muted">Thêm, sửa, xóa thông tin các thành viên trong gia đình</p>
-                    <a href="/members" class="btn btn-feature">
-                        <i class="fas fa-list me-2"></i>Quản lý thành viên
-                    </a>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="carousel-content">
+                            <h1>Chào mừng đến với Hệ thống Gia phả</h1>
+                            <p>Quản lý và lưu trữ thông tin gia đình một cách hiệu quả</p>
+                            <a href="#" class="carousel-btn">Khám phá ngay</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-content">
+                            <h1>Xây dựng cây gia phả</h1>
+                            <p>Tạo và quản lý cây gia phả của gia đình một cách trực quan</p>
+                            <a href="#" class="carousel-btn">Bắt đầu xây dựng</a>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="carousel-content">
+                            <h1>Lưu trữ kỷ niệm</h1>
+                            <p>Lưu trữ và chia sẻ những khoảnh khắc đáng nhớ của gia đình</p>
+                            <a href="#" class="carousel-btn">Xem album</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Xem Thành viên - Các role khác -->
-            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'MEMBER_MANAGER'}">
-                <div class="feature-card">
-                    <i class="fas fa-users feature-icon"></i>
-                    <h4>Xem Thành viên</h4>
-                    <p class="text-muted">Xem thông tin các thành viên trong gia đình</p>
-                    <button class="btn btn-feature">
-                        <i class="fas fa-eye me-2"></i>Xem danh sách
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Quản lý Sự kiện - Chỉ ADMIN và EVENT_MANAGER -->
-            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'EVENT_MANAGER'}">
-                <div class="feature-card">
-                    <i class="fas fa-calendar-alt feature-icon"></i>
-                    <h4>Quản lý Sự kiện</h4>
-                    <p class="text-muted">Quản lý các sự kiện quan trọng của gia đình</p>
-                    <a href="/events" class="btn btn-feature">
-                        <i class="fas fa-calendar-plus me-2"></i>Quản lý sự kiện
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Xem Sự kiện - Các role khác -->
-            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'EVENT_MANAGER'}">
-                <div class="feature-card">
-                    <i class="fas fa-calendar-alt feature-icon"></i>
-                    <h4>Xem Sự kiện</h4>
-                    <p class="text-muted">Xem các sự kiện quan trọng của gia đình</p>
-                    <button class="btn btn-feature">
-                        <i class="fas fa-eye me-2"></i>Xem sự kiện
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Quản lý Tài chính - Chỉ ADMIN và FINANCE_MANAGER -->
-            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'FINANCE_MANAGER'}">
-                <div class="feature-card">
-                    <i class="fas fa-money-bill-wave feature-icon"></i>
-                    <h4>Quản lý Tài chính</h4>
-                    <p class="text-muted">Quản lý thu chi của gia đình</p>
-                    <a href="/finance" class="btn btn-feature">
-                        <i class="fas fa-calculator me-2"></i>Quản lý tài chính
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Xem Tài chính - Các role khác -->
-            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'FINANCE_MANAGER'}">
-                <div class="feature-card">
-                    <i class="fas fa-money-bill-wave feature-icon"></i>
-                    <h4>Xem Tài chính</h4>
-                    <p class="text-muted">Xem báo cáo tài chính gia đình</p>
-                    <button class="btn btn-feature">
-                        <i class="fas fa-eye me-2"></i>Xem báo cáo
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Quản lý User - Chỉ ADMIN -->
-            <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN'}">
-                <div class="feature-card">
-                    <i class="fas fa-user-cog feature-icon"></i>
-                    <h4>Quản lý User</h4>
-                    <p class="text-muted">Cấp tài khoản và quản lý người dùng</p>
-                    <a href="/admin/users" class="btn btn-feature">
-                        <i class="fas fa-users-cog me-2"></i>Quản lý user
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Thống kê - Tất cả đều có thể xem -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-chart-line feature-icon"></i>
-                    <h4>Thống kê</h4>
-                    <p class="text-muted">Xem các báo cáo và thống kê về gia đình</p>
-                    <button class="btn btn-feature">
-                        <i class="fas fa-chart-bar me-2"></i>Xem báo cáo
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Album Ảnh - Tất cả đều có thể xem -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="feature-card">
-                    <i class="fas fa-images feature-icon"></i>
-                    <h4>Album Ảnh</h4>
-                    <p class="text-muted">Lưu trữ và quản lý ảnh gia đình</p>
-                    <button class="btn btn-feature">
-                        <i class="fas fa-eye me-2"></i>Xem album
-                    </button>
-                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
             </div>
         </div>
 
-        <!-- Statistics -->
-        <div class="row mt-5">
-            <div class="col-md-3 mb-3">
-                <div class="stats-card">
-                    <i class="fas fa-users text-primary" style="font-size: 24px;"></i>
-                    <h5 class="mt-2">0</h5>
-                    <small class="text-muted">Thành viên</small>
+        <!-- Content Section -->
+        <div class="content-section">
+            <h3 class="mb-4">Chức năng chính</h3>
+            <div class="row">
+                <!-- Quản lý Thành viên -->
+                <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'MEMBER_MANAGER'}">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h5 class="card-title">Quản lý Thành viên</h5>
+                            <p class="card-text">Thêm, sửa, xóa thông tin các thành viên trong gia đình</p>
+                            <a href="/members" class="btn-card">Quản lý thành viên</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 mb-3">
-                <div class="stats-card">
-                    <i class="fas fa-sitemap text-success" style="font-size: 24px;"></i>
-                    <h5 class="mt-2">0</h5>
-                    <small class="text-muted">Gia phả</small>
+                
+                <!-- Xem Thành viên -->
+                <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'MEMBER_MANAGER'}">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h5 class="card-title">Xem Thành viên</h5>
+                            <p class="card-text">Xem thông tin các thành viên trong gia đình</p>
+                            <a href="#" class="btn-card">Xem danh sách</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 mb-3">
-                <div class="stats-card">
-                    <i class="fas fa-calendar text-warning" style="font-size: 24px;"></i>
-                    <h5 class="mt-2">0</h5>
-                    <small class="text-muted">Sự kiện</small>
+                
+                <!-- Quản lý Sự kiện -->
+                <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'EVENT_MANAGER'}">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h5 class="card-title">Quản lý Sự kiện</h5>
+                            <p class="card-text">Quản lý các sự kiện quan trọng của gia đình</p>
+                            <a href="/events" class="btn-card">Quản lý sự kiện</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 mb-3">
-                <div class="stats-card">
-                    <i class="fas fa-images text-info" style="font-size: 24px;"></i>
-                    <h5 class="mt-2">0</h5>
-                    <small class="text-muted">Ảnh</small>
+                
+                <!-- Xem Sự kiện -->
+                <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'EVENT_MANAGER'}">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <h5 class="card-title">Xem Sự kiện</h5>
+                            <p class="card-text">Xem các sự kiện quan trọng của gia đình</p>
+                            <a href="#" class="btn-card">Xem sự kiện</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quản lý Tài chính -->
+                <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'FINANCE_MANAGER'}">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <h5 class="card-title">Quản lý Tài chính</h5>
+                            <p class="card-text">Quản lý thu chi của gia đình</p>
+                            <a href="/finance" class="btn-card">Quản lý tài chính</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Xem Tài chính -->
+                <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'FINANCE_MANAGER'}">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <h5 class="card-title">Xem Tài chính</h5>
+                            <p class="card-text">Xem báo cáo tài chính gia đình</p>
+                            <a href="#" class="btn-card">Xem báo cáo</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quản lý User -->
+                <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN'}">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-user-cog"></i>
+                            </div>
+                            <h5 class="card-title">Quản lý User</h5>
+                            <p class="card-text">Cấp tài khoản và quản lý người dùng</p>
+                            <a href="/admin/users" class="btn-card">Quản lý user</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gia phả -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-sitemap"></i>
+                            </div>
+                            <h5 class="card-title">Gia phả</h5>
+                            <p class="card-text">Xây dựng và quản lý cây gia phả của gia đình</p>
+                            <a href="#" class="btn-card">Xem gia phả</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Thống kê -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h5 class="card-title">Thống kê</h5>
+                            <p class="card-text">Xem các báo cáo và thống kê về gia đình</p>
+                            <a href="#" class="btn-card">Xem báo cáo</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Album Ảnh -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-images"></i>
+                            </div>
+                            <h5 class="card-title">Album Ảnh</h5>
+                            <p class="card-text">Lưu trữ và quản lý ảnh gia đình</p>
+                            <a href="#" class="btn-card">Xem album</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Hiển thị ngày hiện tại
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const dateString = now.toLocaleDateString('vi-VN', options);
+            document.getElementById('current-date').textContent = dateString;
+        }
+        
+        // Cập nhật ngày khi trang load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCurrentDate();
+        });
+    </script>
 </body>
 </html>
