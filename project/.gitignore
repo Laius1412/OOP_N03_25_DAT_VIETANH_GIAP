@@ -1,0 +1,48 @@
+# Build outputs
+.gradle/
+build/
+target/
+out/
+bin/
+
+# Apply to nested modules too
+**/.gradle/
+**/build/
+**/target/
+**/out/
+**/bin/
+
+# IDE configs
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+
+# NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Logs / temp
+logs/
+*.log
+*.log.*
+*.tmp
+*~
+*.swp
+*.swo
+
+# Java artifacts
+*.class
+hs_err_pid*
+replay_pid*
+
+# Keep Gradle wrapper files
+!gradle/wrapper/gradle-wrapper.jar
+!**/gradle/wrapper/gradle-wrapper.jar
