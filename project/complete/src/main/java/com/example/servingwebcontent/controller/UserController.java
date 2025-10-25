@@ -14,14 +14,14 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
     
-    // Trang chủ - hiển thị danh sách user và form thêm user
-    @GetMapping("/")
-    public String home(Model model) {
+    // Trang quản lý user - hiển thị danh sách user và form thêm user
+    @GetMapping("/users")
+    public String users(Model model) {
         List<User> users = userRepository.findAll();
         model.addAttribute("users", users);
         model.addAttribute("user", new User());
         model.addAttribute("totalUsers", userRepository.count());
-        return "home";
+        return "users";
     }
     
     // Thêm user mới
@@ -33,16 +33,16 @@ public class UserController {
                 model.addAttribute("error", "Email đã tồn tại!");
                 model.addAttribute("users", userRepository.findAll());
                 model.addAttribute("totalUsers", userRepository.count());
-                return "home";
+                return "users";
             }
             
             userRepository.save(user);
-            return "redirect:/";
+            return "redirect:/users";
         } catch (Exception e) {
             model.addAttribute("error", "Lỗi khi thêm user: " + e.getMessage());
             model.addAttribute("users", userRepository.findAll());
             model.addAttribute("totalUsers", userRepository.count());
-            return "home";
+            return "users";
         }
     }
     
@@ -50,7 +50,7 @@ public class UserController {
     @PostMapping("/users/{id}/delete")
     public String deleteUser(@PathVariable Long id) {
         userRepository.deleteById(id);
-        return "redirect:/";
+        return "redirect:/users";
     }
     
     // API endpoint để test kết nối database

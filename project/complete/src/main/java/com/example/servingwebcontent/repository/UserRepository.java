@@ -9,8 +9,14 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     
+    // Tìm user theo username
+    Optional<User> findByUsername(String username);
+    
     // Tìm user theo email
     Optional<User> findByEmail(String email);
+    
+    // Tìm user theo username và password (để đăng nhập)
+    Optional<User> findByUsernameAndPassword(String username, String password);
     
     // Tìm user theo tên (case insensitive)
     List<User> findByNameContainingIgnoreCase(String name);

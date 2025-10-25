@@ -19,6 +19,7 @@ package com.example.servingwebcontent;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,29 +27,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers = GreetingController.class)
+import com.example.servingwebcontent.controller.AuthController;
+
+@WebMvcTest(controllers = AuthController.class)
 public class ServingWebContentApplicationTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Test
-	public void homePage() throws Exception {
-		// N.B. jsoup can be useful for asserting HTML content
-		mockMvc.perform(get("/index.html"))
-				.andExpect(content().string(containsString("Get your greeting")));
+	public void loginPage() throws Exception {
+		mockMvc.perform(get("/login"))
+				.andExpect(status().isOk())
+				.andExpect(content().string(containsString("Đăng nhập")));
 	}
 
 	@Test
-	public void greeting() throws Exception {
-		mockMvc.perform(get("/greeting"))
-				.andExpect(content().string(containsString("Hello, World!")));
+	public void homePageRedirect() throws Exception {
+		mockMvc.perform(get("/home"))
+				.andExpect(status().is3xxRedirection());
 	}
 
 	@Test
-	public void greetingWithUser() throws Exception {
-		mockMvc.perform(get("/greeting").param("name", "Greg"))
-				.andExpect(content().string(containsString("Hello, Greg!")));
+	public void indexRedirect() throws Exception {
+		mockMvc.perform(get("/"))
+				.andExpect(status().is3xxRedirection());
 	}
 
 }
