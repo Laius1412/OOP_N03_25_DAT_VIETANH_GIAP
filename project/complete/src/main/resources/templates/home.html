@@ -394,7 +394,7 @@
                 
                 <!-- Xem Thành viên -->
                 <li class="nav-item" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'MEMBER_MANAGER'}">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/members">
                         <i class="fas fa-users"></i>
                         Thành viên
                     </a>
@@ -415,7 +415,7 @@
                 
                 <!-- Xem Sự kiện -->
                 <li class="nav-item" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'EVENT_MANAGER'}">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/events">
                         <i class="fas fa-calendar-alt"></i>
                         Sự kiện
                     </a>
@@ -437,7 +437,7 @@
                 
                 <!-- Xem Tài chính -->
                 <li class="nav-item" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'FINANCE_MANAGER'}">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="/finance">
                         <i class="fas fa-money-bill-wave"></i>
                         Tài chính
                     </a>
@@ -570,7 +570,7 @@
                             </div>
                             <h5 class="card-title">Xem Thành viên</h5>
                             <p class="card-text">Xem thông tin các thành viên trong gia đình</p>
-                            <a href="#" class="btn-card">Xem danh sách</a>
+                            <a href="/members" class="btn-card">Xem danh sách</a>
                         </div>
                     </div>
                 </div>
@@ -598,7 +598,7 @@
                             </div>
                             <h5 class="card-title">Xem Sự kiện</h5>
                             <p class="card-text">Xem các sự kiện quan trọng của gia đình</p>
-                            <a href="#" class="btn-card">Xem sự kiện</a>
+                            <a href="/events" class="btn-card">Xem sự kiện</a>
                         </div>
                     </div>
                 </div>
@@ -626,7 +626,7 @@
                             </div>
                             <h5 class="card-title">Xem Tài chính</h5>
                             <p class="card-text">Xem báo cáo tài chính gia đình</p>
-                            <a href="#" class="btn-card">Xem báo cáo</a>
+                            <a href="/finance" class="btn-card">Xem báo cáo</a>
                         </div>
                     </div>
                 </div>

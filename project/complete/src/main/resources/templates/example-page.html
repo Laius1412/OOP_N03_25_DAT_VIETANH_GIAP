@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" 
+      th:replace="~{layout/layout :: layout(~{::title}, ~{::content})}">
+<head>
+    <title>Trang Mẫu</title>
+    <th:block th:fragment="additional-head">
+        <!-- CSS riêng cho trang này (nếu cần) -->
+        <style>
+            .custom-style {
+                color: #667eea;
+                font-weight: bold;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+    <div th:fragment="content">
+        <!-- Nội dung trang -->
+        <div class="row">
+            <div class="col-12">
+                <h1 class="custom-style">Đây là trang mẫu</h1>
+                <p>Nội dung trang sẽ được hiển thị ở đây...</p>
+            </div>
+        </div>
+    </div>
+    
+    <th:block th:fragment="additional-scripts">
+        <!-- JavaScript riêng cho trang này (nếu cần) -->
+        <script>
+            console.log('Trang mẫu đã load');
+        </script>
+    </th:block>
+</body>
+</html>

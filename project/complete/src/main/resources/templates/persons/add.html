@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Thành viên - Hệ thống Gia phả</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 30px;
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        
+        .required {
+            color: #dc3545;
+        }
+        
+        .help-text {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="mb-1">
+                    <i class="fas fa-user-plus me-2"></i>
+                    Thêm Thành viên
+                </h2>
+                <p class="text-muted mb-0">Thêm thông tin thành viên mới vào gia đình</p>
+            </div>
+            <div>
+                <a href="/members" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Quay lại
+                </a>
+            </div>
+        </div>
+
+        <!-- Error Messages -->
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <form method="post" action="/members/add">
+            <!-- Thông tin cơ bản -->
+            <div class="form-section">
+                <h5 class="section-title">
+                    <i class="fas fa-user me-2"></i>
+                    Thông tin cơ bản
+                </h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">Họ và tên <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="name" required 
+                               placeholder="Nhập họ và tên đầy đủ">
+                        <div class="help-text">Ví dụ: Nguyễn Văn A</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Giới tính <span class="required">*</span></label>
+                        <select class="form-select" name="gender" required>
+                            <option value="">Chọn giới tính</option>
+                            <option th:each="gender : ${genders}" 
+                                    th:value="${gender.name()}" 
+                                    th:text="${gender.displayName}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Ngày sinh</label>
+                        <input type="date" class="form-control" name="dob">
+                        <div class="help-text">Định dạng: DD/MM/YYYY</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Ngày mất</label>
+                        <input type="date" class="form-control" name="dod">
+                        <div class="help-text">Để trống nếu còn sống</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thông tin liên hệ -->
+            <div class="form-section">
+                <h5 class="section-title">
+                    <i class="fas fa-address-book me-2"></i>
+                    Thông tin liên hệ
+                </h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">Số điện thoại</label>
+                        <input type="tel" class="form-control" name="phone" 
+                               placeholder="Nhập số điện thoại">
+                        <div class="help-text">Ví dụ: 0123456789</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" name="address" 
+                               placeholder="Nhập địa chỉ">
+                        <div class="help-text">Địa chỉ thường trú</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quan hệ gia đình -->
+            <div class="form-section">
+                <h5 class="section-title">
+                    <i class="fas fa-sitemap me-2"></i>
+                    Quan hệ gia đình
+                </h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">Bố</label>
+                        <select class="form-select" name="fatherId">
+                            <option value="">Chọn bố</option>
+                            <option th:each="person : ${allPersons}" 
+                                    th:value="${person.id}" 
+                                    th:text="${person.name}">
+                            </option>
+                        </select>
+                        <div class="help-text">Chọn bố của thành viên</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Mẹ</label>
+                        <select class="form-select" name="motherId">
+                            <option value="">Chọn mẹ</option>
+                            <option th:each="person : ${allPersons}" 
+                                    th:value="${person.id}" 
+                                    th:text="${person.name}">
+                            </option>
+                        </select>
+                        <div class="help-text">Chọn mẹ của thành viên</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Vợ/Chồng</label>
+                        <select class="form-select" name="spouseId">
+                            <option value="">Chọn vợ/chồng</option>
+                            <option th:each="person : ${allPersons}" 
+                                    th:value="${person.id}" 
+                                    th:text="${person.name}">
+                            </option>
+                        </select>
+                        <div class="help-text">Chọn vợ/chồng</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-end gap-3 mt-4">
+                <a href="/members" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>
+                    Hủy
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>
+                    Lưu thành viên
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto-fill date of death based on date of birth
+        document.querySelector('input[name="dob"]').addEventListener('change', function() {
+            const dob = new Date(this.value);
+            const dodInput = document.querySelector('input[name="dod"]');
+            
+            // Set max date for death to today
+            dodInput.max = new Date().toISOString().split('T')[0];
+            
+            // Set min date for death to date of birth
+            if (this.value) {
+                dodInput.min = this.value;
+            }
+        });
+    </script>
+</body>
+</html>

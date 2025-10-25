@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh sửa Thành viên - Hệ thống Gia phả</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 30px;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .navbar-brand {
+            color: white !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white !important;
+        }
+        
+        .navbar-nav .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white !important;
+        }
+        .form-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        
+        .required {
+            color: #dc3545;
+        }
+        
+        .help-text {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        .current-info {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .current-info h6 {
+            color: #1976d2;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .current-info p {
+            margin: 5px 0;
+            color: #424242;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="mb-1">
+                    <i class="fas fa-user-edit me-2"></i>
+                    Chỉnh sửa Thành viên
+                </h2>
+                <p class="text-muted mb-0">Cập nhật thông tin thành viên</p>
+            </div>
+            <div>
+                <a th:href="@{/members/{id}(id=${person.id})}" class="btn btn-secondary">
+                    <i class="fas fa-eye me-2"></i>
+                    Xem chi tiết
+                </a>
+            </div>
+        </div>
+
+        <!-- Current Information -->
+        <div class="current-info">
+            <h6><i class="fas fa-info-circle me-2"></i>Thông tin hiện tại</h6>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Tên:</strong> <span th:text="${person.name}">Tên thành viên</span></p>
+                    <p><strong>Giới tính:</strong> <span th:text="${person.gender?.displayName}">Giới tính</span></p>
+                    <p th:if="${person.dob != null}">
+                        <strong>Ngày sinh:</strong> 
+                        <span th:text="${#temporals.format(person.dob, 'dd/MM/yyyy')}">Ngày sinh</span>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p th:if="${person.dod != null}">
+                        <strong>Ngày mất:</strong> 
+                        <span th:text="${#temporals.format(person.dod, 'dd/MM/yyyy')}">Ngày mất</span>
+                    </p>
+                    <p th:if="${person.phone != null and !person.phone.isEmpty()}">
+                        <strong>Số điện thoại:</strong> <span th:text="${person.phone}">Số điện thoại</span>
+                    </p>
+                    <p th:if="${person.address != null and !person.address.isEmpty()}">
+                        <strong>Địa chỉ:</strong> <span th:text="${person.address}">Địa chỉ</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Messages -->
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <form method="post" th:action="@{/members/edit/{id}(id=${person.id})}">
+            <!-- Thông tin cơ bản -->
+            <div class="form-section">
+                <h5 class="section-title">
+                    <i class="fas fa-user me-2"></i>
+                    Thông tin cơ bản
+                </h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">Họ và tên <span class="required">*</span></label>
+                        <input type="text" class="form-control" name="name" required 
+                               th:value="${person.name}"
+                               placeholder="Nhập họ và tên đầy đủ">
+                        <div class="help-text">Ví dụ: Nguyễn Văn A</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Giới tính <span class="required">*</span></label>
+                        <select class="form-select" name="gender" required>
+                            <option value="">Chọn giới tính</option>
+                            <option th:each="gender : ${genders}" 
+                                    th:value="${gender.name()}" 
+                                    th:selected="${gender == person.gender}"
+                                    th:text="${gender.displayName}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Ngày sinh</label>
+                        <input type="date" class="form-control" name="dob" 
+                               th:value="${person.dob}">
+                        <div class="help-text">Định dạng: DD/MM/YYYY</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Ngày mất</label>
+                        <input type="date" class="form-control" name="dod" 
+                               th:value="${person.dod}">
+                        <div class="help-text">Để trống nếu còn sống</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thông tin liên hệ -->
+            <div class="form-section">
+                <h5 class="section-title">
+                    <i class="fas fa-address-book me-2"></i>
+                    Thông tin liên hệ
+                </h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">Số điện thoại</label>
+                        <input type="tel" class="form-control" name="phone" 
+                               th:value="${person.phone}"
+                               placeholder="Nhập số điện thoại">
+                        <div class="help-text">Ví dụ: 0123456789</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" name="address" 
+                               th:value="${person.address}"
+                               placeholder="Nhập địa chỉ">
+                        <div class="help-text">Địa chỉ thường trú</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quan hệ gia đình -->
+            <div class="form-section">
+                <h5 class="section-title">
+                    <i class="fas fa-sitemap me-2"></i>
+                    Quan hệ gia đình
+                </h5>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label class="form-label">Bố</label>
+                        <select class="form-select" name="fatherId">
+                            <option value="">Chọn bố</option>
+                            <option th:each="p : ${allPersons}" 
+                                    th:value="${p.id}" 
+                                    th:selected="${p.id == person.father?.id}"
+                                    th:text="${p.name}">
+                            </option>
+                        </select>
+                        <div class="help-text">Chọn bố của thành viên</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Mẹ</label>
+                        <select class="form-select" name="motherId">
+                            <option value="">Chọn mẹ</option>
+                            <option th:each="p : ${allPersons}" 
+                                    th:value="${p.id}" 
+                                    th:selected="${p.id == person.mother?.id}"
+                                    th:text="${p.name}">
+                            </option>
+                        </select>
+                        <div class="help-text">Chọn mẹ của thành viên</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Vợ/Chồng</label>
+                        <select class="form-select" name="spouseId">
+                            <option value="">Chọn vợ/chồng</option>
+                            <option th:each="p : ${allPersons}" 
+                                    th:value="${p.id}" 
+                                    th:selected="${p.id == person.spouse?.id}"
+                                    th:text="${p.name}">
+                            </option>
+                        </select>
+                        <div class="help-text">Chọn vợ/chồng</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-end gap-3 mt-4">
+                <a th:href="@{/members/{id}(id=${person.id})}" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>
+                    Hủy
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>
+                    Cập nhật
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize date constraints when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const dobInput = document.querySelector('input[name="dob"]');
+            const dodInput = document.querySelector('input[name="dod"]');
+            
+            // Set initial constraints
+            if (dobInput && dodInput) {
+                dodInput.max = new Date().toISOString().split('T')[0];
+                
+                if (dobInput.value) {
+                    dodInput.min = dobInput.value;
+                }
+                
+                // Add event listener for date of birth changes
+                dobInput.addEventListener('change', function() {
+                    dodInput.max = new Date().toISOString().split('T')[0];
+                    
+                    if (this.value) {
+                        dodInput.min = this.value;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
