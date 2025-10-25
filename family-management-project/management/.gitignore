@@ -1,0 +1,23 @@
+# Ignore IDE & build folders
+/.idea/
+/.vscode/
+/target/
+
+# Ignore Maven wrapper files
+mvnw
+mvnw.cmd
+
+# Ignore OS specific files
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+
+# Ignore sensitive config
+src/main/resources/application.yml
+src/main/resources/application.properties
+src/main/resources/ca.pem
+
+# (optional) If you later use .env for secrets
+.env
