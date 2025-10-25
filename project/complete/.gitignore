@@ -15,9 +15,10 @@ mvnw.cmd
 .DS_Store
 
 # Ignore sensitive config
-src/main/resources/application.yml
-src/main/resources/application.properties
-src/main/resources/ca.pem
-
+src\main\resources\application.yml
+src\main\resources\application.properties
+src\main\resources\ca.pem
+.gradle/8.7/checksums/checksums.lock
+.gradle/8.7/executionHistory/executionHistory.lock
 # (optional) If you later use .env for secrets
 .env
