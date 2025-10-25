@@ -18,14 +18,10 @@ mvnw.cmd
 src\main\resources\application.yml
 src\main\resources\application.properties
 src\main\resources\ca.pem
-.gradle/8.7/checksums/checksums.lock
-.gradle/8.7/executionHistory/executionHistory.lock
-.gradle\8.7\executionHistory\executionHistory.lock
-.gradle\8.7\fileHashes\fileHashes.lock
-.gradle\buildOutputCleanup\buildOutputCleanup.lock
-.gradle\8.7\checksums\checksums.lock
-.gradle\8.7\fileHashes\fileHashes.lock
-.gradle\buildOutputCleanup\buildOutputCleanup.lock
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
 
 # (optional) If you later use .env for secrets
 .env
