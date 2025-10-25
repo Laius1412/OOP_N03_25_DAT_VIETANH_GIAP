@@ -17,8 +17,9 @@ public class User {
     @Column(nullable = false, length = 100)
     private String password;
     
-    @Column(nullable = false, length = 20)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
     
     @Column(nullable = false, length = 100)
     private String name;
@@ -37,7 +38,7 @@ public class User {
         this.createdAt = LocalDateTime.now();
     }
     
-    public User(String username, String password, String role, String name, String email, String phone) {
+    public User(String username, String password, Role role, String name, String email, String phone) {
         this();
         this.username = username;
         this.password = password;
@@ -72,11 +73,11 @@ public class User {
         this.password = password;
     }
     
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
     
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
     
@@ -117,7 +118,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", role='" + role + '\'' +
+                ", role=" + role +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
