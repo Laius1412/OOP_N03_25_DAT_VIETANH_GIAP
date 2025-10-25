@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Báo cáo - Hệ thống Quản lý Gia phả</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            border: none;
+            padding: 20px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-weight: 600;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+        
+        .required {
+            color: #dc3545;
+        }
+        
+        .form-section {
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .report-type-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .report-type-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .report-type-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+        
+        .report-type-card.active {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .report-type-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .report-preview {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .preview-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .preview-period {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .preview-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .date-range-info {
+            background: rgba(23, 162, 184, 0.1);
+            border: 1px solid rgba(23, 162, 184, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/finance/reports">
+                <i class="fas fa-file-alt me-2"></i>
+                <span>Tạo Báo cáo</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="/finance/reports">
+                        <i class="fas fa-arrow-left me-1"></i>Quay lại danh sách
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <i class="fas fa-file-alt me-2"></i>Tạo Báo cáo Tài chính
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="/finance/reports/generate" method="post">
+                            
+                            <!-- Loại báo cáo -->
+                            <div class="form-section">
+                                <h6 class="section-title">
+                                    <i class="fas fa-chart-bar me-2"></i>Chọn loại báo cáo
+                                </h6>
+                                
+                                <div class="report-type-cards">
+                                    <div class="report-type-card" onclick="selectReportType('MONTHLY')">
+                                        <i class="fas fa-calendar-alt report-type-icon text-success"></i>
+                                        <h6>Báo cáo tháng</h6>
+                                        <small class="text-muted">Báo cáo tài chính theo tháng</small>
+                                    </div>
+                                    <div class="report-type-card" onclick="selectReportType('QUARTERLY')">
+                                        <i class="fas fa-chart-bar report-type-icon text-info"></i>
+                                        <h6>Báo cáo quý</h6>
+                                        <small class="text-muted">Báo cáo tài chính theo quý</small>
+                                    </div>
+                                    <div class="report-type-card" onclick="selectReportType('YEARLY')">
+                                        <i class="fas fa-calendar report-type-icon text-warning"></i>
+                                        <h6>Báo cáo năm</h6>
+                                        <small class="text-muted">Báo cáo tài chính theo năm</small>
+                                    </div>
+                                    <div class="report-type-card" onclick="selectReportType('CUSTOM')">
+                                        <i class="fas fa-cog report-type-icon text-primary"></i>
+                                        <h6>Tùy chỉnh</h6>
+                                        <small class="text-muted">Báo cáo theo khoảng thời gian</small>
+                                    </div>
+                                </div>
+                                
+                                <input type="hidden" name="reportType" id="reportType">
+                            </div>
+                            
+                            <!-- Thông tin báo cáo -->
+                            <div class="form-section">
+                                <h6 class="section-title">
+                                    <i class="fas fa-info-circle me-2"></i>Thông tin báo cáo
+                                </h6>
+                                
+                                <div class="mb-3">
+                                    <label for="reportName" class="form-label">
+                                        Tên báo cáo <span class="required">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="reportName" name="reportName" 
+                                           placeholder="Ví dụ: Báo cáo tháng 12/2024, Báo cáo quý 4..." required>
+                                    <div class="form-text">Tên dễ nhận biết cho báo cáo này</div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="notes" class="form-label">Ghi chú</label>
+                                    <textarea class="form-control" id="notes" name="notes" 
+                                              rows="3" placeholder="Ghi chú thêm về báo cáo này..."></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Thời gian -->
+                            <div class="form-section">
+                                <h6 class="section-title">
+                                    <i class="fas fa-calendar me-2"></i>Khoảng thời gian
+                                </h6>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="startDate" class="form-label">
+                                            Từ ngày <span class="required">*</span>
+                                        </label>
+                                        <input type="date" class="form-control" id="startDate" name="startDate" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="endDate" class="form-label">
+                                            Đến ngày <span class="required">*</span>
+                                        </label>
+                                        <input type="date" class="form-control" id="endDate" name="endDate" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="date-range-info">
+                                    <i class="fas fa-info-circle text-info me-2"></i>
+                                    <strong>Lưu ý:</strong> Báo cáo sẽ bao gồm tất cả giao dịch trong khoảng thời gian đã chọn.
+                                </div>
+                            </div>
+                            
+                            <!-- Preview -->
+                            <div class="report-preview">
+                                <div class="preview-title" id="previewTitle">Chọn loại báo cáo</div>
+                                <div class="preview-period" id="previewPeriod">Chọn khoảng thời gian</div>
+                                <div class="preview-stats">
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="previewDays">0</div>
+                                        <div class="stat-label">Ngày</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="previewType">-</div>
+                                        <div class="stat-label">Loại báo cáo</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-value" id="previewRange">-</div>
+                                        <div class="stat-label">Khoảng thời gian</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Buttons -->
+                            <div class="d-flex justify-content-between">
+                                <a href="/finance/reports" class="btn btn-secondary">
+                                    <i class="fas fa-times me-2"></i>Hủy bỏ
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-chart-line me-2"></i>Tạo Báo cáo
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedReportType = '';
+        
+        function selectReportType(type) {
+            selectedReportType = type;
+            document.getElementById('reportType').value = type;
+            
+            // Update card states
+            document.querySelectorAll('.report-type-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Update preview
+            updatePreview();
+            
+            // Auto-fill dates based on type
+            const today = new Date();
+            let startDate, endDate;
+            
+            switch(type) {
+                case 'MONTHLY':
+                    startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                    endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                    break;
+                case 'QUARTERLY':
+                    const quarter = Math.floor(today.getMonth() / 3);
+                    startDate = new Date(today.getFullYear(), quarter * 3, 1);
+                    endDate = new Date(today.getFullYear(), (quarter + 1) * 3, 0);
+                    break;
+                case 'YEARLY':
+                    startDate = new Date(today.getFullYear(), 0, 1);
+                    endDate = new Date(today.getFullYear(), 11, 31);
+                    break;
+                case 'CUSTOM':
+                    // Don't auto-fill for custom
+                    return;
+            }
+            
+            if (startDate && endDate) {
+                document.getElementById('startDate').value = startDate.toISOString().split('T')[0];
+                document.getElementById('endDate').value = endDate.toISOString().split('T')[0];
+                updatePreview();
+            }
+        }
+        
+        function updatePreview() {
+            const reportName = document.getElementById('reportName').value || 'Báo cáo tài chính';
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            document.getElementById('previewTitle').textContent = reportName;
+            
+            if (startDate && endDate) {
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                const startStr = start.toLocaleDateString('vi-VN');
+                const endStr = end.toLocaleDateString('vi-VN');
+                
+                document.getElementById('previewPeriod').textContent = `Từ ${startStr} đến ${endStr}`;
+                
+                // Calculate days
+                const timeDiff = end.getTime() - start.getTime();
+                const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+                document.getElementById('previewDays').textContent = daysDiff;
+                
+                // Update range
+                document.getElementById('previewRange').textContent = `${daysDiff} ngày`;
+            } else {
+                document.getElementById('previewPeriod').textContent = 'Chọn khoảng thời gian';
+                document.getElementById('previewDays').textContent = '0';
+                document.getElementById('previewRange').textContent = '-';
+            }
+            
+            // Update type
+            const typeMap = {
+                'MONTHLY': 'Tháng',
+                'QUARTERLY': 'Quý',
+                'YEARLY': 'Năm',
+                'CUSTOM': 'Tùy chỉnh'
+            };
+            document.getElementById('previewType').textContent = typeMap[selectedReportType] || '-';
+        }
+        
+        // Add event listeners
+        document.getElementById('reportName').addEventListener('input', updatePreview);
+        document.getElementById('startDate').addEventListener('change', updatePreview);
+        document.getElementById('endDate').addEventListener('change', updatePreview);
+        
+        // Set default date to today
+        const today = new Date();
+        document.getElementById('endDate').value = today.toISOString().split('T')[0];
+        
+        // Initial preview
+        updatePreview();
+    </script>
+</body>
+</html>
