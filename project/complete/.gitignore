@@ -26,6 +26,6 @@ src\main\resources\ca.pem
 .gradle\8.7\checksums\checksums.lock
 .gradle\8.7\fileHashes\fileHashes.lock
 .gradle\buildOutputCleanup\buildOutputCleanup.lock
-C:\Laptrinh\OOP_N03_25_DAT_VIETANH_GIAP\project\complete\.gradle\buildOutputCleanup\buildOutputCleanup.lock
+
 # (optional) If you later use .env for secrets
 .env
