@@ -12,14 +12,22 @@ mvnw.cmd
 *.tmp
 *.bak
 *.swp
+*.bin
+*.lock
+*.iml
 .DS_Store
 
 # Ignore sensitive config
-project\complete\src\main\resources\application.yml
-project\complete\src\main\resources\application.properties
-# project\complete\src\main\resources\ca.pem
-project\complete\target\classes\application.yml
-project\complete\target\classes\application.properties
-# project\complete\target\classes\ca.pem
+src\main\resources\application.yml
+src\main\resources\application.properties
+src\main\resources\ca.pem
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+out/
+project/complete/.gradle/
+project/complete/build/
+
 # (optional) If you later use .env for secrets
 .env
