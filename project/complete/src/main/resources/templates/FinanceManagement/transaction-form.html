@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Giao dịch - Hệ thống Quản lý Gia phả</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            border: none;
+            padding: 20px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            font-weight: 600;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+        
+        .required {
+            color: #dc3545;
+        }
+        
+        .form-section {
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .transaction-type-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .type-btn {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .type-btn.active {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .type-btn.income.active {
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+        
+        .type-btn.expense.active {
+            border-color: #dc3545;
+            background: rgba(220, 53, 69, 0.1);
+        }
+        
+        .amount-preview {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .amount-display {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .amount-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/finance/transactions">
+                <i class="fas fa-exchange-alt me-2"></i>
+                <span>Thêm Giao dịch</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="/finance/transactions">
+                        <i class="fas fa-arrow-left me-1"></i>Quay lại danh sách
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <i class="fas fa-exchange-alt me-2"></i>Thêm Giao dịch Mới
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="/finance/transactions/add" th:object="${transaction}" method="post">
+                            
+                            <!-- Loại giao dịch -->
+                            <div class="form-section">
+                                <h6 class="section-title">
+                                    <i class="fas fa-exchange-alt me-2"></i>Loại giao dịch
+                                </h6>
+                                
+                                <div class="transaction-type-buttons">
+                                    <div class="type-btn income" onclick="selectType('INCOME')">
+                                        <i class="fas fa-arrow-up text-success" style="font-size: 24px;"></i>
+                                        <div class="mt-2">
+                                            <strong>Thu nhập</strong>
+                                            <br>
+                                            <small class="text-muted">Tiền vào</small>
+                                        </div>
+                                    </div>
+                                    <div class="type-btn expense" onclick="selectType('EXPENSE')">
+                                        <i class="fas fa-arrow-down text-danger" style="font-size: 24px;"></i>
+                                        <div class="mt-2">
+                                            <strong>Chi tiêu</strong>
+                                            <br>
+                                            <small class="text-muted">Tiền ra</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <input type="hidden" th:field="*{transactionType}" id="transactionType">
+                            </div>
+                            
+                            <!-- Thông tin cơ bản -->
+                            <div class="form-section">
+                                <h6 class="section-title">
+                                    <i class="fas fa-info-circle me-2"></i>Thông tin cơ bản
+                                </h6>
+                                
+                                <div class="row">
+                                    <div class="col-md-8 mb-3">
+                                        <label for="title" class="form-label">
+                                            Tiêu đề giao dịch <span class="required">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="title" th:field="*{title}" 
+                                               placeholder="Ví dụ: Lương tháng 12, Mua sắm cuối tuần..." required>
+                                        <div class="form-text">Mô tả ngắn gọn về giao dịch</div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="amount" class="form-label">
+                                            Số tiền <span class="required">*</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">₫</span>
+                                            <input type="number" class="form-control" id="amount" th:field="*{amount}" 
+                                                   step="0.01" min="0" placeholder="0" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Mô tả chi tiết</label>
+                                    <textarea class="form-control" id="description" th:field="*{description}" 
+                                              rows="3" placeholder="Mô tả chi tiết về giao dịch này..."></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Thông tin thành viên đóng góp -->
+                            <div class="form-section">
+                                <h6 class="section-title">
+                                    <i class="fas fa-user me-2"></i>Thông tin thành viên đóng góp
+                                </h6>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="contributorName" class="form-label">
+                                            Tên thành viên <span class="required">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" id="contributorName" th:field="*{contributorName}" 
+                                               placeholder="Ví dụ: Nguyễn Văn A, Trần Thị B..." required>
+                                        <div class="form-text">Tên đầy đủ của thành viên đóng góp</div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="contributorPhone" class="form-label">Số điện thoại</label>
+                                        <input type="tel" class="form-control" id="contributorPhone" th:field="*{contributorPhone}" 
+                                               placeholder="0123456789">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="contributorRelationship" class="form-label">Mối quan hệ với dòng họ</label>
+                                    <input type="text" class="form-control" id="contributorRelationship" th:field="*{contributorRelationship}" 
+                                           placeholder="Ví dụ: Con trai, Con gái, Cháu trai, Cháu gái, Anh em, Chú, Cô...">
+                                    <div class="form-text">Mối quan hệ của thành viên với dòng họ</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Phân loại -->
+                            <div class="form-section">
+                                <h6 class="section-title">
+                                    <i class="fas fa-tags me-2"></i>Phân loại
+                                </h6>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="category" class="form-label">Danh mục</label>
+                                        <select class="form-select" id="category" th:field="*{category}">
+                                            <option value="">Chọn danh mục</option>
+                                            <option th:each="cat : ${categories}" 
+                                                    th:value="${cat.id}" 
+                                                    th:text="${cat.name}">Danh mục</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="paymentMethod" class="form-label">Phương thức thanh toán</label>
+                                        <select class="form-select" id="paymentMethod" th:field="*{paymentMethod}">
+                                            <option value="">Chọn phương thức</option>
+                                            <option th:each="method : ${paymentMethods}" 
+                                                    th:value="${method}" 
+                                                    th:text="${method.displayName}">Phương thức</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Thông tin bổ sung -->
+                            <div class="form-section">
+                                <h6 class="section-title">
+                                    <i class="fas fa-calendar me-2"></i>Thông tin bổ sung
+                                </h6>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="transactionDate" class="form-label">
+                                            Ngày giao dịch <span class="required">*</span>
+                                        </label>
+                                        <input type="date" class="form-control" id="transactionDate" th:field="*{transactionDate}" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="receiptNumber" class="form-label">Số hóa đơn</label>
+                                        <input type="text" class="form-control" id="receiptNumber" th:field="*{receiptNumber}" 
+                                               placeholder="Số hóa đơn, biên lai...">
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="notes" class="form-label">Ghi chú</label>
+                                    <textarea class="form-control" id="notes" th:field="*{notes}" 
+                                              rows="2" placeholder="Ghi chú thêm về giao dịch..."></textarea>
+                                </div>
+                            </div>
+                            
+                            <!-- Preview -->
+                            <div class="amount-preview">
+                                <div class="amount-display" id="amountDisplay">0 ₫</div>
+                                <div class="amount-label" id="amountLabel">Chọn loại giao dịch và nhập số tiền</div>
+                            </div>
+                            
+                            <!-- Buttons -->
+                            <div class="d-flex justify-content-between">
+                                <a href="/finance/transactions" class="btn btn-secondary">
+                                    <i class="fas fa-times me-2"></i>Hủy bỏ
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Thêm Giao dịch
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedType = '';
+        
+        function selectType(type) {
+            selectedType = type;
+            document.getElementById('transactionType').value = type;
+            
+            // Update button states
+            document.querySelectorAll('.type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if (type === 'INCOME') {
+                document.querySelector('.type-btn.income').classList.add('active');
+            } else {
+                document.querySelector('.type-btn.expense').classList.add('active');
+            }
+            
+            updatePreview();
+        }
+        
+        function updatePreview() {
+            const amount = document.getElementById('amount').value || '0';
+            const formattedAmount = new Intl.NumberFormat('vi-VN').format(amount);
+            
+            document.getElementById('amountDisplay').textContent = formattedAmount + ' ₫';
+            
+            if (selectedType === 'INCOME') {
+                document.getElementById('amountDisplay').className = 'amount-display text-success';
+                document.getElementById('amountLabel').textContent = 'Thu nhập - Tiền vào';
+            } else if (selectedType === 'EXPENSE') {
+                document.getElementById('amountDisplay').className = 'amount-display text-danger';
+                document.getElementById('amountLabel').textContent = 'Chi tiêu - Tiền ra';
+            } else {
+                document.getElementById('amountDisplay').className = 'amount-display text-muted';
+                document.getElementById('amountLabel').textContent = 'Chọn loại giao dịch và nhập số tiền';
+            }
+        }
+        
+        // Add event listeners
+        document.getElementById('amount').addEventListener('input', updatePreview);
+        
+        // Set default date to today
+        document.getElementById('transactionDate').value = new Date().toISOString().split('T')[0];
+    </script>
+</body>
+</html>
