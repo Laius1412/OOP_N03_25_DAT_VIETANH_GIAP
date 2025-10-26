@@ -52,6 +52,7 @@ public class EventController {
             events = eventService.upcomingEvents();
         }
 
+        List<Event> ongoing = eventService.ongoingEvents();
         List<Event> upcoming = eventService.upcomingEvents();
         List<Event> past = eventService.pastEvents();
 
@@ -100,6 +101,7 @@ public class EventController {
         }
         model.addAttribute("selectedDate", date);
         model.addAttribute("events", events);
+        model.addAttribute("ongoing", ongoing);
         model.addAttribute("upcoming", upcoming);
         model.addAttribute("past", past);
         // categories not shown in UI now

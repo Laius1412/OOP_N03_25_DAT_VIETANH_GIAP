@@ -76,7 +76,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="section-title mb-0"><i class="fas fa-calendar-alt me-2"></i>Lịch (Dương/Âm)</h4>
+                            <h4 class="section-title mb-0"><i class="fas fa-calendar-alt me-2"></i>Lịch sự kiện dòng họ Nguyễn</h4>
                             <form class="d-flex" method="get" action="/events">
                                 <input class="form-control me-2" type="search" placeholder="Tìm kiếm sự kiện" name="q" th:value="${q}">
                                 <button class="btn btn-gradient" type="submit"><i class="fas fa-search"></i></button>
@@ -100,6 +100,24 @@
             </div>
 
             <div class="col-lg-5">
+                <div class="card mb-3" th:if="${q != null and !#strings.isEmpty(q)}">
+                    <div class="card-body">
+                        <h5 class="section-title mb-2"><i class="fas fa-search me-2"></i>Kết quả tìm kiếm</h5>
+                        <div id="search-results" class="list-group small" style="max-height: 280px; overflow:auto;">
+                            <a th:each="e : ${searchResults}" href="#" class="list-group-item list-group-item-action" th:attr="data-id=${e.id}">
+                                <div>
+                                    <div class="list-title" th:text="${e.title}"></div>
+                                    <div class="text-muted">
+                                        <i class="far fa-clock me-1"></i>
+                                        <span th:text="${#temporals.format(e.startTime, 'dd/MM/yyyy HH:mm')}"></span>
+                                        - <span th:text="${#temporals.format(e.endTime, 'HH:mm')}"></span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-angle-right text-muted"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -108,6 +126,26 @@
                         </div>
                         <div class="list-group small" style="max-height: 280px; overflow:auto;" id="upcoming-list">
                             <a th:each="e : ${upcoming}" href="#" class="list-group-item list-group-item-action" th:attr="data-id=${e.id}">
+                                <div>
+                                    <div class="list-title" th:text="${e.title}"></div>
+                                    <div class="text-muted">
+                                        <i class="far fa-clock me-1"></i>
+                                        <span th:text="${#temporals.format(e.startTime, 'dd/MM/yyyy HH:mm')}"></span>
+                                        - <span th:text="${#temporals.format(e.endTime, 'HH:mm')}"></span>
+                                        · <span th:classappend="'status-' + ${e.status}" th:text="${e.status}"></span>
+                                    </div>
+                                </div>
+                                <i class="fas fa-angle-right text-muted"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="section-title mb-2"><i class="fas fa-bolt me-2"></i>Đang diễn ra</h5>
+                        <div class="list-group small" style="max-height: 260px; overflow:auto;" id="ongoing-list">
+                            <a th:each="e : ${ongoing}" href="#" class="list-group-item list-group-item-action" th:attr="data-id=${e.id}">
                                 <div>
                                     <div class="list-title" th:text="${e.title}"></div>
                                     <div class="text-muted">

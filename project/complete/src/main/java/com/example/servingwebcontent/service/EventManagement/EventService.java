@@ -35,7 +35,7 @@ public class EventService {
     public List<Event> upcomingEvents() {
         LocalDateTime now = LocalDateTime.now();
         return eventRepository.findAll().stream()
-                .filter(e -> e.getEndTime().isAfter(now))
+                .filter(e -> e.getStartTime().isAfter(now))
                 .sorted(Comparator.comparing(Event::getStartTime))
                 .collect(Collectors.toList());
     }
@@ -45,6 +45,14 @@ public class EventService {
         return eventRepository.findAll().stream()
                 .filter(e -> e.getEndTime().isBefore(now))
                 .sorted(Comparator.comparing(Event::getStartTime).reversed())
+                .collect(Collectors.toList());
+    }
+
+    public List<Event> ongoingEvents() {
+        LocalDateTime now = LocalDateTime.now();
+        return eventRepository.findAll().stream()
+                .filter(e -> !e.getStartTime().isAfter(now) && !e.getEndTime().isBefore(now))
+                .sorted(Comparator.comparing(Event::getStartTime))
                 .collect(Collectors.toList());
     }
 
