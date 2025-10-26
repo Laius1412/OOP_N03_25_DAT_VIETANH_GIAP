@@ -18,7 +18,10 @@
         .navbar-brand { color: white; font-size: 20px; font-weight: 600; text-decoration: none; display: flex; align-items: center; }
         .navbar-brand:hover { color: white; }
         .navbar-brand i { margin-right: 10px; }
-        .navbar-nav { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 20px; list-style: none; margin: 0; padding: 0; }
+        .navbar-nav { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 20px; list-style: none; margin: 0; padding: 0; white-space: nowrap; }
+        .main-navbar .navbar-nav { flex-direction: row !important; }
+        .nav-item { list-style: none; }
+        .nav-link { display: flex; align-items: center; }
         .nav-link { color: rgba(255,255,255,0.9); padding: 10px 15px; border-radius: 5px; text-decoration: none; transition: .3s; display: flex; align-items: center; }
         .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
         .nav-link i { margin-right: 8px; }

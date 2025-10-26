@@ -1,17 +1,20 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Báo cáo Tài chính - Hệ thống Quản lý Gia phả</title>
+    <title>BĂ¡o cĂ¡o TĂ i chĂ­nh - Há»‡ thá»‘ng Quáº£n lĂ½ Gia pháº£</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         /* Main Navigation like home.html */
@@ -19,7 +22,7 @@
         .navbar-brand { color: white; font-size: 20px; font-weight: 600; text-decoration: none; display: flex; align-items: center; }
         .navbar-brand:hover { color: white; }
         .navbar-brand i { margin-right: 10px; }
-        .navbar-nav { display: flex; align-items: center; gap: 20px; list-style: none; margin: 0; padding: 0; }
+        .navbar-nav { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 20px; list-style: none; margin: 0; padding: 0; }
         .nav-link { color: rgba(255,255,255,0.9); padding: 10px 15px; border-radius: 5px; text-decoration: none; transition: .3s; display: flex; align-items: center; }
         .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
         .nav-link.active { background: rgba(255,255,255,0.15); color: white; }
@@ -168,7 +171,7 @@
                 Báo cáo
             </a>
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="/finance"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="/finance"><i class="fas fa-tachometer-alt"></i>dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="/finance/categories"><i class="fas fa-tags"></i>Danh mục</a></li>
                 <li class="nav-item"><a class="nav-link" href="/finance/transactions"><i class="fas fa-exchange-alt"></i>Giao dịch</a></li>
                 <li class="nav-item"><a class="nav-link" href="/finance/budgets"><i class="fas fa-chart-pie"></i>Ngân sách</a></li>
@@ -199,7 +202,7 @@
                                 <p class="mb-0 mt-2">Xem và tạo các báo cáo tài chính chi tiết</p>
                             </div>
                             <div class="col-md-4 text-end">
-                                <a href="/finance/reports/generate" class="btn btn-primary">
+                                <a th:href="@{/finance/reports/generate}" class="btn btn-primary">
                                     <i class="fas fa-plus me-2"></i>Tạo báo cáo mới
                                 </a>
                             </div>
@@ -232,7 +235,7 @@
             <div class="col-md-3 mb-3">
                 <div class="stats-row text-center">
                     <h5 class="text-info mb-1" th:text="${#lists.size(reports.?[reportType.name() == 'CUSTOM'])}">0</h5>
-                    <small class="text-muted">Báo cáo tùy chỉnh</small>
+                        <small class="text-muted">Báo cáo tùy chỉnh</small>
                 </div>
             </div>
         </div>
@@ -251,14 +254,14 @@
                             <div class="col-md-3 mb-3">
                                 <div class="d-grid">
                                     <a href="/finance/reports/generate?type=MONTHLY" class="btn btn-success">
-                                        <i class="fas fa-calendar-alt me-2"></i>Báo cáo tháng này
+                                        <i class="fas fa-calendar-alt me-2"></i>Báo cáo tháng năm nay
                                     </a>
                                 </div>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <div class="d-grid">
                                     <a href="/finance/reports/generate?type=QUARTERLY" class="btn btn-info">
-                                        <i class="fas fa-chart-bar me-2"></i>Báo cáo quý này
+                                        <i class="fas fa-chart-bar me-2"></i>Báo cáo quý năm nay
                                     </a>
                                 </div>
                             </div>
@@ -271,7 +274,7 @@
                             </div>
                             <div class="col-md-3 mb-3">
                                 <div class="d-grid">
-                                    <a href="/finance/reports/generate" class="btn btn-primary">
+                                    <a th:href="@{/finance/reports/generate}" class="btn btn-primary">
                                         <i class="fas fa-cog me-2"></i>Báo cáo tùy chỉnh
                                     </a>
                                 </div>
@@ -296,7 +299,7 @@
                             <i class="fas fa-file-alt text-muted" style="font-size: 64px;"></i>
                             <h5 class="text-muted mt-3">Chưa có báo cáo nào</h5>
                             <p class="text-muted">Hãy tạo báo cáo đầu tiên để xem thống kê tài chính</p>
-                            <a href="/finance/reports/generate" class="btn btn-primary">
+                            <a th:href="@{/finance/reports/generate}" class="btn btn-primary">
                                 <i class="fas fa-plus me-2"></i>Tạo báo cáo đầu tiên
                             </a>
                         </div>
@@ -310,7 +313,7 @@
                                         </div>
                                         <div class="col-9">
                                             <div class="d-flex justify-content-between align-items-start mb-2">
-                                                <h6 class="mb-1" th:text="${report.reportName}">Tên báo cáo</h6>
+                                                            <h6 class="mb-1" th:text="${report.reportName}">Tên báo cáo</h6>
                                                 <span class="status-badge bg-info" th:text="${report.reportType.displayName}">Loại báo cáo</span>
                                             </div>
                                             
@@ -357,7 +360,7 @@
             </div>
         </div>
 
-        <!-- Charts Section -->
+        <!-- Charts Section
         <div class="row mt-4" th:if="${!#lists.isEmpty(reports)}">
             <div class="col-12">
                 <div class="card">
@@ -375,7 +378,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <h6 class="text-center mb-3">Phân bố theo loại báo cáo</h6>
+                                <h6 class="text-center mb-3">PhĂ¢n bá»‘ theo loáº¡i bĂ¡o cĂ¡o</h6>
                                 <div class="chart-container">
                                     <canvas id="reportTypeChart"></canvas>
                                 </div>
@@ -385,96 +388,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Sample data for charts (replace with actual data from server)
-        const reports = [
-            { type: 'MONTHLY', income: 10000000, expense: 8000000 },
-            { type: 'QUARTERLY', income: 30000000, expense: 25000000 },
-            { type: 'YEARLY', income: 120000000, expense: 100000000 }
-        ];
-        
-        // Income vs Expense Chart
-        const incomeExpenseCtx = document.getElementById('incomeExpenseChart').getContext('2d');
-        new Chart(incomeExpenseCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'],
-                datasets: [{
-                    label: 'Thu nhập',
-                    data: [10000000, 12000000, 11000000, 13000000, 12500000, 14000000],
-                    backgroundColor: 'rgba(40, 167, 69, 0.8)',
-                    borderColor: 'rgba(40, 167, 69, 1)',
-                    borderWidth: 1
-                }, {
-                    label: 'Chi tiêu',
-                    data: [8000000, 9000000, 8500000, 9500000, 9200000, 10000000],
-                    backgroundColor: 'rgba(220, 53, 69, 0.8)',
-                    borderColor: 'rgba(220, 53, 69, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return new Intl.NumberFormat('vi-VN').format(value) + ' ₫';
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.dataset.label + ': ' + 
-                                       new Intl.NumberFormat('vi-VN').format(context.parsed.y) + ' ₫';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-        
-        // Report Type Chart
-        const reportTypeCtx = document.getElementById('reportTypeChart').getContext('2d');
-        new Chart(reportTypeCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Báo cáo tháng', 'Báo cáo quý', 'Báo cáo năm', 'Báo cáo tùy chỉnh'],
-                datasets: [{
-                    data: [5, 2, 1, 3],
-                    backgroundColor: [
-                        'rgba(40, 167, 69, 0.8)',
-                        'rgba(23, 162, 184, 0.8)',
-                        'rgba(255, 193, 7, 0.8)',
-                        'rgba(111, 66, 193, 0.8)'
-                    ],
-                    borderColor: [
-                        'rgba(40, 167, 69, 1)',
-                        'rgba(23, 162, 184, 1)',
-                        'rgba(255, 193, 7, 1)',
-                        'rgba(111, 66, 193, 1)'
-                    ],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }
-        });
-    </script>
+    
 </body>
 </html>
+

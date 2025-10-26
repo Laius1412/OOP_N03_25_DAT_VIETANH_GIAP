@@ -208,7 +208,7 @@
                         </h4>
                     </div>
                     <div class="card-body">
-                        <form th:action="/finance/reports/generate" method="post">
+                        <form th:action="@{/finance/reports/generate}" method="post">
                             
                             <!-- Loại báo cáo -->
                             <div class="form-section">
@@ -328,7 +328,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+    <script th:inline="none">
         let selectedReportType = '';
         
         function selectReportType(type) {
@@ -387,7 +387,7 @@
                 const startStr = start.toLocaleDateString('vi-VN');
                 const endStr = end.toLocaleDateString('vi-VN');
                 
-                document.getElementById('previewPeriod').textContent = `Từ ${startStr} đến ${endStr}`;
+                document.getElementById('previewPeriod').textContent = 'Từ ' + startStr + ' đến ' + endStr;
                 
                 // Calculate days
                 const timeDiff = end.getTime() - start.getTime();
@@ -395,7 +395,7 @@
                 document.getElementById('previewDays').textContent = daysDiff;
                 
                 // Update range
-                document.getElementById('previewRange').textContent = `${daysDiff} ngày`;
+                document.getElementById('previewRange').textContent = daysDiff + ' ngày';
             } else {
                 document.getElementById('previewPeriod').textContent = 'Chọn khoảng thời gian';
                 document.getElementById('previewDays').textContent = '0';

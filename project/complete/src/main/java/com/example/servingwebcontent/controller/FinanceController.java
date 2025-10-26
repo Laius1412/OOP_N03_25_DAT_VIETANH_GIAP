@@ -495,11 +495,34 @@ public class FinanceController {
         
         return "FinanceManagement/reports";
     }
+
+    // Compat: các link cũ từ home.html dùng /finance/report
+    @GetMapping("/report")
+    public String reportRedirect() {
+        return "redirect:/finance/reports";
+    }
     
     @GetMapping("/reports/generate")
-    public String generateReportForm(Model model) {
+    public String generateReportForm(HttpSession session, Model model) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("reportTypes", ReportType.values());
+        // Gợi ý mặc định để form hiển thị ngay
+        model.addAttribute("today", LocalDate.now());
         return "FinanceManagement/report-form";
+    }
+
+    // Alias URL để tiện điều hướng nếu cần
+    @GetMapping("/reports/new")
+    public String generateReportFormAlias(HttpSession session, Model model) {
+        return generateReportForm(session, model);
+    }
+
+    // Compat alias cho đường dẫn đơn
+    @GetMapping("/report/generate")
+    public String generateReportFormAlias2(HttpSession session, Model model) {
+        return generateReportForm(session, model);
     }
     
     @PostMapping("/reports/generate")
