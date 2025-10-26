@@ -1,10 +1,10 @@
 package com.example.servingwebcontent.Model.FinanceManagement;
 
+import com.example.servingwebcontent.Model.PersonManagement.Person;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "transactions")
@@ -27,7 +27,7 @@ public class Transaction {
     @Column(name = "transaction_type", nullable = false)
     private TransactionType transactionType;
     
-    @ManyToOne
+    @ManyToOne(optional = true)
     @JoinColumn(name = "category_id")
     private FinanceCategory category;
     
@@ -56,6 +56,10 @@ public class Transaction {
     
     @Column(name = "contributor_relationship", length = 100)
     private String contributorRelationship; // Mối quan hệ với dòng họ
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contributor_id")
+    private Person contributor; // Liên kết tới Person người nộp
     
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -63,8 +67,7 @@ public class Transaction {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
     
-    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<AccountTransaction> accountTransactions;
+    // Đã loại bỏ liên kết Account/AccountTransaction không sử dụng
     
     // Constructors
     public Transaction() {}
@@ -194,14 +197,6 @@ public class Transaction {
         this.updatedAt = updatedAt;
     }
     
-    public List<AccountTransaction> getAccountTransactions() {
-        return accountTransactions;
-    }
-    
-    public void setAccountTransactions(List<AccountTransaction> accountTransactions) {
-        this.accountTransactions = accountTransactions;
-    }
-    
     public String getContributorName() {
         return contributorName;
     }
@@ -224,6 +219,14 @@ public class Transaction {
     
     public void setContributorRelationship(String contributorRelationship) {
         this.contributorRelationship = contributorRelationship;
+    }
+
+    public Person getContributor() {
+        return contributor;
+    }
+
+    public void setContributor(Person contributor) {
+        this.contributor = contributor;
     }
     
     // Utility methods

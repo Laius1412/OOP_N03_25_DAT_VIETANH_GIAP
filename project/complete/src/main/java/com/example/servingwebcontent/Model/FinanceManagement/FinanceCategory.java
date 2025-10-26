@@ -5,14 +5,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "finance_categories")
+@Table(
+    name = "finance_categories",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name", "type"})
+    }
+)
 public class FinanceCategory {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, length = 100)
     private String name;
     
     @Column(length = 500)
@@ -31,7 +36,8 @@ public class FinanceCategory {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
     
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // Không dùng REMOVE để tránh xóa giao dịch khi xóa danh mục
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Transaction> transactions;
     
     // Constructors
