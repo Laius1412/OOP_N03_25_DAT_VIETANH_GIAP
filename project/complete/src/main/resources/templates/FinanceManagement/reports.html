@@ -201,7 +201,7 @@
                                 </h4>
                                 <p class="mb-0 mt-2">Xem và tạo các báo cáo tài chính chi tiết</p>
                             </div>
-                            <div class="col-md-4 text-end">
+                            <div class="col-md-4 text-end" th:if="${session.user != null and (session.user.role.name() == 'ADMIN' or session.user.role.name() == 'FINANCE_MANAGER')}">
                                 <a th:href="@{/finance/reports/generate}" class="btn btn-primary">
                                     <i class="fas fa-plus me-2"></i>Tạo báo cáo mới
                                 </a>

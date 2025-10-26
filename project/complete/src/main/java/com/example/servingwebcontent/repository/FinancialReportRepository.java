@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface FinancialReportRepository extends JpaRepository<FinancialReport, Long> {
     List<FinancialReport> findByGeneratedByIdOrderByGeneratedAtDesc(Long generatedById);
+    List<FinancialReport> findAllByOrderByGeneratedAtDesc();
 }

@@ -65,7 +65,7 @@
     </div>
 
     <!-- Nút thêm giao dịch nằm giữa box danh mục và chi tiết -->
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-end mb-3" th:if="${session.user != null and (session.user.role.name() == 'ADMIN' or session.user.role.name() == 'FINANCE_MANAGER')}">
         <a th:href="@{'/finance/categories/' + ${category.id} + '/transactions/add'}" class="btn btn-primary btn-lg">
             <i class="fas fa-plus me-2"></i>Thêm giao dịch
         </a>
@@ -103,10 +103,10 @@
                             <td class="text-end"><span th:text="${#numbers.formatDecimal(t.amount, 0, 'COMMA', 0, 'POINT')}">0</span></td>
                             <td th:text="${t.description}">Mô tả</td>
                             <td>
-                                <a th:href="@{'/finance/categories/' + ${category.id} + '/transactions/edit/' + ${t.id}}" class="btn btn-warning btn-sm me-1">
+                                <a th:if="${session.user != null and (session.user.role.name() == 'ADMIN' or session.user.role.name() == 'FINANCE_MANAGER')}" th:href="@{'/finance/categories/' + ${category.id} + '/transactions/edit/' + ${t.id}}" class="btn btn-warning btn-sm me-1">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a th:href="@{'/finance/categories/' + ${category.id} + '/transactions/delete/' + ${t.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Xóa giao dịch này?');">
+                                <a th:if="${session.user != null and (session.user.role.name() == 'ADMIN' or session.user.role.name() == 'FINANCE_MANAGER')}" th:href="@{'/finance/categories/' + ${category.id} + '/transactions/delete/' + ${t.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Xóa giao dịch này?');">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
@@ -148,10 +148,10 @@
                             </td>
                             <td th:text="${t.description}">Mô tả</td>
                             <td>
-                                <a th:href="@{'/finance/categories/' + ${category.id} + '/transactions/edit/' + ${t.id}}" class="btn btn-warning btn-sm me-1">
+                                <a th:if="${session.user != null and (session.user.role.name() == 'ADMIN' or session.user.role.name() == 'FINANCE_MANAGER')}" th:href="@{'/finance/categories/' + ${category.id} + '/transactions/edit/' + ${t.id}}" class="btn btn-warning btn-sm me-1">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a th:href="@{'/finance/categories/' + ${category.id} + '/transactions/delete/' + ${t.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Xóa giao dịch này?');">
+                                <a th:if="${session.user != null and (session.user.role.name() == 'ADMIN' or session.user.role.name() == 'FINANCE_MANAGER')}" th:href="@{'/finance/categories/' + ${category.id} + '/transactions/delete/' + ${t.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Xóa giao dịch này?');">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
