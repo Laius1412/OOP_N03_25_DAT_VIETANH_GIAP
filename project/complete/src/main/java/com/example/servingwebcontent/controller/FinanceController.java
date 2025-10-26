@@ -2,11 +2,15 @@ package com.example.servingwebcontent.controller;
 
 import com.example.servingwebcontent.Model.FinanceManagement.*;
 import com.example.servingwebcontent.repository.*;
+import com.example.servingwebcontent.Model.PersonManagement.Person;
+import com.example.servingwebcontent.Model.Role;
+import com.example.servingwebcontent.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.servlet.http.HttpSession;
 import java.math.BigDecimal;
@@ -30,6 +34,9 @@ public class FinanceController {
     
     @Autowired
     private FinanceCategoryRepository financeCategoryRepository;
+
+    @Autowired
+    private PersonRepository personRepository;
     
     // Dashboard tài chính dòng họ
     @GetMapping("")
@@ -38,18 +45,23 @@ public class FinanceController {
             return "redirect:/login";
         }
         
-        Long userId = ((com.example.servingwebcontent.Model.User) session.getAttribute("user")).getId();
+        User currentUser = (User) session.getAttribute("user");
+        Long userId = currentUser.getId();
+        boolean isAdminView = currentUser.getRole() == Role.ADMIN || currentUser.getRole() == Role.FINANCE_MANAGER;
         
         // Lấy thống kê tổng quan
-        List<Transaction> recentTransactions = transactionRepository.findTop10ByCreatedByIdOrderByTransactionDateDesc(userId);
+        List<Transaction> recentTransactions = isAdminView
+                ? transactionRepository.findTop10ByOrderByTransactionDateDesc()
+                : transactionRepository.findTop10ByCreatedByIdOrderByTransactionDateDesc(userId);
         List<FinanceCategory> categories = financeCategoryRepository.findByIsActiveTrue();
         
         // Tính thu nhập và chi tiêu trong tháng
         LocalDate startOfMonth = LocalDate.now().withDayOfMonth(1);
         LocalDate endOfMonth = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
         
-        List<Transaction> monthlyTransactions = transactionRepository.findByCreatedByIdAndTransactionDateBetween(
-            userId, startOfMonth, endOfMonth);
+        List<Transaction> monthlyTransactions = isAdminView
+                ? transactionRepository.findByTransactionDateBetween(startOfMonth, endOfMonth)
+                : transactionRepository.findByCreatedByIdAndTransactionDateBetween(userId, startOfMonth, endOfMonth);
         
         BigDecimal monthlyIncome = monthlyTransactions.stream()
             .filter(t -> t.getTransactionType() == TransactionType.INCOME)
@@ -69,7 +81,7 @@ public class FinanceController {
         
         return "FinanceManagement/dashboard";
     }
-    
+
     // Quản lý danh mục
     @GetMapping("/categories")
     public String categoriesList(HttpSession session, Model model) {
@@ -85,6 +97,38 @@ public class FinanceController {
         
         return "FinanceManagement/categories";
     }
+
+    // Chi tiết danh mục + danh sách giao dịch theo danh mục
+    @GetMapping("/categories/{id}")
+    public String categoryDetail(@PathVariable Long id, HttpSession session, Model model) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+
+        Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(id);
+        if (categoryOpt.isEmpty()) {
+            return "redirect:/finance/categories";
+        }
+
+        User currentUser = (User) session.getAttribute("user");
+        Long userId = currentUser.getId();
+        boolean isAdminView = currentUser.getRole() == Role.ADMIN || currentUser.getRole() == Role.FINANCE_MANAGER;
+        List<Transaction> transactions = isAdminView
+                ? transactionRepository.findByCategoryIdOrderByTransactionDateDesc(id)
+                : transactionRepository.findByCategoryIdAndCreatedByIdOrderByTransactionDateDesc(id, userId);
+
+        FinanceCategory category = categoryOpt.get();
+        model.addAttribute("category", category);
+        model.addAttribute("transactions", transactions);
+        // tổng tiền của danh mục (thu hoặc chi)
+        java.math.BigDecimal totalAmount = transactions.stream()
+                .map(Transaction::getAmount)
+                .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+        model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("totalLabel", category.getType() == TransactionType.INCOME ?
+                "Tổng số tiền đã nộp" : "Tổng khoản chi");
+        return "FinanceManagement/category-detail";
+    }
     
     @GetMapping("/categories/add")
     public String addCategoryForm(Model model) {
@@ -95,8 +139,14 @@ public class FinanceController {
     
     @PostMapping("/categories/add")
     public String addCategory(@ModelAttribute FinanceCategory category, RedirectAttributes redirectAttributes) {
-        financeCategoryRepository.save(category);
-        redirectAttributes.addFlashAttribute("success", "Danh mục đã được thêm thành công!");
+        try {
+            if (category.getIsActive() == null) category.setIsActive(true);
+            financeCategoryRepository.save(category);
+            redirectAttributes.addFlashAttribute("success", "Danh mục đã được thêm thành công!");
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("error", "Tên danh mục đã tồn tại hoặc dữ liệu không hợp lệ. Vui lòng kiểm tra lại.");
+            return "redirect:/finance/categories/add";
+        }
         return "redirect:/finance/categories";
     }
     
@@ -120,26 +170,31 @@ public class FinanceController {
             existingCategory.setDescription(category.getDescription());
             existingCategory.setType(category.getType());
             existingCategory.setUpdatedAt(LocalDateTime.now());
-            
-            financeCategoryRepository.save(existingCategory);
-            redirectAttributes.addFlashAttribute("success", "Danh mục đã được cập nhật thành công!");
+            try {
+                financeCategoryRepository.save(existingCategory);
+                redirectAttributes.addFlashAttribute("success", "Danh mục đã được cập nhật thành công!");
+            } catch (org.springframework.dao.DataIntegrityViolationException e) {
+                redirectAttributes.addFlashAttribute("error", "Tên danh mục đã tồn tại hoặc dữ liệu không hợp lệ.");
+                return "redirect:/finance/categories/edit/" + id;
+            }
         }
         return "redirect:/finance/categories";
     }
     
     @GetMapping("/categories/delete/{id}")
+    @Transactional
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(id);
         if (categoryOpt.isPresent()) {
-            FinanceCategory category = categoryOpt.get();
-            category.setIsActive(false);
-            category.setUpdatedAt(LocalDateTime.now());
-            financeCategoryRepository.save(category);
-            redirectAttributes.addFlashAttribute("success", "Danh mục đã được xóa thành công!");
+            // Xóa tất cả giao dịch thuộc danh mục trước
+            long deleted = transactionRepository.deleteByCategoryId(id);
+            // Sau đó xóa hẳn danh mục
+            financeCategoryRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("success", "Đã xóa danh mục và " + deleted + " giao dịch liên quan.");
         }
         return "redirect:/finance/categories";
     }
-    
+
     // Quản lý giao dịch
     @GetMapping("/transactions")
     public String transactionsList(HttpSession session, Model model) {
@@ -147,16 +202,202 @@ public class FinanceController {
             return "redirect:/login";
         }
         
-        Long userId = ((com.example.servingwebcontent.Model.User) session.getAttribute("user")).getId();
-        List<Transaction> transactions = transactionRepository.findByCreatedByIdOrderByTransactionDateDesc(userId);
+        User currentUser = (User) session.getAttribute("user");
+        Long userId = currentUser.getId();
+        boolean isAdminView = currentUser.getRole() == Role.ADMIN || currentUser.getRole() == Role.FINANCE_MANAGER;
+        List<Transaction> transactions = isAdminView
+                ? transactionRepository.findAllByOrderByTransactionDateDesc()
+                : transactionRepository.findByCreatedByIdOrderByTransactionDateDesc(userId);
         List<FinanceCategory> categories = financeCategoryRepository.findByIsActiveTrue();
-        
+
         model.addAttribute("transactions", transactions);
         model.addAttribute("categories", categories);
         model.addAttribute("transactionTypes", TransactionType.values());
         model.addAttribute("paymentMethods", PaymentMethod.values());
-        
+
         return "FinanceManagement/transactions";
+    }
+
+    // Danh sách giao dịch gần đây (đơn giản, từ mới đến cũ)
+    @GetMapping("/transactions/recent")
+    public String transactionsRecent(HttpSession session, Model model) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+        User currentUser = (User) session.getAttribute("user");
+        Long userId = currentUser.getId();
+        boolean isAdminView = currentUser.getRole() == Role.ADMIN || currentUser.getRole() == Role.FINANCE_MANAGER;
+        List<Transaction> transactions = isAdminView
+                ? transactionRepository.findAllByOrderByTransactionDateDesc()
+                : transactionRepository.findByCreatedByIdOrderByTransactionDateDesc(userId);
+        model.addAttribute("transactions", transactions);
+        return "FinanceManagement/transactions-recent";
+    }
+
+    // Chi tiết giao dịch
+    @GetMapping("/transactions/{id}")
+    public String transactionDetail(@PathVariable Long id, HttpSession session, Model model) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+        Long userId = ((com.example.servingwebcontent.Model.User) session.getAttribute("user")).getId();
+        Optional<Transaction> txOpt = transactionRepository.findById(id);
+        if (txOpt.isEmpty()) {
+            return "redirect:/finance/transactions";
+        }
+        Transaction tx = txOpt.get();
+        // Chỉ cho phép xem giao dịch của chính user
+        if (tx.getCreatedById() != null && !tx.getCreatedById().equals(userId)) {
+            return "redirect:/finance/transactions";
+        }
+        model.addAttribute("transaction", tx);
+        return "FinanceManagement/transaction-detail";
+    }
+
+    // Thêm giao dịch trong một danh mục cụ thể
+    @GetMapping("/categories/{id}/transactions/add")
+    public String addTransactionInCategoryForm(@PathVariable Long id, HttpSession session, Model model) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+
+        Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(id);
+        if (categoryOpt.isEmpty()) {
+            return "redirect:/finance/categories";
+        }
+
+        Transaction tx = new Transaction();
+        tx.setCategory(categoryOpt.get());
+        tx.setTransactionDate(LocalDate.now());
+
+        model.addAttribute("category", categoryOpt.get());
+        model.addAttribute("transaction", tx);
+        model.addAttribute("paymentMethods", PaymentMethod.values());
+        model.addAttribute("persons", personRepository.findAll());
+        return "FinanceManagement/category-transaction-form";
+    }
+
+    @PostMapping("/categories/{id}/transactions/add")
+    public String addTransactionInCategory(@PathVariable Long id,
+                                           @ModelAttribute Transaction transaction,
+                                           @RequestParam(name = "personId", required = false) Long personId,
+                                           HttpSession session,
+                                           RedirectAttributes redirectAttributes) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+
+        Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(id);
+        if (categoryOpt.isEmpty()) {
+            return "redirect:/finance/categories";
+        }
+
+        Long userId = ((com.example.servingwebcontent.Model.User) session.getAttribute("user")).getId();
+        transaction.setCreatedById(userId);
+        transaction.setCategory(categoryOpt.get());
+        transaction.setTransactionType(categoryOpt.get().getType());
+
+        if (personId != null) {
+            personRepository.findById(personId).ifPresent(p -> {
+                transaction.setContributor(p);
+                if (transaction.getContributorName() == null || transaction.getContributorName().isBlank()) {
+                    transaction.setContributorName(p.getName());
+                }
+                if (transaction.getContributorPhone() == null || transaction.getContributorPhone().isBlank()) {
+                    transaction.setContributorPhone(p.getPhone());
+                }
+            });
+        }
+
+        if (transaction.getTransactionDate() == null) {
+            transaction.setTransactionDate(LocalDate.now());
+        }
+        transactionRepository.save(transaction);
+        redirectAttributes.addFlashAttribute("success", "Đã thêm giao dịch vào danh mục!");
+        return "redirect:/finance/categories/" + id;
+    }
+
+    // Chỉnh sửa giao dịch trong danh mục
+    @GetMapping("/categories/{categoryId}/transactions/edit/{transactionId}")
+    public String editTransactionInCategoryForm(@PathVariable Long categoryId,
+                                                @PathVariable Long transactionId,
+                                                HttpSession session,
+                                                Model model) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+        Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(categoryId);
+        Optional<Transaction> txOpt = transactionRepository.findById(transactionId);
+        if (categoryOpt.isEmpty() || txOpt.isEmpty()) {
+            return "redirect:/finance/categories";
+        }
+        Transaction tx = txOpt.get();
+        model.addAttribute("category", categoryOpt.get());
+        model.addAttribute("transaction", tx);
+        model.addAttribute("paymentMethods", PaymentMethod.values());
+        model.addAttribute("persons", personRepository.findAll());
+        return "FinanceManagement/category-transaction-form";
+    }
+
+    @PostMapping("/categories/{categoryId}/transactions/edit/{transactionId}")
+    public String editTransactionInCategory(@PathVariable Long categoryId,
+                                            @PathVariable Long transactionId,
+                                            @ModelAttribute Transaction form,
+                                            @RequestParam(name = "personId", required = false) Long personId,
+                                            HttpSession session,
+                                            RedirectAttributes redirectAttributes) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+        Optional<Transaction> txOpt = transactionRepository.findById(transactionId);
+        Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(categoryId);
+        if (txOpt.isEmpty() || categoryOpt.isEmpty()) {
+            return "redirect:/finance/categories";
+        }
+        Transaction tx = txOpt.get();
+        // Cập nhật các trường cho phép
+        tx.setTitle(form.getTitle());
+        tx.setDescription(form.getDescription());
+        tx.setAmount(form.getAmount());
+        tx.setPaymentMethod(form.getPaymentMethod());
+        if (form.getTransactionDate() != null) {
+            tx.setTransactionDate(form.getTransactionDate());
+        }
+        tx.setNotes(form.getNotes());
+        tx.setReceiptNumber(form.getReceiptNumber());
+
+        if (personId != null) {
+            personRepository.findById(personId).ifPresent(p -> {
+                tx.setContributor(p);
+                // đồng bộ hiển thị tên/điện thoại nếu trống
+                if (tx.getContributorName() == null || tx.getContributorName().isBlank()) {
+                    tx.setContributorName(p.getName());
+                }
+                if (tx.getContributorPhone() == null || tx.getContributorPhone().isBlank()) {
+                    tx.setContributorPhone(p.getPhone());
+                }
+            });
+        } else {
+            tx.setContributor(null);
+        }
+
+        transactionRepository.save(tx);
+        redirectAttributes.addFlashAttribute("success", "Đã cập nhật giao dịch!");
+        return "redirect:/finance/categories/" + categoryId;
+    }
+
+    // Xóa giao dịch khỏi danh mục
+    @GetMapping("/categories/{categoryId}/transactions/delete/{transactionId}")
+    public String deleteTransactionInCategory(@PathVariable Long categoryId,
+                                              @PathVariable Long transactionId,
+                                              HttpSession session,
+                                              RedirectAttributes redirectAttributes) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+        transactionRepository.deleteById(transactionId);
+        redirectAttributes.addFlashAttribute("success", "Đã xóa giao dịch!");
+        return "redirect:/finance/categories/" + categoryId;
     }
     
     @GetMapping("/transactions/add")

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý Danh mục - Hệ thống Quản lý Gia phả</title>
+    <title>Quáº£n lĂ½ Danh má»¥c - Há»‡ thá»‘ng Quáº£n lĂ½ Gia pháº£</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -13,24 +13,12 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        /* Main Navigation like home.html */
-        .main-navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            padding: 15px 30px;
-            position: sticky;
-            top: 0;
             z-index: 1000;
         }
-        .navbar-brand { color: white; font-size: 20px; font-weight: 600; text-decoration: none; display: flex; align-items: center; }
-        .navbar-brand:hover { color: white; }
-        .navbar-brand i { margin-right: 10px; }
-        .navbar-nav { display: flex; align-items: center; gap: 20px; flex-direction: row; flex-wrap: nowrap; list-style: none; margin: 0; padding: 0; }
-        .nav-item { position: relative; }
-        .nav-link { color: rgba(255, 255, 255, 0.9); padding: 10px 15px; text-decoration: none; border-radius: 5px; transition: all 0.3s ease; display: flex; align-items: center; font-weight: 500; }
-        .nav-link:hover { background: rgba(255, 255, 255, 0.1); color: white; }
-        .nav-link.active { background: rgba(255, 255, 255, 0.15); color: white; }
-        .nav-link i { margin-right: 8px; }
         
         .card {
             border: none;
@@ -119,20 +107,39 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="main-navbar">
-        <div class="container d-flex justify-content-between align-items-center">
-            <a href="/finance" class="navbar-brand">
-                <i class="fas fa-tags"></i>
-                Danh mục
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/finance">
+                <i class="fas fa-tags me-2"></i>
+                <span>Quáº£n lĂ½ Danh má»¥c</span>
             </a>
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="/finance"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link active" href="/finance/categories"><i class="fas fa-tags"></i>Danh mục</a></li>
-                <li class="nav-item"><a class="nav-link" href="/finance/transactions"><i class="fas fa-exchange-alt"></i>Giao dịch</a></li>
-                <li class="nav-item"><a class="nav-link" href="/finance/budgets"><i class="fas fa-chart-pie"></i>Ngân sách</a></li>
-                <li class="nav-item"><a class="nav-link" href="/finance/reports"><i class="fas fa-file-alt"></i>Báo cáo</a></li>
-                <li class="nav-item"><a class="nav-link" href="/home"><i class="fas fa-home"></i>Trang chủ</a></li>
-            </ul>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/finance">
+                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/finance/categories">
+                            <i class="fas fa-tags me-1"></i>Danh má»¥c
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/finance/transactions">
+                            <i class="fas fa-exchange-alt me-1"></i>Giao dá»‹ch
+                        </a>
+                    </li>
+                </ul>
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/home">
+                        <i class="fas fa-arrow-left me-1"></i>Vá» trang chá»§
+                    </a>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -152,13 +159,13 @@
                         <div class="row align-items-center">
                             <div class="col-md-8">
                                 <h4 class="mb-0">
-                                    <i class="fas fa-tags me-2"></i>Quản lý Danh mục
+                                    <i class="fas fa-tags me-2"></i>Quáº£n lĂ½ Danh má»¥c
                                 </h4>
-                                <p class="mb-0 mt-2">Quản lý các danh mục thu nhập và chi tiêu của dòng họ</p>
+                                <p class="mb-0 mt-2">Quáº£n lĂ½ cĂ¡c danh má»¥c thu nháº­p vĂ  chi tiĂªu cá»§a dĂ²ng há»</p>
                             </div>
                             <div class="col-md-4 text-end">
                                 <a href="/finance/categories/add" class="btn btn-primary">
-                                    <i class="fas fa-plus me-2"></i>Thêm danh mục mới
+                                    <i class="fas fa-plus me-2"></i>ThĂªm danh má»¥c má»›i
                                 </a>
                             </div>
                         </div>
@@ -172,19 +179,19 @@
             <div class="col-md-4 mb-3">
                 <div class="stats-row text-center">
                     <h5 class="text-primary mb-1" th:text="${#lists.size(categories)}">0</h5>
-                    <small class="text-muted">Tổng số danh mục</small>
+                    <small class="text-muted">Tá»•ng sá»‘ danh má»¥c</small>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="stats-row text-center">
                     <h5 class="text-success mb-1" th:text="${#lists.size(categories.?[type.name() == 'INCOME'])}">0</h5>
-                    <small class="text-muted">Danh mục khoản thu</small>
+                    <small class="text-muted">Danh má»¥c thu nháº­p</small>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="stats-row text-center">
                     <h5 class="text-danger mb-1" th:text="${#lists.size(categories.?[type.name() == 'EXPENSE'])}">0</h5>
-                    <small class="text-muted">khoản chi</small>
+                    <small class="text-muted">Danh má»¥c chi tiĂªu</small>
                 </div>
             </div>
         </div>
@@ -195,16 +202,16 @@
                 <div class="card">
                     <div class="card-header">
                         <h5 class="mb-0">
-                            <i class="fas fa-list me-2"></i>Danh sách Danh mục
+                            <i class="fas fa-list me-2"></i>Danh sĂ¡ch Danh má»¥c
                         </h5>
                     </div>
                     <div class="card-body">
                         <div th:if="${#lists.isEmpty(categories)}" class="text-center py-5">
                             <i class="fas fa-tags text-muted" style="font-size: 64px;"></i>
-                            <h5 class="text-muted mt-3">Chưa có danh mục nào</h5>
-                            <p class="text-muted">Hãy thêm danh mục đầu tiên để phân loại thu chi</p>
+                            <h5 class="text-muted mt-3">ChÆ°a cĂ³ danh má»¥c nĂ o</h5>
+                            <p class="text-muted">HĂ£y thĂªm danh má»¥c Ä‘áº§u tiĂªn Ä‘á»ƒ phĂ¢n loáº¡i thu chi</p>
                             <a href="/finance/categories/add" class="btn btn-primary">
-                                <i class="fas fa-plus me-2"></i>Thêm danh mục đầu tiên
+                                <i class="fas fa-plus me-2"></i>ThĂªm danh má»¥c Ä‘áº§u tiĂªn
                             </a>
                         </div>
 
@@ -217,25 +224,22 @@
                                                style="font-size: 24px;"></i>
                                         </div>
                                         <div class="col-7">
-                                            <h6 class="mb-1" th:text="${category.name}">Tên danh mục</h6>
-                                            <p class="text-muted mb-1" th:text="${category.description}">Mô tả</p>
+                                            <h6 class="mb-1" th:text="${category.name}">TĂªn danh má»¥c</h6>
+                                            <p class="text-muted mb-1" th:text="${category.description}">MĂ´ táº£</p>
                                             <small class="text-muted">
                                                 <i class="fas fa-calendar me-1"></i>
-                                                Tạo: <span th:text="${#temporals.format(category.createdAt, 'dd/MM/yyyy')}">Ngày</span>
+                                                Táº¡o: <span th:text="${#temporals.format(category.createdAt, 'dd/MM/yyyy')}">NgĂ y</span>
                                             </small>
                                         </div>
                                         <div class="col-3 text-end">
                                             <span class="badge" th:classappend="${category.type.name() == 'INCOME'} ? 'bg-success' : 'bg-danger'"
-                                                  th:text="${category.type.displayName}">Loại</span>
+                                                  th:text="${category.type.displayName}">Loáº¡i</span>
                                             <div class="mt-2">
-                                                <a th:href="@{'/finance/categories/' + ${category.id}}" class="btn btn-info btn-sm me-1">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a th:href="@{'/finance/categories/edit/' + ${category.id}}" class="btn btn-warning btn-sm me-1">
+                                                <a href="/finance/categories/edit/${category.id}" class="btn btn-warning btn-sm me-1">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <a th:href="@{'/finance/categories/delete/' + ${category.id}}" class="btn btn-danger btn-sm"
-                                                   onclick="return confirm('Bạn có chắc muốn xóa danh mục này?')">
+                                                <a href="/finance/categories/delete/${category.id}" class="btn btn-danger btn-sm"
+                                                   onclick="return confirm('Báº¡n cĂ³ cháº¯c muá»‘n xĂ³a danh má»¥c nĂ y?')">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             </div>

@@ -122,6 +122,67 @@
             padding: 8px 15px;
             font-weight: 500;
         }
+
+        /* Header actions styling for inline alignment */
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-actions .btn {
+            color: #fff;
+            border-color: rgba(255,255,255,0.85);
+            padding: 6px 10px;
+            border-radius: 8px;
+        }
+        .header-actions .btn:hover {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+
+        /* Main Navigation like home.html */
+        .main-navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-brand {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand:hover { color: white; }
+        .navbar-brand i { margin-right: 10px; }
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-item { position: relative; }
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        .nav-link:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+        .nav-link.active { background: rgba(255,255,255,0.15); color: white; }
+        .nav-link i { margin-right: 8px; }
         
         .income {
             color: #28a745;
@@ -184,39 +245,20 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="/finance">
-                <i class="fas fa-coins me-2"></i>
-                <span>Quản lý Tài chính Dòng họ</span>
+    <nav class="main-navbar">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="/finance" class="navbar-brand">
+                <i class="fas fa-users"></i>
+                Tài chính
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/finance">
-                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/finance/categories">
-                            <i class="fas fa-tags me-1"></i>Danh mục
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/finance/transactions">
-                            <i class="fas fa-exchange-alt me-1"></i>Giao dịch
-                        </a>
-                    </li>
-                </ul>
-                <div class="navbar-nav">
-                    <a class="nav-link" href="/home">
-                        <i class="fas fa-arrow-left me-1"></i>Về trang chủ
-                    </a>
-                </div>
-            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link active" href="/finance"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="/finance/categories"><i class="fas fa-tags"></i>Danh mục</a></li>
+                <li class="nav-item"><a class="nav-link" href="/finance/transactions"><i class="fas fa-exchange-alt"></i>Giao dịch</a></li>
+                <li class="nav-item"><a class="nav-link" href="/finance/budgets"><i class="fas fa-chart-pie"></i>Ngân sách</a></li>
+                <li class="nav-item"><a class="nav-link" href="/finance/reports"><i class="fas fa-file-alt"></i>Báo cáo</a></li>
+                <li class="nav-item"><a class="nav-link" href="/home"><i class="fas fa-home"></i>Trang chủ</a></li>
+            </ul>
         </div>
     </nav>
 
@@ -234,14 +276,14 @@
                 <div class="stats-card">
                     <i class="fas fa-arrow-up stats-icon text-success"></i>
                     <div class="stats-value text-success" th:text="${#numbers.formatDecimal(monthlyIncome, 0, 'COMMA', 0, 'POINT')}">0</div>
-                    <div class="stats-label">Thu nhập tháng</div>
+                    <div class="stats-label">Tổng Thu</div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 mb-3">
                 <div class="stats-card">
                     <i class="fas fa-arrow-down stats-icon text-danger"></i>
                     <div class="stats-value text-danger" th:text="${#numbers.formatDecimal(monthlyExpense, 0, 'COMMA', 0, 'POINT')}">0</div>
-                    <div class="stats-label">Chi tiêu tháng</div>
+                    <div class="stats-label">Tổng Chi</div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 mb-3">
@@ -249,7 +291,7 @@
                     <i class="fas fa-balance-scale stats-icon" th:classappend="${netIncome >= 0} ? 'text-success' : 'text-danger'"></i>
                     <div class="stats-value" th:classappend="${netIncome >= 0} ? 'text-success' : 'text-danger'" 
                          th:text="${#numbers.formatDecimal(netIncome, 0, 'COMMA', 0, 'POINT')}">0</div>
-                    <div class="stats-label">Lãi/Lỗ tháng</div>
+                    <div class="stats-label">Tổng Dư</div>
                 </div>
             </div>
         </div>
@@ -259,26 +301,19 @@
             <div class="col-lg-8 mb-4">
                 <div class="card">
                     <div class="card-header">
-                        <div class="row align-items-center">
-                            <div class="col-md-8">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-exchange-alt me-2"></i>Giao dịch gần đây
-                                </h5>
-                            </div>
-                            <div class="col-md-4 text-end">
-                                <a href="/finance/transactions/add" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-plus me-1"></i>Thêm giao dịch
-                                </a>
-                            </div>
+                        <h5 class="mb-0">
+                            <i class="fas fa-exchange-alt me-2"></i>Giao dịch gần đây
+                        </h5>
+                        <div class="header-actions">
+                            <a href="/finance/transactions/recent" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-list me-1"></i>Xem tất cả giao dịch
+                            </a>
                         </div>
                     </div>
                     <div class="card-body">
                         <div th:if="${#lists.isEmpty(recentTransactions)}" class="text-center py-4">
                             <i class="fas fa-exchange-alt text-muted" style="font-size: 48px;"></i>
                             <h6 class="text-muted mt-3">Chưa có giao dịch nào</h6>
-                            <a href="/finance/transactions/add" class="btn btn-primary">
-                                <i class="fas fa-plus me-2"></i>Thêm giao dịch đầu tiên
-                            </a>
                         </div>
 
                         <div th:if="${!#lists.isEmpty(recentTransactions)}">
@@ -290,7 +325,11 @@
                                            style="font-size: 24px;"></i>
                                     </div>
                                     <div class="col-7">
-                                        <h6 class="mb-1" th:text="${transaction.title}">Tiêu đề</h6>
+                                        <h6 class="mb-1">
+                                            <a th:href="@{'/finance/transactions/' + ${transaction.id}}" class="text-decoration-none">
+                                                <span th:text="${transaction.title}">Tiêu đề</span>
+                                            </a>
+                                        </h6>
                                         <p class="text-muted mb-1" th:text="${transaction.description}">Mô tả</p>
                                         <small class="text-muted">
                                             <i class="fas fa-user me-1"></i>
@@ -317,11 +356,6 @@
                                 </div>
                             </div>
                             
-                            <div class="text-center mt-3">
-                                <a href="/finance/transactions" class="btn btn-outline-primary">
-                                    <i class="fas fa-list me-1"></i>Xem tất cả giao dịch
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -331,26 +365,19 @@
             <div class="col-lg-4 mb-4">
                 <div class="card">
                     <div class="card-header">
-                        <div class="row align-items-center">
-                            <div class="col-md-8">
-                                <h5 class="mb-0">
-                                    <i class="fas fa-tags me-2"></i>Danh mục
-                                </h5>
-                            </div>
-                            <div class="col-md-4 text-end">
-                                <a href="/finance/categories/add" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-plus me-1"></i>Thêm
-                                </a>
-                            </div>
+                        <h5 class="mb-0">
+                            <i class="fas fa-tags me-2"></i>Danh mục
+                        </h5>
+                        <div class="header-actions">
+                            <a href="/finance/categories" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-list me-1"></i>Quản lý danh mục
+                            </a>
                         </div>
                     </div>
                     <div class="card-body">
                         <div th:if="${#lists.isEmpty(categories)}" class="text-center py-4">
                             <i class="fas fa-tags text-muted" style="font-size: 32px;"></i>
                             <h6 class="text-muted mt-2">Chưa có danh mục</h6>
-                            <a href="/finance/categories/add" class="btn btn-primary btn-sm">
-                                <i class="fas fa-plus me-1"></i>Thêm danh mục
-                            </a>
                         </div>
 
                         <div th:if="${!#lists.isEmpty(categories)}">
@@ -367,11 +394,6 @@
                                 </div>
                             </div>
                             
-                            <div class="text-center mt-3">
-                                <a href="/finance/categories" class="btn btn-outline-primary">
-                                    <i class="fas fa-list me-1"></i>Quản lý danh mục
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>

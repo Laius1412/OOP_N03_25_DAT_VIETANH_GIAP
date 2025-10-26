@@ -317,6 +317,15 @@
         document.getElementById('name').addEventListener('input', updatePreview);
         document.getElementById('description').addEventListener('input', updatePreview);
         
+        // Initialize selection: use existing value or default INCOME
+        (function initType(){
+            const hidden = document.getElementById('type');
+            if (hidden && hidden.value) {
+                selectType(hidden.value);
+            } else {
+                selectType('INCOME');
+            }
+        })();
         // Initial preview
         updatePreview();
     </script>
