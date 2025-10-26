@@ -302,8 +302,12 @@ public class PersonController {
         }
 
         try {
+            // Sử dụng phương thức xóa trực tiếp với exception handling
             personService.deletePerson(id);
             redirectAttributes.addFlashAttribute("success", "Xóa thành viên thành công!");
+        } catch (IllegalStateException e) {
+            // Lỗi do ràng buộc khóa ngoại (foreign key constraint)
+            redirectAttributes.addFlashAttribute("error", "Không thể xóa thành viên! " + e.getMessage());
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Lỗi khi xóa thành viên: " + e.getMessage());
         }

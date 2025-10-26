@@ -2,6 +2,7 @@ package com.example.servingwebcontent.repository;
 
 import com.example.servingwebcontent.Model.PersonManagement.Gender;
 import com.example.servingwebcontent.Model.PersonManagement.Person;
+import com.example.servingwebcontent.Model.PersonManagement.Family;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -58,11 +59,15 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
            "(:gender IS NULL OR p.gender = :gender) AND " +
            "(:isAlive IS NULL OR (:isAlive = true AND p.dod IS NULL) OR (:isAlive = false AND p.dod IS NOT NULL))")
     List<Person> findByAdvancedSearch(@Param("name") String name, 
-                                    @Param("gender") Gender gender, 
-                                    @Param("isAlive") Boolean isAlive);
+                                     @Param("gender") Gender gender, 
+                                     @Param("isAlive") Boolean isAlive);
 
-    // Đếm số lượng thành viên
-    long count();
+    // Tìm kiếm theo từ khóa
+    @Query("SELECT p FROM Person p WHERE " +
+           "LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+           "LOWER(p.address) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+           "LOWER(p.phone) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Person> findByKeyword(@Param("keyword") String keyword);
 
     // Đếm theo giới tính
     long countByGender(Gender gender);
@@ -73,13 +78,27 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     // Đếm người đã mất
     long countByDodIsNotNull();
 
-    // Tìm kiếm gần đây (theo ngày tạo)
+    // Lấy top 10 thành viên mới nhất
     List<Person> findTop10ByOrderByCreatedAtDesc();
 
-    // Tìm kiếm theo từ khóa tổng hợp
-    @Query("SELECT p FROM Person p WHERE " +
-           "LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(p.address) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-           "LOWER(p.phone) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    List<Person> findByKeyword(@Param("keyword") String keyword);
+    // Kiểm tra có transaction nào tham chiếu đến person không
+    @Query(value = "SELECT COUNT(*) FROM transactions WHERE contributor_id = :personId", nativeQuery = true)
+    long countTransactionsByContributorId(@Param("personId") Long personId);
+
+    // Tìm kiếm theo gia đình
+    List<Person> findByFamily(Family family);
+
+    // Tìm kiếm thành viên không thuộc gia đình nào
+    List<Person> findByFamilyIsNull();
+
+    // Tìm kiếm theo ID gia đình
+    @Query("SELECT p FROM Person p WHERE p.family.id = :familyId")
+    List<Person> findByFamilyId(@Param("familyId") Long familyId);
+
+    // Đếm số thành viên trong gia đình
+    long countByFamily(Family family);
+
+    // Lấy con trai lớn tuổi nhất trong gia đình
+    @Query("SELECT p FROM Person p WHERE p.family = :family AND p.gender = 'MALE' AND p.dod IS NULL ORDER BY p.dob ASC")
+    List<Person> findOldestMaleInFamily(@Param("family") Family family);
 }

@@ -400,6 +400,27 @@
                     </a>
                 </li>
                 
+                <!-- Quản lý Gia đình Dropdown -->
+                <li class="nav-item dropdown" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'MEMBER_MANAGER'}">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-home"></i>
+                        Gia đình
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/families"><i class="fas fa-list"></i>Danh sách gia đình</a></li>
+                        <li><a class="dropdown-item" href="/families/add"><i class="fas fa-plus"></i>Thêm gia đình</a></li>
+                        <li><a class="dropdown-item" href="/families/search"><i class="fas fa-search"></i>Tìm kiếm</a></li>
+                    </ul>
+                </li>
+                
+                <!-- Xem Gia đình -->
+                <li class="nav-item" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'MEMBER_MANAGER'}">
+                    <a class="nav-link" href="/families">
+                        <i class="fas fa-home"></i>
+                        Gia đình
+                    </a>
+                </li>
+                
                 <!-- Quản lý Sự kiện Dropdown -->
                 <li class="nav-item dropdown" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'EVENT_MANAGER'}">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
@@ -571,6 +592,34 @@
                             <h5 class="card-title">Xem Thành viên</h5>
                             <p class="card-text">Xem thông tin các thành viên trong gia đình</p>
                             <a href="/members" class="btn-card">Xem danh sách</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quản lý Gia đình -->
+                <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'MEMBER_MANAGER'}">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <h5 class="card-title">Quản lý Gia đình</h5>
+                            <p class="card-text">Quản lý các hộ gia đình trong dòng họ</p>
+                            <a href="/families" class="btn-card">Quản lý gia đình</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Xem Gia đình -->
+                <div class="col-lg-4 col-md-6 mb-4" th:if="${user.role.name() != 'ADMIN' and user.role.name() != 'MEMBER_MANAGER'}">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <h5 class="card-title">Xem Gia đình</h5>
+                            <p class="card-text">Xem danh sách các hộ gia đình</p>
+                            <a href="/families" class="btn-card">Xem danh sách</a>
                         </div>
                     </div>
                 </div>
