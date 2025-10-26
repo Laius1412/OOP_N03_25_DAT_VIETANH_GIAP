@@ -2,6 +2,7 @@ package com.example.servingwebcontent.service;
 
 import com.example.servingwebcontent.Model.PersonManagement.Gender;
 import com.example.servingwebcontent.Model.PersonManagement.Person;
+import com.example.servingwebcontent.Model.PersonManagement.Family;
 import com.example.servingwebcontent.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +51,46 @@ public class PersonService {
 
     // Xóa thành viên
     public void deletePerson(Long id) {
+        Optional<Person> personOptional = personRepository.findById(id);
+        if (!personOptional.isPresent()) {
+            throw new IllegalArgumentException("Không tìm thấy thành viên với ID: " + id);
+        }
+        
+        Person person = personOptional.get();
+        
+        // Kiểm tra xem có giao dịch nào tham chiếu đến thành viên này không
+        long transactionCount = personRepository.countTransactionsByContributorId(id);
+        if (transactionCount > 0) {
+            throw new IllegalStateException("Thành viên này đang được tham chiếu trong " + transactionCount + " giao dịch tài chính. Vui lòng xóa các giao dịch liên quan trước khi xóa thành viên.");
+        }
+        
+        // Xóa quan hệ gia đình trước khi xóa person
+        // Nullify spouse relationship
+        if (person.getSpouse() != null) {
+            Person spouse = person.getSpouse();
+            spouse.setSpouse(null);
+            personRepository.save(spouse);
+        }
+        
+        // Nullify children's relationships
+        List<Person> children = getChildren(person);
+        for (Person child : children) {
+            if (child.getFather() != null && child.getFather().getId().equals(id)) {
+                child.setFather(null);
+            }
+            if (child.getMother() != null && child.getMother().getId().equals(id)) {
+                child.setMother(null);
+            }
+            personRepository.save(child);
+        }
+        
         personRepository.deleteById(id);
+    }
+    
+    // Kiểm tra xem thành viên có thể xóa được không
+    public boolean canDeletePerson(Long id) {
+        long transactionCount = personRepository.countTransactionsByContributorId(id);
+        return transactionCount == 0;
     }
 
     // Tìm kiếm theo tên
@@ -161,5 +201,54 @@ public class PersonService {
         LocalDate endDate = LocalDate.now().minusYears(minAge);
         LocalDate startDate = LocalDate.now().minusYears(maxAge);
         return personRepository.findByAgeRange(startDate, endDate);
+    }
+
+    // Các method hỗ trợ Family
+    // Lấy thành viên theo gia đình
+    public List<Person> getPersonsByFamily(Family family) {
+        return personRepository.findByFamily(family);
+    }
+
+    // Lấy thành viên không thuộc gia đình nào
+    public List<Person> getPersonsWithoutFamily() {
+        return personRepository.findByFamilyIsNull();
+    }
+
+    // Lấy thành viên theo ID gia đình
+    public List<Person> getPersonsByFamilyId(Long familyId) {
+        return personRepository.findByFamilyId(familyId);
+    }
+
+    // Đếm số thành viên trong gia đình
+    public long getPersonCountByFamily(Family family) {
+        return personRepository.countByFamily(family);
+    }
+
+    // Lấy con trai lớn tuổi nhất trong gia đình
+    public Person getOldestMaleInFamily(Family family) {
+        List<Person> oldestMales = personRepository.findOldestMaleInFamily(family);
+        return oldestMales.isEmpty() ? null : oldestMales.get(0);
+    }
+
+    // Cập nhật gia đình cho thành viên
+    public Person updatePersonFamily(Long personId, Family family) {
+        Optional<Person> personOptional = personRepository.findById(personId);
+        if (personOptional.isPresent()) {
+            Person person = personOptional.get();
+            person.setFamily(family);
+            return personRepository.save(person);
+        }
+        return null;
+    }
+
+    // Xóa gia đình khỏi thành viên
+    public Person removePersonFromFamily(Long personId) {
+        Optional<Person> personOptional = personRepository.findById(personId);
+        if (personOptional.isPresent()) {
+            Person person = personOptional.get();
+            person.setFamily(null);
+            return personRepository.save(person);
+        }
+        return null;
     }
 }

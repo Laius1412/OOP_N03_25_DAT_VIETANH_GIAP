@@ -43,6 +43,10 @@ public class Person {
     @JoinColumn(name = "spouse_id")
     private Person spouse;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "family_id")
+    private Family family;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -143,6 +147,14 @@ public class Person {
 
     public void setSpouse(Person spouse) {
         this.spouse = spouse;
+    }
+
+    public Family getFamily() {
+        return family;
+    }
+
+    public void setFamily(Family family) {
+        this.family = family;
     }
 
     public LocalDateTime getCreatedAt() {
