@@ -30,6 +30,9 @@ public class Event {
     @Column(name = "max_participants")
     private Integer maxParticipants;
 
+    @Column(name = "current_participants")
+    private Integer currentParticipants = 0;
+
     @Column(name = "created_by_id", nullable = false)
     private Long createdById; // tham chiếu User.id
 
@@ -42,6 +45,10 @@ public class Event {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private EventStatus status = EventStatus.UPCOMING;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "recurrence", nullable = false)
+    private EventRecurrenceType recurrence = EventRecurrenceType.NONE;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -90,6 +97,9 @@ public class Event {
     public Integer getMaxParticipants() { return maxParticipants; }
     public void setMaxParticipants(Integer maxParticipants) { this.maxParticipants = maxParticipants; }
 
+    public Integer getCurrentParticipants() { return currentParticipants; }
+    public void setCurrentParticipants(Integer currentParticipants) { this.currentParticipants = currentParticipants; }
+
     public Long getCreatedById() { return createdById; }
     public void setCreatedById(Long createdById) { this.createdById = createdById; }
 
@@ -101,6 +111,9 @@ public class Event {
 
     public EventStatus getStatus() { return status; }
     public void setStatus(EventStatus status) { this.status = status; }
+
+    public EventRecurrenceType getRecurrence() { return recurrence; }
+    public void setRecurrence(EventRecurrenceType recurrence) { this.recurrence = recurrence; }
 
     public EventCategory getCategory() { return category; }
     public void setCategory(EventCategory category) { this.category = category; }
