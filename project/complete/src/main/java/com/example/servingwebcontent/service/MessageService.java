@@ -1,4 +1,4 @@
-package com.example.servingwebcontent.Service;
+package com.example.servingwebcontent.service;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
