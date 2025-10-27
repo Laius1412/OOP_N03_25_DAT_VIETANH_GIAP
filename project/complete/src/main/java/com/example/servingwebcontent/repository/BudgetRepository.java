@@ -11,4 +11,5 @@ import java.util.List;
 public interface BudgetRepository extends JpaRepository<Budget, Long> {
     List<Budget> findByCreatedByIdOrderByCreatedAtDesc(Long createdById);
     List<Budget> findByCreatedByIdAndStatus(Long createdById, BudgetStatus status);
+    List<Budget> findAllByOrderByCreatedAtDesc();
 }

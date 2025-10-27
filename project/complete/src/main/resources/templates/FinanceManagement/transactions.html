@@ -183,7 +183,7 @@
                                 </h4>
                                 <p class="mb-0 mt-2">Theo dõi và quản lý các giao dịch thu chi của dòng họ</p>
                             </div>
-                            <div class="col-md-4 text-end">
+                            <div class="col-md-4 text-end" th:if="${session.user != null and (session.user.role.name() == 'ADMIN' or session.user.role.name() == 'FINANCE_MANAGER')}">
                                 <a href="/finance/transactions/add" class="btn btn-primary">
                                     <i class="fas fa-plus me-2"></i>Thêm giao dịch mới
                                 </a>
