@@ -269,10 +269,6 @@
                 <p class="text-muted mb-0">Xem thông tin các thành viên trong gia đình</p>
             </div>
             <div class="d-flex gap-2">
-                <a href="/home" class="btn btn-outline-secondary">
-                    <i class="fas fa-home me-2"></i>
-                    Trang chủ
-                </a>
                 <div th:if="${user.role.name() == 'ADMIN' or user.role.name() == 'MEMBER_MANAGER'}">
                     <a href="/members/add" class="btn btn-primary">
                         <i class="fas fa-plus me-2"></i>
