@@ -61,35 +61,84 @@
             cursor: pointer;
         }
         
+        /* Loại bỏ transform scale để tránh nhảy layout */
+        
         .person-node rect {
             fill: #667eea;
             stroke: #764ba2;
-            stroke-width: 2px;
-            rx: 5;
+            stroke-width: 3px;
+            rx: 8;
+            transition: stroke-width 0.2s, filter 0.2s;
+            pointer-events: all;
         }
         
         .person-node.female rect {
             fill: #f093fb;
+            stroke: #e91e63;
         }
         
         .person-node.male rect {
             fill: #4facfe;
+            stroke: #2196f3;
         }
         
-        .person-node.spouse rect {
-            fill: #56ab2f;
+        .person-node .avatar-circle {
+            fill: rgba(255, 255, 255, 0.3);
+            stroke: white;
+            stroke-width: 2px;
+            transition: stroke-width 0.2s;
+            pointer-events: none;
         }
         
-        .person-node text {
+        .person-node .avatar-icon {
+            font-size: 28px;
+            pointer-events: none;
+        }
+        
+        .person-node .person-name {
             fill: white;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 10px;
+            font-weight: 700;
             text-anchor: middle;
+            pointer-events: none;
+            user-select: none;
         }
         
+        .person-node .person-name-long {
+            fill: white;
+            font-size: 9px;
+            font-weight: 700;
+            text-anchor: middle;
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .person-node .person-year {
+            fill: rgba(255, 255, 255, 0.9);
+            font-size: 10px;
+            text-anchor: middle;
+            font-weight: 500;
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .person-node circle {
+            pointer-events: none;
+        }
+        
+        /* Hover trên toàn node nhưng không scale - chỉ thay đổi màu sắc */
         .person-node:hover rect {
+            stroke-width: 4px;
+            filter: brightness(1.15);
+        }
+        
+        .person-node:hover .avatar-circle {
             stroke-width: 3px;
-            filter: brightness(1.1);
+        }
+        
+        /* Đảm bảo text không trigger hover state */
+        .person-node text {
+            pointer-events: none;
         }
         
         .link {
@@ -111,7 +160,8 @@
             color: white;
             border-radius: 15px;
             padding: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 0;
+            height: 100%;
         }
         
         .stats-card h3 {
@@ -142,6 +192,136 @@
             color: #667eea;
             min-width: 120px;
             display: inline-block;
+        }
+        
+        /* Loading Overlay */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            border-radius: 10px;
+        }
+        
+        .loading-overlay.show {
+            display: flex;
+        }
+        
+        .loading-spinner {
+            text-align: center;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: #667eea;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .tree-container {
+            position: relative;
+        }
+        
+        /* Tree Search */
+        .tree-search-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            min-width: 250px;
+        }
+        
+        .tree-search-container input {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 8px 35px 8px 10px;
+            width: 100%;
+        }
+        
+        .tree-search-container .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 18px;
+            color: #667eea;
+        }
+        
+        .person-node.highlighted rect {
+            stroke: #ff6b6b !important;
+            stroke-width: 5px !important;
+            filter: brightness(1.2);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                stroke-width: 5px;
+            }
+            50% {
+                stroke-width: 6px;
+            }
+        }
+        
+        .btn-loading {
+            opacity: 0.7;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .btn-loading i {
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Person Search Dropdown */
+        #personDropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            margin-top: 2px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+        
+        #personDropdown .dropdown-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        #personDropdown .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        #personDropdown .dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .position-relative {
+            position: relative;
         }
     </style>
 </head>
@@ -213,15 +393,25 @@
             <div class="control-panel">
                 <div class="row align-items-end">
                     <div class="col-md-6">
-                        <label class="form-label">Chọn người để bắt đầu cây gia phả:</label>
-                        <select class="form-select" id="rootSelect">
-                            <option value="">-- Chọn người --</option>
-                            <option th:each="person : ${allPersons}" 
-                                    th:value="${person.id}" 
-                                    th:text="${person.name}"
-                                    th:selected="${selectedRootId == person.id}">
-                            </option>
-                        </select>
+                        <label class="form-label">Chọn người để bắt đầu cây gia phả (chỉ con trai):</label>
+                        <div class="position-relative">
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="personSearchInput" 
+                                   placeholder="Tìm kiếm theo tên..."
+                                   autocomplete="off"
+                                   th:data-selected-id="${selectedRootId}">
+                            <div class="dropdown-menu w-100" id="personDropdown" style="max-height: 300px; overflow-y: auto; display: none;">
+                                <!-- Options will be populated by JavaScript -->
+                            </div>
+                            <input type="hidden" id="rootSelect" value="">
+                            <script th:inline="javascript">
+                                /*<![CDATA[*/
+                                window.allPersonsData = /*[[${allPersonsJson}]]*/ [];
+                                window.selectedRootId = /*[[${selectedRootId}]]*/ null;
+                                /*]]>*/
+                            </script>
+                        </div>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">Chế độ hiển thị:</label>
@@ -240,14 +430,14 @@
             </div>
 
             <!-- Statistics -->
-            <div class="row mb-4" id="statsPanel" style="display: none;">
-                <div class="col-md-6">
+            <div class="row mb-4 g-3" id="statsPanel" style="display: none;">
+                <div class="col-6">
                     <div class="stats-card">
                         <h3 id="totalPeople">0</h3>
                         <p><i class="fas fa-users"></i> Tổng số người trong cây</p>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-6">
                     <div class="stats-card">
                         <h3 id="maxGeneration">0</h3>
                         <p><i class="fas fa-layer-group"></i> Số thế hệ</p>
@@ -257,7 +447,30 @@
 
             <!-- Tree Container -->
             <div class="tree-container" id="treeContainer">
-                <div class="text-center text-muted py-5">
+                <!-- Tree Search Box -->
+                <div class="tree-search-container" id="treeSearchContainer" style="display: none;">
+                    <div class="position-relative">
+                        <input type="text" 
+                               class="form-control" 
+                               id="treeSearchInput" 
+                               placeholder="Tìm kiếm trong cây..."
+                               autocomplete="off">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div id="searchResults" class="mt-2" style="display: none;">
+                        <small class="text-muted" id="searchResultsText"></small>
+                    </div>
+                </div>
+                
+                <!-- Loading Overlay -->
+                <div class="loading-overlay" id="loadingOverlay">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <div class="loading-text">Đang tải cây gia phả...</div>
+                    </div>
+                </div>
+                
+                <div class="text-center text-muted py-5" id="emptyState">
                     <i class="fas fa-sitemap fa-3x mb-3"></i>
                     <p>Chọn người để bắt đầu hiển thị cây gia phả</p>
                 </div>
@@ -289,10 +502,134 @@
         let svg, width, height;
         let tree = d3.tree();
         let root = null;
+        let currentZoom = null;
+        let d3Root = null;
+        let g = null;
+        
+        // Lưu danh sách tất cả nam giới
+        let allMales = [];
+        
+        // Khởi tạo danh sách nam giới từ server
+        function initializeMales() {
+            // Lấy dữ liệu từ window (đã được set từ Thymeleaf)
+            const allPersons = window.allPersonsData || [];
+            
+            // Filter chỉ lấy nam giới (MALE hoặc "Nam")
+            allMales = allPersons.filter(p => {
+                const gender = (p.gender || "").toLowerCase();
+                const genderDisplay = (p.genderDisplay || "").toLowerCase();
+                return gender === "male" || gender === "nam" || gender === "m" ||
+                       genderDisplay === "nam" || genderDisplay === "male";
+            });
+            
+            // Nếu có selectedRootId, set giá trị mặc định
+            const selectedId = window.selectedRootId;
+            if (selectedId) {
+                const selectedPerson = allMales.find(p => p.id == selectedId);
+                if (selectedPerson) {
+                    const searchInput = document.getElementById("personSearchInput");
+                    const hiddenInput = document.getElementById("rootSelect");
+                    if (searchInput) searchInput.value = selectedPerson.name || "";
+                    if (hiddenInput) hiddenInput.value = selectedPerson.id || "";
+                }
+            }
+        }
+        
+        // Xử lý tìm kiếm
+        function setupPersonSearch() {
+            const searchInput = document.getElementById("personSearchInput");
+            const dropdown = document.getElementById("personDropdown");
+            const hiddenInput = document.getElementById("rootSelect");
+            
+            searchInput.addEventListener("input", function() {
+                const query = this.value.toLowerCase().trim();
+                
+                if (query.length === 0) {
+                    dropdown.style.display = "none";
+                    hiddenInput.value = "";
+                    return;
+                }
+                
+                // Lọc danh sách theo tên
+                const filtered = allMales.filter(person => 
+                    person.name.toLowerCase().includes(query)
+                );
+                
+                // Hiển thị kết quả
+                if (filtered.length > 0) {
+                    dropdown.innerHTML = filtered.map(person => `
+                        <div class="dropdown-item" data-id="${person.id}" data-name="${person.name}">
+                            ${person.name}
+                        </div>
+                    `).join("");
+                    dropdown.style.display = "block";
+                    
+                    // Thêm event listeners cho các items
+                    dropdown.querySelectorAll(".dropdown-item").forEach(item => {
+                        item.addEventListener("click", function() {
+                            const personId = this.getAttribute("data-id");
+                            const personName = this.getAttribute("data-name");
+                            searchInput.value = personName;
+                            hiddenInput.value = personId;
+                            dropdown.style.display = "none";
+                            // Tự động load tree nếu đã chọn
+                            if (personId) {
+                                loadTree();
+                            }
+                        });
+                    });
+                } else {
+                    dropdown.innerHTML = '<div class="dropdown-item text-muted">Không tìm thấy</div>';
+                    dropdown.style.display = "block";
+                    hiddenInput.value = "";
+                }
+            });
+            
+            // Đóng dropdown khi click bên ngoài
+            document.addEventListener("click", function(e) {
+                if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.style.display = "none";
+                }
+            });
+            
+            // Mở dropdown khi focus vào input
+            searchInput.addEventListener("focus", function() {
+                if (this.value.length > 0) {
+                    this.dispatchEvent(new Event("input"));
+                } else {
+                    // Hiển thị tất cả nam giới nếu chưa nhập gì
+                    dropdown.innerHTML = allMales.map(person => `
+                        <div class="dropdown-item" data-id="${person.id}" data-name="${person.name}">
+                            ${person.name}
+                        </div>
+                    `).join("");
+                    
+                    dropdown.querySelectorAll(".dropdown-item").forEach(item => {
+                        item.addEventListener("click", function() {
+                            const personId = this.getAttribute("data-id");
+                            const personName = this.getAttribute("data-name");
+                            searchInput.value = personName;
+                            hiddenInput.value = personId;
+                            dropdown.style.display = "none";
+                            if (personId) {
+                                loadTree();
+                            }
+                        });
+                    });
+                    
+                    dropdown.style.display = "block";
+                }
+            });
+        }
 
         // Initialize SVG
         function initSVG() {
             d3.select("#treeContainer").select("svg").remove();
+            
+            const emptyState = document.getElementById("emptyState");
+            if (emptyState) {
+                emptyState.style.display = "none";
+            }
             
             width = document.getElementById("treeContainer").offsetWidth;
             height = Math.max(600, width * 0.6);
@@ -315,25 +652,67 @@
                 .attr("d", "M0,-5L10,0L0,5");
         }
 
+        // Show loading
+        function showLoading() {
+            const loadingOverlay = document.getElementById("loadingOverlay");
+            const emptyState = document.getElementById("emptyState");
+            const loadButton = document.querySelector("button[onclick='loadTree()']");
+            
+            if (loadingOverlay) {
+                loadingOverlay.classList.add("show");
+            }
+            if (emptyState) {
+                emptyState.style.display = "none";
+            }
+            if (loadButton) {
+                loadButton.classList.add("btn-loading");
+                loadButton.disabled = true;
+            }
+        }
+        
+        // Hide loading
+        function hideLoading() {
+            const loadingOverlay = document.getElementById("loadingOverlay");
+            const loadButton = document.querySelector("button[onclick='loadTree()']");
+            
+            if (loadingOverlay) {
+                loadingOverlay.classList.remove("show");
+            }
+            if (loadButton) {
+                loadButton.classList.remove("btn-loading");
+                loadButton.disabled = false;
+            }
+        }
+
         // Load tree data
         async function loadTree() {
             const rootSelect = document.getElementById("rootSelect");
-            const selectedRootId = rootSelect.value;
+            const selectedRootId = rootSelect ? rootSelect.value : null;
             
             if (!selectedRootId) {
                 alert("Vui lòng chọn người để bắt đầu!");
                 return;
             }
             
+            // Hiển thị loading
+            showLoading();
+            
             const viewMode = document.getElementById("viewMode").value;
             const mode = viewMode === "full" ? "" : viewMode;
             
             try {
                 const response = await fetch(`/family-tree/api/data/${selectedRootId}?mode=${mode}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
                 
                 if (data) {
                     treeData = data;
+                    // Thêm delay nhỏ để hiển thị loading ít nhất 500ms
+                    await new Promise(resolve => setTimeout(resolve, 500));
                     drawTree();
                     updateStats();
                 } else {
@@ -342,6 +721,9 @@
             } catch (error) {
                 console.error("Error loading tree:", error);
                 alert("Có lỗi xảy ra khi tải cây gia phả!");
+            } finally {
+                // Ẩn loading
+                hideLoading();
             }
         }
 
@@ -379,26 +761,52 @@
             
             initSVG();
             
-            const d3Root = d3.hierarchy(treeData);
+            d3Root = d3.hierarchy(treeData);
             
-            tree.nodeSize([150, 250]);
+            // Node size - vuông, tăng kích thước để hiển thị đầy đủ tên
+            const nodeSize = 140;
+            tree.nodeSize([nodeSize + 30, nodeSize + 100]);
             tree(d3Root);
             
-            const g = svg.append("g")
-                .attr("transform", `translate(${width/2 - treeData.name.length * 3}, 50)`);
+            g = svg.append("g")
+                .attr("transform", `translate(${width/2}, 50)`);
             
-            // Draw links
+            // Khai báo transform cho zoom
+            let currentTransform = d3.zoomIdentity;
+            
+            // Draw links - đường vuông góc (orthogonal)
             g.selectAll(".link")
                 .data(d3Root.links())
                 .enter()
                 .append("path")
                 .attr("class", "link")
-                .attr("d", d => `
-                    M${d.source.x},${d.source.y}
-                    C${d.source.x},${(d.source.y + d.target.y) / 2}
-                     ${d.target.x},${(d.source.y + d.target.y) / 2}
-                     ${d.target.x},${d.target.y}
-                `);
+                .attr("d", d => {
+                    const sourceY = d.source.y + nodeSize/2;
+                    const targetY = d.target.y - nodeSize/2;
+                    const midY = (d.source.y + d.target.y) / 2;
+                    
+                    // Đường vuông góc: đi xuống từ source, sang ngang, rồi đi lên đến target
+                    return `
+                        M${d.source.x},${sourceY}
+                        L${d.source.x},${midY}
+                        L${d.target.x},${midY}
+                        L${d.target.x},${targetY}
+                    `;
+                });
+            
+            // Helper function to determine gender
+            function getGenderClass(gender) {
+                if (!gender) return "male";
+                const g = gender.toLowerCase();
+                if (g === "nữ" || g === "female") return "female";
+                return "male";
+            }
+            
+            function isFemale(gender) {
+                if (!gender) return false;
+                const g = gender.toLowerCase();
+                return g === "nữ" || g === "female";
+            }
             
             // Draw nodes
             const node = g.selectAll(".person-node")
@@ -406,51 +814,292 @@
                 .enter()
                 .append("g")
                 .attr("class", d => {
-                    const personGender = d.data.gender ? d.data.gender.toLowerCase() : "male";
-                    return `person-node ${personGender}`;
+                    return `person-node ${getGenderClass(d.data.gender)}`;
                 })
-                .attr("transform", d => `translate(${d.x},${d.y})`)
-                .on("click", function(_, d) {
-                    showPersonDetail(d.data);
-                });
+                .attr("transform", d => `translate(${d.x},${d.y})`);
             
-            // Add rectangles for nodes
+            // Add square rectangles for nodes (vuông) - đây là phần chính để click
             node.append("rect")
-                .attr("x", -50)
-                .attr("y", -25)
-                .attr("width", 100)
-                .attr("height", 50)
-                .attr("rx", 5);
-            
-            // Add text for names
-            node.append("text")
-                .attr("text-anchor", "middle")
-                .attr("dy", -10)
-                .text(d => d.data.name);
-            
-            // Add text for age
-            node.append("text")
-                .attr("text-anchor", "middle")
-                .attr("dy", 5)
-                .attr("font-size", "10px")
-                .text(d => {
-                    if (d.data.dob) {
-                        const dob = new Date(d.data.dob);
-                        const dod = d.data.dod ? new Date(d.data.dod) : new Date();
-                        const age = new Date(dod - dob).getFullYear() - 1970;
-                        return `${age} tuổi`;
+                .attr("x", -nodeSize/2)
+                .attr("y", -nodeSize/2)
+                .attr("width", nodeSize)
+                .attr("height", nodeSize)
+                .attr("rx", 8)
+                .style("cursor", "pointer")
+                .on("click", function(event, d) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    // Đảm bảo modal được mở đúng cách
+                    setTimeout(() => {
+                        showPersonDetail(d.data);
+                    }, 10);
+                })
+                .on("mousedown", function(event) {
+                    // Ngăn zoom khi bắt đầu click vào rect
+                    if (event.target.tagName === 'rect') {
+                        event.stopPropagation();
                     }
-                    return "";
                 });
             
-            // Zoom support
-            const zoom = d3.zoom()
+            // Add avatar circle
+            node.append("circle")
+                .attr("class", "avatar-circle")
+                .attr("cx", 0)
+                .attr("cy", -nodeSize/2 + 35)
+                .attr("r", 25);
+            
+            // Add avatar icon - sử dụng emoji
+            node.append("text")
+                .attr("class", "avatar-icon")
+                .attr("text-anchor", "middle")
+                .attr("dy", -nodeSize/2 + 48)
+                .attr("font-size", "28px")
+                .style("pointer-events", "none")
+                .text(d => {
+                    return isFemale(d.data.gender) ? "👩" : "👨";
+                });
+            
+            // Add name text - hiển thị đầy đủ, có thể xuống dòng
+            node.each(function(d) {
+                const name = d.data.name || "N/A";
+                const nodeGroup = d3.select(this);
+                const maxWidth = nodeSize - 10; // Chiều rộng tối đa cho text
+                const fontSize = 10;
+                const words = name.split(' ');
+                
+                // Tính toán để hiển thị đầy đủ tên
+                let line = '';
+                let yOffset = 18;
+                const lineHeight = fontSize + 2;
+                
+                words.forEach((word, i) => {
+                    const testLine = line + (line ? ' ' : '') + word;
+                    // Ước tính chiều rộng text (xấp xỉ)
+                    const textWidth = testLine.length * (fontSize * 0.6);
+                    
+                    if (textWidth > maxWidth && line) {
+                        // Thêm dòng hiện tại và bắt đầu dòng mới
+                        nodeGroup.append("text")
+                            .attr("class", "person-name")
+                            .attr("text-anchor", "middle")
+                            .attr("dy", yOffset)
+                            .text(line);
+                        line = word;
+                        yOffset += lineHeight;
+                    } else {
+                        line = testLine;
+                    }
+                });
+                
+                // Thêm dòng cuối cùng
+                nodeGroup.append("text")
+                    .attr("class", yOffset > 18 ? "person-name-long" : "person-name")
+                    .attr("text-anchor", "middle")
+                    .attr("dy", yOffset)
+                    .text(line);
+            });
+            
+            // Add year of birth and death - điều chỉnh vị trí dựa trên số dòng tên
+            node.each(function(d) {
+                const nodeGroup = d3.select(this);
+                const name = d.data.name || "N/A";
+                const words = name.split(' ');
+                const maxWidth = nodeSize - 10;
+                const fontSize = 10;
+                let line = '';
+                let lineCount = 1;
+                
+                words.forEach((word, i) => {
+                    const testLine = line + (line ? ' ' : '') + word;
+                    const textWidth = testLine.length * (fontSize * 0.6);
+                    
+                    if (textWidth > maxWidth && line) {
+                        lineCount++;
+                        line = word;
+                    } else {
+                        line = testLine;
+                    }
+                });
+                
+                // Vị trí năm dựa trên số dòng tên
+                const yearY = 18 + (lineCount * 12) + 8;
+                
+                // Tính toán thông tin năm
+                let yearInfo = "";
+                if (d.data.dob) {
+                    const birthYear = new Date(d.data.dob).getFullYear();
+                    yearInfo = birthYear.toString();
+                }
+                if (d.data.dod) {
+                    const deathYear = new Date(d.data.dod).getFullYear();
+                    yearInfo += yearInfo ? ` - ${deathYear}` : deathYear;
+                } else if (yearInfo) {
+                    yearInfo += " - ...";
+                }
+                
+                if (yearInfo) {
+                    nodeGroup.append("text")
+                        .attr("class", "person-year")
+                        .attr("text-anchor", "middle")
+                        .attr("dy", yearY)
+                        .text(yearInfo);
+                }
+            });
+            
+            // Zoom support - chỉ zoom khi không click vào node
+            currentZoom = d3.zoom()
                 .scaleExtent([0.1, 3])
+                .filter(function(event) {
+                    // Chỉ cho phép zoom với wheel (scroll) hoặc drag, không phải click đơn
+                    if (event.type === 'mousedown' || event.type === 'mousemove') {
+                        return true;
+                    }
+                    if (event.type === 'wheel') {
+                        return true;
+                    }
+                    // Không cho zoom khi click đơn vào rect
+                    if (event.type === 'click' && event.target && event.target.tagName === 'rect') {
+                        return false;
+                    }
+                    return true;
+                })
                 .on("zoom", function(event) {
+                    // Lưu transform hiện tại
+                    currentTransform = event.transform;
                     g.attr("transform", event.transform);
                 });
             
-            svg.call(zoom);
+            svg.call(currentZoom);
+            
+            // Hiển thị search box khi cây được vẽ
+            const searchContainer = document.getElementById("treeSearchContainer");
+            if (searchContainer) {
+                searchContainer.style.display = "block";
+            }
+        }
+        
+        // Tìm kiếm trong cây
+        function searchInTree(query) {
+            if (!d3Root || !query || query.trim().length === 0) {
+                removeHighlight();
+                return null;
+            }
+            
+            const searchTerm = query.toLowerCase().trim();
+            let foundNodes = [];
+            
+            // Tìm tất cả nodes có tên khớp
+            d3Root.each(d => {
+                const name = (d.data.name || "").toLowerCase();
+                if (name.includes(searchTerm)) {
+                    foundNodes.push(d);
+                }
+            });
+            
+            if (foundNodes.length === 0) {
+                const resultsDiv = document.getElementById("searchResults");
+                const resultsText = document.getElementById("searchResultsText");
+                if (resultsDiv && resultsText) {
+                    resultsDiv.style.display = "block";
+                    resultsText.textContent = "Không tìm thấy";
+                    resultsText.className = "text-danger";
+                }
+                removeHighlight();
+                return null;
+            }
+            
+            // Nếu có nhiều kết quả, lấy kết quả đầu tiên (hoặc có thể hiển thị danh sách)
+            const targetNode = foundNodes[0];
+            
+            // Hiển thị kết quả
+            const resultsDiv = document.getElementById("searchResults");
+            const resultsText = document.getElementById("searchResultsText");
+            if (resultsDiv && resultsText) {
+                resultsDiv.style.display = "block";
+                if (foundNodes.length > 1) {
+                    resultsText.textContent = `Tìm thấy ${foundNodes.length} kết quả. Hiển thị kết quả đầu tiên.`;
+                    resultsText.className = "text-info";
+                } else {
+                    resultsText.textContent = "Đã tìm thấy";
+                    resultsText.className = "text-success";
+                }
+            }
+            
+            // Zoom và highlight node
+            zoomToNode(targetNode);
+            highlightNode(targetNode);
+            
+            return targetNode;
+        }
+        
+        // Zoom đến node
+        function zoomToNode(node) {
+            if (!svg || !g || !node || !currentZoom) return;
+            
+            // Lấy transform hiện tại của g
+            const currentTransform = d3.select(g.node()).attr("transform");
+            
+            // Vị trí node trong cây
+            const nodeX = node.x;
+            const nodeY = node.y;
+            
+            // Tính toán để đưa node vào giữa màn hình với scale = 2
+            const scale = 2;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            
+            // Transform để node xuất hiện ở giữa
+            // Node ban đầu ở (nodeX, nodeY) với g transform là (width/2, 50)
+            // Vị trí thực tế trên SVG: (width/2 + nodeX, 50 + nodeY)
+            // Muốn node ở (centerX, centerY) sau khi scale
+            // translate = center - node * scale
+            const tx = centerX - nodeX * scale;
+            const ty = centerY - nodeY * scale;
+            
+            // Tạo transform mới
+            const transform = d3.zoomIdentity
+                .translate(tx, ty)
+                .scale(scale);
+            
+            // Animate zoom với smooth transition
+            svg.transition()
+                .duration(750)
+                .ease(d3.easeCubicOut)
+                .call(currentZoom.transform, transform);
+        }
+        
+        // Highlight node
+        function highlightNode(node) {
+            if (!g || !node) return;
+            
+            // Bỏ highlight cũ
+            removeHighlight();
+            
+            // Tìm node element và highlight
+            const nodeElement = g.selectAll(".person-node")
+                .filter(d => d.data.id === node.data.id);
+            
+            if (nodeElement.size() > 0) {
+                nodeElement.node().classList.add("highlighted");
+                
+                // Tự động bỏ highlight sau 5 giây
+                setTimeout(() => {
+                    removeHighlight();
+                }, 5000);
+            }
+        }
+        
+        // Bỏ highlight
+        function removeHighlight() {
+            if (!g) return;
+            g.selectAll(".person-node").each(function() {
+                this.classList.remove("highlighted");
+            });
+            
+            const resultsDiv = document.getElementById("searchResults");
+            if (resultsDiv) {
+                resultsDiv.style.display = "none";
+            }
         }
 
         // Show person detail
@@ -497,7 +1146,7 @@
         // Update statistics
         async function updateStats() {
             const rootSelect = document.getElementById("rootSelect");
-            const selectedRootId = rootSelect.value;
+            const selectedRootId = rootSelect ? rootSelect.value : null;
             
             if (!selectedRootId) return;
             
@@ -516,19 +1165,51 @@
         }
 
         // Event listeners
-        document.getElementById("rootSelect").addEventListener("change", function() {
-            if (this.value) {
-                loadTree();
-            }
-        });
-
         document.getElementById("viewMode").addEventListener("change", function() {
             const rootSelect = document.getElementById("rootSelect");
             if (rootSelect.value) {
                 loadTree();
             }
         });
+        
+        // Setup tree search
+        function setupTreeSearch() {
+            const searchInput = document.getElementById("treeSearchInput");
+            if (!searchInput) return;
+            
+            let searchTimeout = null;
+            
+            searchInput.addEventListener("input", function() {
+                const query = this.value;
+                
+                // Clear timeout trước đó
+                if (searchTimeout) {
+                    clearTimeout(searchTimeout);
+                }
+                
+                // Debounce search
+                searchTimeout = setTimeout(() => {
+                    searchInTree(query);
+                }, 300);
+            });
+            
+            // Clear search khi nhấn Escape
+            searchInput.addEventListener("keydown", function(e) {
+                if (e.key === "Escape") {
+                    this.value = "";
+                    removeHighlight();
+                }
+            });
+        }
+        
+        // Khởi tạo search khi trang load
+        document.addEventListener("DOMContentLoaded", function() {
+            initializeMales();
+            setupPersonSearch();
+            setupTreeSearch();
+        });
     </script>
 </body>
 </html>
+
 

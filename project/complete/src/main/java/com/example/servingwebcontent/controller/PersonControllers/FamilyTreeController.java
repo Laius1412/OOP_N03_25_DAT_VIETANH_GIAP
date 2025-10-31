@@ -39,6 +39,19 @@ public class FamilyTreeController {
         // Lấy danh sách tất cả người để làm root
         List<Person> allPersons = personService.getAllPersons();
         model.addAttribute("allPersons", allPersons);
+        
+        // Chuyển đổi Person thành Map để dễ serialize thành JSON
+        List<java.util.Map<String, Object>> personsJson = allPersons.stream()
+            .map(person -> {
+                java.util.Map<String, Object> personMap = new java.util.HashMap<>();
+                personMap.put("id", person.getId());
+                personMap.put("name", person.getName());
+                personMap.put("gender", person.getGender() != null ? person.getGender().name() : "");
+                personMap.put("genderDisplay", person.getGender() != null ? person.getGender().getDisplayName() : "");
+                return personMap;
+            })
+            .collect(java.util.stream.Collectors.toList());
+        model.addAttribute("allPersonsJson", personsJson);
 
         // Nếu có rootId, lấy thông tin người đó
         if (rootId != null) {
