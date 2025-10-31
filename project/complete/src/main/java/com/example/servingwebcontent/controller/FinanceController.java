@@ -617,4 +617,56 @@ public class FinanceController {
         
         return "redirect:/finance/reports";
     }
+
+    // Chi tiết báo cáo: xem danh sách thu/chi trong khoảng thời gian của báo cáo
+    @GetMapping("/reports/{id}")
+    public String reportDetail(@PathVariable Long id, HttpSession session, Model model) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+        Optional<FinancialReport> reportOpt = financialReportRepository.findById(id);
+        if (reportOpt.isEmpty()) {
+            return "redirect:/finance/reports";
+        }
+        FinancialReport report = reportOpt.get();
+        List<Transaction> transactions = transactionRepository.findByTransactionDateBetween(report.getStartDate(), report.getEndDate());
+
+        List<Transaction> incomeTransactions = transactions.stream()
+                .filter(t -> t.getTransactionType() == TransactionType.INCOME)
+                .sorted((a,b) -> b.getTransactionDate().compareTo(a.getTransactionDate()))
+                .toList();
+        List<Transaction> expenseTransactions = transactions.stream()
+                .filter(t -> t.getTransactionType() == TransactionType.EXPENSE)
+                .sorted((a,b) -> b.getTransactionDate().compareTo(a.getTransactionDate()))
+                .toList();
+
+        BigDecimal totalIncome = incomeTransactions.stream().map(Transaction::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalExpense = expenseTransactions.stream().map(Transaction::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        model.addAttribute("report", report);
+        model.addAttribute("incomeTransactions", incomeTransactions);
+        model.addAttribute("expenseTransactions", expenseTransactions);
+        model.addAttribute("totalIncome", totalIncome);
+        model.addAttribute("totalExpense", totalExpense);
+        model.addAttribute("net", totalIncome.subtract(totalExpense));
+
+        return "FinanceManagement/report-detail";
+    }
+
+    // Xóa báo cáo
+    @GetMapping("/reports/delete/{id}")
+    @Transactional
+    public String deleteReport(@PathVariable Long id, HttpSession session, RedirectAttributes redirectAttributes) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+        User currentUser = (User) session.getAttribute("user");
+        if (!(currentUser.getRole() == Role.ADMIN || currentUser.getRole() == Role.FINANCE_MANAGER)) {
+            redirectAttributes.addFlashAttribute("error", "Bạn không có quyền xóa báo cáo.");
+            return "redirect:/finance/reports";
+        }
+        financialReportRepository.deleteById(id);
+        redirectAttributes.addFlashAttribute("success", "Đã xóa báo cáo.");
+        return "redirect:/finance/reports";
+    }
 }
