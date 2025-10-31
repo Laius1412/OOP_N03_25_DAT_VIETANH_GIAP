@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết Báo cáo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .main-navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 2px 20px rgba(0,0,0,0.1); padding: 15px 30px; position: sticky; top: 0; z-index: 1000; }
+        .navbar-brand { color: white; font-size: 20px; font-weight: 600; text-decoration: none; display: flex; align-items: center; }
+        .navbar-brand:hover { color: white; }
+        .navbar-brand i { margin-right: 10px; }
+        .navbar-nav { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 20px; list-style: none; margin: 0; padding: 0; white-space: nowrap; }
+        .nav-link { color: rgba(255,255,255,0.9); padding: 10px 15px; border-radius: 5px; text-decoration: none; transition: .3s; display: flex; align-items: center; }
+        .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-link.active { background: rgba(255,255,255,0.15); color: white; }
+        .nav-link i { margin-right: 8px; }
+        .card { border: none; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); background: rgba(255,255,255,0.9); }
+        .card-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px 15px 0 0 !important; border: none; }
+        .stats-card { background: rgba(255,255,255,0.9); border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .income { color: #28a745; font-weight: 700; }
+        .expense { color: #dc3545; font-weight: 700; }
+    </style>
+</head>
+<body>
+<nav class="main-navbar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <a href="/finance/reports" class="navbar-brand">
+            <i class="fas fa-file-alt"></i>
+            Chi tiết báo cáo
+        </a>
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="/finance"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/finance/reports"><i class="fas fa-file-alt"></i>Báo cáo</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <!-- Header -->
+    <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-0" th:text="${report.reportName}">Báo cáo</h5>
+                <small>
+                    <i class="fas fa-calendar me-1"></i>
+                    <span th:text="${#temporals.format(report.startDate, 'dd/MM/yyyy')}">Từ ngày</span>
+                    -
+                    <span th:text="${#temporals.format(report.endDate, 'dd/MM/yyyy')}">Đến ngày</span>
+                </small>
+            </div>
+            <span class="badge bg-info" th:text="${report.reportType.displayName}">Loại</span>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <div class="text-muted">Tổng thu</div>
+                        <div class="income" th:text="${#numbers.formatDecimal(totalIncome,0,'COMMA',0,'POINT')}">0</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <div class="text-muted">Tổng chi</div>
+                        <div class="expense" th:text="${#numbers.formatDecimal(totalExpense,0,'COMMA',0,'POINT')}">0</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card">
+                        <div class="text-muted">Lãi/Lỗ</div>
+                        <div th:classappend="${net >= 0} ? 'income' : 'expense'" th:text="${#numbers.formatDecimal(net,0,'COMMA',0,'POINT')}">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-arrow-up me-2"></i>Khoản thu</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped align-middle">
+                            <thead>
+                            <tr>
+                                <th>Ngày</th>
+                                <th>Tiêu đề</th>
+                                <th>Danh mục</th>
+                                <th class="text-end">Số tiền</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="t : ${incomeTransactions}">
+                                <td th:text="${#temporals.format(t.transactionDate, 'dd/MM/yyyy')}">01/01/2025</td>
+                                <td th:text="${t.title}">Tiêu đề</td>
+                                <td th:text="${t.category != null ? t.category.name : 'Khác'}">Danh mục</td>
+                                <td class="text-end" th:text="${#numbers.formatDecimal(t.amount,0,'COMMA',0,'POINT')}">0</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-header"><i class="fas fa-arrow-down me-2"></i>Khoản chi</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped align-middle">
+                            <thead>
+                            <tr>
+                                <th>Ngày</th>
+                                <th>Tiêu đề</th>
+                                <th>Danh mục</th>
+                                <th class="text-end">Số tiền</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="t : ${expenseTransactions}">
+                                <td th:text="${#temporals.format(t.transactionDate, 'dd/MM/yyyy')}">01/01/2025</td>
+                                <td th:text="${t.title}">Tiêu đề</td>
+                                <td th:text="${t.category != null ? t.category.name : 'Khác'}">Danh mục</td>
+                                <td class="text-end" th:text="${#numbers.formatDecimal(t.amount,0,'COMMA',0,'POINT')}">0</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
