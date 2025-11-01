@@ -27,9 +27,6 @@ public class FinanceController {
     private TransactionRepository transactionRepository;
     
     @Autowired
-    private BudgetRepository budgetRepository;
-    
-    @Autowired
     private FinancialReportRepository financialReportRepository;
     
     @Autowired
@@ -479,58 +476,7 @@ public class FinanceController {
         return "redirect:/finance/transactions";
     }
     
-    // Quản lý ngân sách
-    @GetMapping("/budgets")
-    public String budgetsList(HttpSession session, Model model) {
-        if (session.getAttribute("user") == null) {
-            return "redirect:/login";
-        }
-        // Mọi user đều xem được toàn bộ ngân sách
-        List<Budget> budgets = budgetRepository.findAllByOrderByCreatedAtDesc();
-        List<FinanceCategory> categories = financeCategoryRepository.findByIsActiveTrue();
-        
-        model.addAttribute("budgets", budgets);
-        model.addAttribute("categories", categories);
-        model.addAttribute("budgetStatuses", BudgetStatus.values());
-        
-        return "FinanceManagement/budgets";
-    }
-    
-    @GetMapping("/budgets/add")
-    public String addBudgetForm(HttpSession session, Model model) {
-        if (session.getAttribute("user") == null) {
-            return "redirect:/login";
-        }
-        User currentUser = (User) session.getAttribute("user");
-        if (!(currentUser.getRole() == Role.ADMIN || currentUser.getRole() == Role.FINANCE_MANAGER)) {
-            return "redirect:/finance/budgets";
-        }
-        List<FinanceCategory> categories = financeCategoryRepository.findByIsActiveTrue();
-        
-        model.addAttribute("budget", new Budget());
-        model.addAttribute("categories", categories);
-        
-        return "FinanceManagement/budget-form";
-    }
-    
-    @PostMapping("/budgets/add")
-    public String addBudget(@ModelAttribute Budget budget, HttpSession session, RedirectAttributes redirectAttributes) {
-        if (session.getAttribute("user") == null) {
-            return "redirect:/login";
-        }
-        User currentUser = (User) session.getAttribute("user");
-        if (!(currentUser.getRole() == Role.ADMIN || currentUser.getRole() == Role.FINANCE_MANAGER)) {
-            redirectAttributes.addFlashAttribute("error", "Bạn không có quyền thêm ngân sách.");
-            return "redirect:/finance/budgets";
-        }
-        Long userId = currentUser.getId();
-        budget.setCreatedById(userId);
-        
-        budgetRepository.save(budget);
-        redirectAttributes.addFlashAttribute("success", "Ngân sách đã được thêm thành công!");
-        
-        return "redirect:/finance/budgets";
-    }
+
     
     // Báo cáo tài chính
     @GetMapping("/reports")
