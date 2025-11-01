@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "transactions")
-public class Transaction {
+public class Transaction extends AbstractFinanceEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +44,6 @@ public class Transaction {
     @Column(name = "receipt_number", length = 50)
     private String receiptNumber;
     
-    @Column(name = "notes", length = 500)
-    private String notes;
     
     // Thông tin thành viên đóng góp (tạm thời dùng text, sau sẽ liên kết với Member)
     @Column(name = "contributor_name", length = 100)
@@ -86,7 +84,7 @@ public class Transaction {
         this.transactionDate = transactionDate;
         this.paymentMethod = paymentMethod;
         this.receiptNumber = receiptNumber;
-        this.notes = notes;
+        this.setNotes(notes);
         this.contributorName = contributorName;
         this.contributorPhone = contributorPhone;
         this.contributorRelationship = contributorRelationship;
@@ -171,14 +169,6 @@ public class Transaction {
     
     public void setReceiptNumber(String receiptNumber) {
         this.receiptNumber = receiptNumber;
-    }
-    
-    public String getNotes() {
-        return notes;
-    }
-    
-    public void setNotes(String notes) {
-        this.notes = notes;
     }
     
     public LocalDateTime getCreatedAt() {

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "financial_reports")
-public class FinancialReport {
+public class FinancialReport extends AbstractFinanceEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,9 +48,6 @@ public class FinancialReport {
     @Column(name = "report_data", columnDefinition = "TEXT")
     private String reportData; // JSON data for detailed report
     
-    @Column(name = "notes", length = 500)
-    private String notes;
-    
     // Constructors
     public FinancialReport() {}
     
@@ -67,7 +64,7 @@ public class FinancialReport {
         this.netBalance = totalIncome.subtract(totalExpense);
         this.transactionCount = transactionCount;
         this.generatedById = generatedById;
-        this.notes = notes;
+        this.setNotes(notes);
     }
     
     // Getters and Setters
@@ -167,14 +164,6 @@ public class FinancialReport {
     
     public void setReportData(String reportData) {
         this.reportData = reportData;
-    }
-    
-    public String getNotes() {
-        return notes;
-    }
-    
-    public void setNotes(String notes) {
-        this.notes = notes;
     }
     
     // Utility methods
