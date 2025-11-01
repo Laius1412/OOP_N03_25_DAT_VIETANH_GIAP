@@ -1,7 +1,7 @@
 package com.example.servingwebcontent.controller.PersonControllers;
 
-import com.example.servingwebcontent.Model.User;
-import com.example.servingwebcontent.Model.PersonManagement.Person;
+import com.example.servingwebcontent.model.User;
+import com.example.servingwebcontent.model.PersonManagement.Person;
 import com.example.servingwebcontent.service.FamilyTreeService;
 import com.example.servingwebcontent.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;

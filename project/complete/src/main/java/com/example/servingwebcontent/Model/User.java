@@ -1,4 +1,4 @@
-package com.example.servingwebcontent.Model;
+package com.example.servingwebcontent.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.example.servingwebcontent.Model.EventManagement;
+package com.example.servingwebcontent.model.EventManagement;
 
 public enum EventStatus {
     UPCOMING,

@@ -1,7 +1,7 @@
 package com.example.servingwebcontent.repository;
 
-import com.example.servingwebcontent.Model.FinanceManagement.Transaction;
-import com.example.servingwebcontent.Model.FinanceManagement.TransactionType;
+import com.example.servingwebcontent.model.FinanceManagement.Transaction;
+import com.example.servingwebcontent.model.FinanceManagement.TransactionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

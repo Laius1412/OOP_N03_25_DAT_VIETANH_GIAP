@@ -1,8 +1,8 @@
 package com.example.servingwebcontent.repository;
 
-import com.example.servingwebcontent.Model.PersonManagement.Gender;
-import com.example.servingwebcontent.Model.PersonManagement.Person;
-import com.example.servingwebcontent.Model.PersonManagement.Family;
+import com.example.servingwebcontent.model.PersonManagement.Gender;
+import com.example.servingwebcontent.model.PersonManagement.Person;
+import com.example.servingwebcontent.model.PersonManagement.Family;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

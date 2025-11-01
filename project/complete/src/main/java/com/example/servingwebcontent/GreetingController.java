@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.servingwebcontent.Model.User;
+import com.example.servingwebcontent.model.User;
 
 @Controller
 public class GreetingController {
@@ -14,7 +14,7 @@ public class GreetingController {
 
 	@GetMapping("/greeting")
 	public String User(Model model) {
-		model.addAttribute("User", new User());
+		model.addAttribute("User", new com.example.servingwebcontent.model.User());
 
 		return "useradd";
 	}

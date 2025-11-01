@@ -1,4 +1,4 @@
-package com.example.servingwebcontent.Model.FinanceManagement;
+package com.example.servingwebcontent.model.FinanceManagement;
 
 public enum ReportType {
     MONTHLY("MONTHLY", "Báo cáo tháng", "Báo cáo tài chính theo tháng"),

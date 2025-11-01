@@ -5,7 +5,7 @@ import java.io.IOException;
 //import com.example.servingwebcontent.File;
 import java.util.ArrayList;
 
-import com.example.servingwebcontent.Model.User;
+import com.example.servingwebcontent.model.User;
 
 public class WriteToFile {
     public void ToFile(ArrayList<User> u) {

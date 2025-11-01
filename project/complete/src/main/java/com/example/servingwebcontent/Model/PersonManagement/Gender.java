@@ -1,4 +1,4 @@
-package com.example.servingwebcontent.Model.PersonManagement;
+package com.example.servingwebcontent.model.PersonManagement;
 
 public enum Gender {
     MALE("Nam"),

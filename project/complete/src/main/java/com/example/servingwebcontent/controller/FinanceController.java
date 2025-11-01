@@ -1,10 +1,10 @@
 package com.example.servingwebcontent.controller;
 
-import com.example.servingwebcontent.Model.FinanceManagement.*;
+import com.example.servingwebcontent.model.FinanceManagement.*;
 import com.example.servingwebcontent.repository.*;
-import com.example.servingwebcontent.Model.PersonManagement.Person;
-import com.example.servingwebcontent.Model.Role;
-import com.example.servingwebcontent.Model.User;
+import com.example.servingwebcontent.model.PersonManagement.Person;
+import com.example.servingwebcontent.model.Role;
+import com.example.servingwebcontent.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,7 +72,7 @@ public class FinanceController {
             return "redirect:/login";
         }
         
-        Long userId = ((com.example.servingwebcontent.Model.User) session.getAttribute("user")).getId();
+        Long userId = ((com.example.servingwebcontent.model.User) session.getAttribute("user")).getId();
         List<FinanceCategory> categories = financeCategoryRepository.findByIsActiveTrue();
         
         model.addAttribute("categories", categories);
@@ -253,7 +253,7 @@ public class FinanceController {
         if (session.getAttribute("user") == null) {
             return "redirect:/login";
         }
-        Long userId = ((com.example.servingwebcontent.Model.User) session.getAttribute("user")).getId();
+        Long userId = ((com.example.servingwebcontent.model.User) session.getAttribute("user")).getId();
         Optional<Transaction> txOpt = transactionRepository.findById(id);
         if (txOpt.isEmpty()) {
             return "redirect:/finance/transactions";
@@ -315,7 +315,7 @@ public class FinanceController {
             return "redirect:/finance/categories";
         }
 
-        Long userId = ((com.example.servingwebcontent.Model.User) session.getAttribute("user")).getId();
+        Long userId = ((com.example.servingwebcontent.model.User) session.getAttribute("user")).getId();
         transaction.setCreatedById(userId);
         transaction.setCategory(categoryOpt.get());
         transaction.setTransactionType(categoryOpt.get().getType());

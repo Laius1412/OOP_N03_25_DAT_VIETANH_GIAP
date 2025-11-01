@@ -1,4 +1,4 @@
-package com.example.servingwebcontent.Model.PersonManagement;
+package com.example.servingwebcontent.model.PersonManagement;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

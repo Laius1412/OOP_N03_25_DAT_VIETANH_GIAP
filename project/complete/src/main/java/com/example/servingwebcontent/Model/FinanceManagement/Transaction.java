@@ -1,6 +1,6 @@
-package com.example.servingwebcontent.Model.FinanceManagement;
+package com.example.servingwebcontent.model.FinanceManagement;
 
-import com.example.servingwebcontent.Model.PersonManagement.Person;
+import com.example.servingwebcontent.model.PersonManagement.Person;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;

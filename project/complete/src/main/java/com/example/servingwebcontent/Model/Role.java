@@ -1,4 +1,4 @@
-package com.example.servingwebcontent.Model;
+package com.example.servingwebcontent.model;
 
 public enum Role {
     ADMIN("ADMIN", "Quản trị viên", "Toàn quyền quản lý hệ thống"),

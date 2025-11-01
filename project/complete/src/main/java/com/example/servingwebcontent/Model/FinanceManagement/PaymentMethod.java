@@ -1,4 +1,4 @@
-package com.example.servingwebcontent.Model.FinanceManagement;
+package com.example.servingwebcontent.model.FinanceManagement;
 
 public enum PaymentMethod {
     CASH("CASH", "Tiền mặt", "Thanh toán bằng tiền mặt"),

@@ -1,10 +1,11 @@
 package com.example.servingwebcontent.repository;
 
-import com.example.servingwebcontent.Model.FinanceManagement.FinancialReport;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.example.servingwebcontent.model.FinanceManagement.FinancialReport;
 
 @Repository
 public interface FinancialReportRepository extends JpaRepository<FinancialReport, Long> {

@@ -1,7 +1,7 @@
 package com.example.servingwebcontent.service.EventManagement;
 
-import com.example.servingwebcontent.Model.EventManagement.Event;
-import com.example.servingwebcontent.Model.EventManagement.EventStatus;
+import com.example.servingwebcontent.model.EventManagement.Event;
+import com.example.servingwebcontent.model.EventManagement.EventStatus;
 import com.example.servingwebcontent.repository.EventManagement.EventRepository;
 import org.springframework.stereotype.Service;
 

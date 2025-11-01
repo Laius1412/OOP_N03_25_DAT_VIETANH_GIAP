@@ -1,4 +1,4 @@
-package com.example.servingwebcontent.Model.FinanceManagement;
+package com.example.servingwebcontent.model.FinanceManagement;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;

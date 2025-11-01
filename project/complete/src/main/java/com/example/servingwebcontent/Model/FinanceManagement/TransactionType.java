@@ -1,4 +1,4 @@
-package com.example.servingwebcontent.Model.FinanceManagement;
+package com.example.servingwebcontent.model.FinanceManagement;
 
 public enum TransactionType {
     INCOME("INCOME", "Thu nhập", "Các khoản thu vào"),

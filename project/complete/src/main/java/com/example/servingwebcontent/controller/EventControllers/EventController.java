@@ -1,10 +1,10 @@
 package com.example.servingwebcontent.controller.EventControllers;
 
-import com.example.servingwebcontent.Model.EventManagement.Event;
-import com.example.servingwebcontent.Model.EventManagement.EventCategory;
-import com.example.servingwebcontent.Model.EventManagement.EventStatus;
-import com.example.servingwebcontent.Model.EventManagement.EventRecurrenceType;
-import com.example.servingwebcontent.Model.Role;
+import com.example.servingwebcontent.model.EventManagement.Event;
+import com.example.servingwebcontent.model.EventManagement.EventCategory;
+import com.example.servingwebcontent.model.EventManagement.EventStatus;
+import com.example.servingwebcontent.model.EventManagement.EventRecurrenceType;
+import com.example.servingwebcontent.model.Role;
 import com.example.servingwebcontent.service.MessageService;
 import com.example.servingwebcontent.repository.EventManagement.EventCategoryRepository;
 import com.example.servingwebcontent.service.EventManagement.EventService;
@@ -163,8 +163,8 @@ public class EventController {
                 event.setCurrentParticipants(Math.max(0, currentParticipants));
             }
             Long createdById = Optional.ofNullable(session.getAttribute("user"))
-                    .map(u -> (com.example.servingwebcontent.Model.User) u)
-                    .map(com.example.servingwebcontent.Model.User::getId)
+                    .map(u -> (com.example.servingwebcontent.model.User) u)
+                    .map(com.example.servingwebcontent.model.User::getId)
                     .orElse(null);
             if (createdById != null) event.setCreatedById(createdById);
             if (categoryId != null) {

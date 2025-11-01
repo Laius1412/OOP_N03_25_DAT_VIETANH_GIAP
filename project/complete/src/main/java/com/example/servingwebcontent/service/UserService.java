@@ -1,7 +1,7 @@
 package com.example.servingwebcontent.service;
 
-import com.example.servingwebcontent.Model.User;
-import com.example.servingwebcontent.Model.Role;
+import com.example.servingwebcontent.model.User;
+import com.example.servingwebcontent.model.Role;
 import com.example.servingwebcontent.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

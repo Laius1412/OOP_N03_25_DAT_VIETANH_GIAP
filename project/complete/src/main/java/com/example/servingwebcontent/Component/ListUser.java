@@ -1,7 +1,7 @@
 package com.example.servingwebcontent.Component;
 import java.util.ArrayList;
 
-import com.example.servingwebcontent.Model.User;
+import com.example.servingwebcontent.model.User;
 
 public class ListUser {
     public void printListUser(ArrayList<User> listUser){

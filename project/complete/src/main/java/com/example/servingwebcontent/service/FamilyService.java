@@ -1,7 +1,7 @@
 package com.example.servingwebcontent.service;
 
-import com.example.servingwebcontent.Model.PersonManagement.Family;
-import com.example.servingwebcontent.Model.PersonManagement.Person;
+import com.example.servingwebcontent.model.PersonManagement.Family;
+import com.example.servingwebcontent.model.PersonManagement.Person;
 import com.example.servingwebcontent.repository.FamilyRepository;
 import com.example.servingwebcontent.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;

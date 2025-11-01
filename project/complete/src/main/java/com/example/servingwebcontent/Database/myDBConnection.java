@@ -1,4 +1,4 @@
-package com.example.servingwebcontent.Database;
+package com.example.servingwebcontent.database;
 
 import org.springframework.stereotype.Controller;
 import java.sql.Connection;
