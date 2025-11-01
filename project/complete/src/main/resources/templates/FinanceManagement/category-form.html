@@ -13,12 +13,15 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
+        /* Main Navigation like home.html */
+        .main-navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 2px 20px rgba(0,0,0,0.1); padding: 15px 30px; position: sticky; top: 0; z-index: 1000; }
+        .navbar-brand { color: white; font-size: 20px; font-weight: 600; text-decoration: none; display: flex; align-items: center; }
+        .navbar-brand:hover { color: white; }
+        .navbar-brand i { margin-right: 10px; }
+        .navbar-nav { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; gap: 20px; list-style: none; margin: 0; padding: 0; white-space: nowrap; }
+        .nav-link { color: rgba(255,255,255,0.9); padding: 10px 15px; border-radius: 5px; text-decoration: none; transition: .3s; display: flex; align-items: center; }
+        .nav-link:hover { background: rgba(255,255,255,0.1); color: white; }
+        .nav-link i { margin-right: 8px; }
         
         .card {
             border: none;
@@ -165,22 +168,17 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
+    <nav class="main-navbar">
+        <div class="container d-flex justify-content-between align-items-center">
             <a class="navbar-brand" href="/finance/categories">
-                <i class="fas fa-tags me-2"></i>
-                <span th:text="${category.id != null} ? 'Sửa Danh mục' : 'Thêm Danh mục'">Thêm Danh mục</span>
+                <i class="fas fa-tags"></i>
+                <span th:text="${category.id != null} ? 'Sửa Danh mục' : 'Thêm Danh mục'">Danh mục</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="navbar-nav ms-auto">
-                    <a class="nav-link" href="/finance/categories">
-                        <i class="fas fa-arrow-left me-1"></i>Quay lại danh sách
-                    </a>
-                </div>
-            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/finance"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/finance/categories"><i class="fas fa-tags"></i>Danh mục</a></li>
+                <li class="nav-item"><a class="nav-link" href="/finance/transactions"><i class="fas fa-exchange-alt"></i>Giao dịch</a></li>
+            </ul>
         </div>
     </nav>
 
