@@ -2,6 +2,9 @@ package com.example.servingwebcontent.controller;
 
 import com.example.servingwebcontent.model.FinanceManagement.*;
 import com.example.servingwebcontent.repository.*;
+import com.example.servingwebcontent.service.FinanceManagement.FinanceCategoryService;
+import com.example.servingwebcontent.service.FinanceManagement.TransactionService;
+import com.example.servingwebcontent.service.FinanceManagement.FinancialReportService;
 import com.example.servingwebcontent.model.PersonManagement.Person;
 import com.example.servingwebcontent.model.Role;
 import com.example.servingwebcontent.model.User;
@@ -24,13 +27,13 @@ import java.util.Optional;
 public class FinanceController {
     
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionService transactionService;
     
     @Autowired
-    private FinancialReportRepository financialReportRepository;
+    private FinancialReportService financialReportService;
     
     @Autowired
-    private FinanceCategoryRepository financeCategoryRepository;
+    private FinanceCategoryService financeCategoryService;
 
     @Autowired
     private PersonRepository personRepository;
@@ -42,11 +45,11 @@ public class FinanceController {
             return "redirect:/login";
         }
         // Lấy thống kê tổng quan (mọi user đều xem được toàn bộ)
-        List<Transaction> recentTransactions = transactionRepository.findTop10ByOrderByTransactionDateDesc();
-        List<FinanceCategory> categories = financeCategoryRepository.findByIsActiveTrue();
+        List<Transaction> recentTransactions = transactionService.findTop10Recent();
+        List<FinanceCategory> categories = financeCategoryService.findActive();
         
         // Tính tổng thu/chi trên tất cả giao dịch
-        List<Transaction> allTransactions = transactionRepository.findAll();
+        List<Transaction> allTransactions = transactionService.findAll();
         BigDecimal monthlyIncome = allTransactions.stream()
             .filter(t -> t.getTransactionType() == TransactionType.INCOME)
             .map(Transaction::getAmount)
@@ -73,7 +76,7 @@ public class FinanceController {
         }
         
         Long userId = ((com.example.servingwebcontent.model.User) session.getAttribute("user")).getId();
-        List<FinanceCategory> categories = financeCategoryRepository.findByIsActiveTrue();
+        List<FinanceCategory> categories = financeCategoryService.findActive();
         
         model.addAttribute("categories", categories);
         model.addAttribute("transactionTypes", TransactionType.values());
@@ -88,13 +91,13 @@ public class FinanceController {
             return "redirect:/login";
         }
 
-        Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(id);
+        Optional<FinanceCategory> categoryOpt = financeCategoryService.findById(id);
         if (categoryOpt.isEmpty()) {
             return "redirect:/finance/categories";
         }
 
         // Mọi user đều xem được toàn bộ giao dịch theo danh mục
-        List<Transaction> transactions = transactionRepository.findByCategoryIdOrderByTransactionDateDesc(id);
+        List<Transaction> transactions = transactionService.findByCategoryIdOrderByDateDesc(id);
 
         FinanceCategory category = categoryOpt.get();
         model.addAttribute("category", category);
@@ -135,7 +138,7 @@ public class FinanceController {
         }
         try {
             if (category.getIsActive() == null) category.setIsActive(true);
-            financeCategoryRepository.save(category);
+            financeCategoryService.save(category);
             redirectAttributes.addFlashAttribute("success", "Danh mục đã được thêm thành công!");
         } catch (org.springframework.dao.DataIntegrityViolationException e) {
             redirectAttributes.addFlashAttribute("error", "Tên danh mục đã tồn tại hoặc dữ liệu không hợp lệ. Vui lòng kiểm tra lại.");
@@ -153,7 +156,7 @@ public class FinanceController {
         if (!(currentUser.getRole() == Role.ADMIN || currentUser.getRole() == Role.FINANCE_MANAGER)) {
             return "redirect:/finance/categories";
         }
-        Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(id);
+        Optional<FinanceCategory> categoryOpt = financeCategoryService.findById(id);
         if (categoryOpt.isPresent()) {
             model.addAttribute("category", categoryOpt.get());
             model.addAttribute("transactionTypes", TransactionType.values());
@@ -172,7 +175,7 @@ public class FinanceController {
             redirectAttributes.addFlashAttribute("error", "Bạn không có quyền sửa danh mục.");
             return "redirect:/finance/categories";
         }
-        Optional<FinanceCategory> existingCategoryOpt = financeCategoryRepository.findById(id);
+        Optional<FinanceCategory> existingCategoryOpt = financeCategoryService.findById(id);
         if (existingCategoryOpt.isPresent()) {
             FinanceCategory existingCategory = existingCategoryOpt.get();
             existingCategory.setName(category.getName());
@@ -180,7 +183,7 @@ public class FinanceController {
             existingCategory.setType(category.getType());
             existingCategory.setUpdatedAt(LocalDateTime.now());
             try {
-                financeCategoryRepository.save(existingCategory);
+                financeCategoryService.save(existingCategory);
                 redirectAttributes.addFlashAttribute("success", "Danh mục đã được cập nhật thành công!");
             } catch (org.springframework.dao.DataIntegrityViolationException e) {
                 redirectAttributes.addFlashAttribute("error", "Tên danh mục đã tồn tại hoặc dữ liệu không hợp lệ.");
@@ -201,12 +204,12 @@ public class FinanceController {
             redirectAttributes.addFlashAttribute("error", "Bạn không có quyền xóa danh mục.");
             return "redirect:/finance/categories";
         }
-        Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(id);
+        Optional<FinanceCategory> categoryOpt = financeCategoryService.findById(id);
         if (categoryOpt.isPresent()) {
             // Xóa tất cả giao dịch thuộc danh mục trước
-            long deleted = transactionRepository.deleteByCategoryId(id);
+            long deleted = transactionService.deleteByCategoryId(id);
             // Sau đó xóa hẳn danh mục
-            financeCategoryRepository.deleteById(id);
+            financeCategoryService.deleteById(id);
             redirectAttributes.addFlashAttribute("success", "Đã xóa danh mục và " + deleted + " giao dịch liên quan.");
         }
         return "redirect:/finance/categories";
@@ -220,8 +223,8 @@ public class FinanceController {
         }
         
         // Mọi user đều xem được toàn bộ giao dịch
-        List<Transaction> transactions = transactionRepository.findAllByOrderByTransactionDateDesc();
-        List<FinanceCategory> categories = financeCategoryRepository.findByIsActiveTrue();
+        List<Transaction> transactions = transactionService.findAllOrderByDateDesc();
+        List<FinanceCategory> categories = financeCategoryService.findActive();
 
         model.addAttribute("transactions", transactions);
         model.addAttribute("categories", categories);
@@ -241,8 +244,8 @@ public class FinanceController {
         Long userId = currentUser.getId();
         boolean isAdminView = currentUser.getRole() == Role.ADMIN || currentUser.getRole() == Role.FINANCE_MANAGER;
         List<Transaction> transactions = isAdminView
-                ? transactionRepository.findAllByOrderByTransactionDateDesc()
-                : transactionRepository.findByCreatedByIdOrderByTransactionDateDesc(userId);
+                ? transactionService.findAllOrderByDateDesc()
+                : transactionService.findAllForUserOrderByDateDesc(userId);
         model.addAttribute("transactions", transactions);
         return "FinanceManagement/transactions-recent";
     }
@@ -254,7 +257,7 @@ public class FinanceController {
             return "redirect:/login";
         }
         Long userId = ((com.example.servingwebcontent.model.User) session.getAttribute("user")).getId();
-        Optional<Transaction> txOpt = transactionRepository.findById(id);
+        Optional<Transaction> txOpt = transactionService.findById(id);
         if (txOpt.isEmpty()) {
             return "redirect:/finance/transactions";
         }
@@ -279,7 +282,7 @@ public class FinanceController {
             return "redirect:/finance/categories/" + id;
         }
 
-        Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(id);
+        Optional<FinanceCategory> categoryOpt = financeCategoryService.findById(id);
         if (categoryOpt.isEmpty()) {
             return "redirect:/finance/categories";
         }
@@ -310,7 +313,7 @@ public class FinanceController {
             return "redirect:/finance/categories/" + id;
         }
 
-        Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(id);
+        Optional<FinanceCategory> categoryOpt = financeCategoryService.findById(id);
         if (categoryOpt.isEmpty()) {
             return "redirect:/finance/categories";
         }
@@ -335,7 +338,7 @@ public class FinanceController {
         if (transaction.getTransactionDate() == null) {
             transaction.setTransactionDate(LocalDate.now());
         }
-        transactionRepository.save(transaction);
+        transactionService.save(transaction);
         redirectAttributes.addFlashAttribute("success", "Đã thêm giao dịch vào danh mục!");
         return "redirect:/finance/categories/" + id;
     }
@@ -353,8 +356,8 @@ public class FinanceController {
         if (!(currentUser.getRole() == Role.ADMIN || currentUser.getRole() == Role.FINANCE_MANAGER)) {
             return "redirect:/finance/categories/" + categoryId;
         }
-        Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(categoryId);
-        Optional<Transaction> txOpt = transactionRepository.findById(transactionId);
+        Optional<FinanceCategory> categoryOpt = financeCategoryService.findById(categoryId);
+        Optional<Transaction> txOpt = transactionService.findById(transactionId);
         if (categoryOpt.isEmpty() || txOpt.isEmpty()) {
             return "redirect:/finance/categories";
         }
@@ -381,8 +384,8 @@ public class FinanceController {
             redirectAttributes.addFlashAttribute("error", "Bạn không có quyền sửa giao dịch.");
             return "redirect:/finance/categories/" + categoryId;
         }
-        Optional<Transaction> txOpt = transactionRepository.findById(transactionId);
-        Optional<FinanceCategory> categoryOpt = financeCategoryRepository.findById(categoryId);
+        Optional<Transaction> txOpt = transactionService.findById(transactionId);
+        Optional<FinanceCategory> categoryOpt = financeCategoryService.findById(categoryId);
         if (txOpt.isEmpty() || categoryOpt.isEmpty()) {
             return "redirect:/finance/categories";
         }
@@ -413,7 +416,7 @@ public class FinanceController {
             tx.setContributor(null);
         }
 
-        transactionRepository.save(tx);
+        transactionService.save(tx);
         redirectAttributes.addFlashAttribute("success", "Đã cập nhật giao dịch!");
         return "redirect:/finance/categories/" + categoryId;
     }
@@ -432,7 +435,7 @@ public class FinanceController {
             redirectAttributes.addFlashAttribute("error", "Bạn không có quyền xóa giao dịch.");
             return "redirect:/finance/categories/" + categoryId;
         }
-        transactionRepository.deleteById(transactionId);
+        transactionService.deleteById(transactionId);
         redirectAttributes.addFlashAttribute("success", "Đã xóa giao dịch!");
         return "redirect:/finance/categories/" + categoryId;
     }
@@ -447,7 +450,7 @@ public class FinanceController {
         if (!(currentUser.getRole() == Role.ADMIN || currentUser.getRole() == Role.FINANCE_MANAGER)) {
             return "redirect:/finance/transactions";
         }
-        List<FinanceCategory> categories = financeCategoryRepository.findByIsActiveTrue();
+        List<FinanceCategory> categories = financeCategoryService.findActive();
         
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("categories", categories);
@@ -470,7 +473,7 @@ public class FinanceController {
         Long userId = currentUser.getId();
         transaction.setCreatedById(userId);
         
-        transactionRepository.save(transaction);
+        transactionService.save(transaction);
         redirectAttributes.addFlashAttribute("success", "Giao dịch đã được thêm thành công!");
         
         return "redirect:/finance/transactions";
@@ -485,7 +488,7 @@ public class FinanceController {
             return "redirect:/login";
         }
         // Mọi user đều xem được toàn bộ báo cáo
-        List<FinancialReport> reports = financialReportRepository.findAllByOrderByGeneratedAtDesc();
+        List<FinancialReport> reports = financialReportService.findAllOrderByGeneratedAtDesc();
         
         model.addAttribute("reports", reports);
         model.addAttribute("reportTypes", ReportType.values());
@@ -543,7 +546,7 @@ public class FinanceController {
         Long userId = currentUser.getId();
         
         // Tính toán dữ liệu báo cáo
-        List<Transaction> transactions = transactionRepository.findByTransactionDateBetween(startDate, endDate);
+        List<Transaction> transactions = transactionService.findByDateBetween(startDate, endDate);
         
         BigDecimal totalIncome = transactions.stream()
             .filter(t -> t.getTransactionType() == TransactionType.INCOME)
@@ -558,7 +561,7 @@ public class FinanceController {
         FinancialReport report = new FinancialReport(reportName, reportType, startDate, endDate,
             totalIncome, totalExpense, transactions.size(), userId, "");
         
-        financialReportRepository.save(report);
+        financialReportService.save(report);
         redirectAttributes.addFlashAttribute("success", "Báo cáo đã được tạo thành công!");
         
         return "redirect:/finance/reports";
@@ -570,12 +573,12 @@ public class FinanceController {
         if (session.getAttribute("user") == null) {
             return "redirect:/login";
         }
-        Optional<FinancialReport> reportOpt = financialReportRepository.findById(id);
+        Optional<FinancialReport> reportOpt = financialReportService.findById(id);
         if (reportOpt.isEmpty()) {
             return "redirect:/finance/reports";
         }
         FinancialReport report = reportOpt.get();
-        List<Transaction> transactions = transactionRepository.findByTransactionDateBetween(report.getStartDate(), report.getEndDate());
+        List<Transaction> transactions = transactionService.findByDateBetween(report.getStartDate(), report.getEndDate());
 
         List<Transaction> incomeTransactions = transactions.stream()
                 .filter(t -> t.getTransactionType() == TransactionType.INCOME)
@@ -611,7 +614,7 @@ public class FinanceController {
             redirectAttributes.addFlashAttribute("error", "Bạn không có quyền xóa báo cáo.");
             return "redirect:/finance/reports";
         }
-        financialReportRepository.deleteById(id);
+        financialReportService.deleteById(id);
         redirectAttributes.addFlashAttribute("success", "Đã xóa báo cáo.");
         return "redirect:/finance/reports";
     }
