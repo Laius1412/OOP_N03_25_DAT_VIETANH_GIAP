@@ -2,19 +2,21 @@
 
 - Tên dự án: Xây dựng ứng dụng quản lý gia tộc
 
-# 1. Members (Thành viên dự án)
+# 1. Giới thiệu chung
+
+## 1.1. Members (Thành viên dự án):
 
 - Cao Mậu Thành Đạt - 22010338
 - Nguyễn Trần Việt Anh - 22010341
 - Võ Quang Giáp - 22010343
 
-# Yêu cầu chính
+## 1.2. Yêu cầu chính:
 
 - Giao diện <b>Java Spring Boot<b>.
 - Mô tả: Hệ thống quản lý gia tộc bao gồm các nhóm chức năng chính như quản lý thành viên, cây gia phả, quản lý tài chính, quản lý sự kiện,... trong dòng họ.
 - Đối tượng sử dụng: Hội đồng quản lý gia tộc (tộc cán).
 
-# Mô tả cụ thể
+## 1.3. Mô tả cụ thể:
 
 - Quản lý tài khoản:
   + Đăng nhập.
