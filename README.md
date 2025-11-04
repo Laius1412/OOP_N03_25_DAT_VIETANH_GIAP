@@ -80,7 +80,15 @@
     - [3.2.4 Sơ đồ thuật toán CRUD của đối tượng Finance.](#324-sơ-đồ-thuật-toán-crud-của-đối-tượng-finance)
     - [3.2.5 Sơ đồ thuật toán CRUD của đối tượng Event.](#325-sơ-đồ-thuật-toán-crud-của-đối-tượng-event)
     - [3.2.6 Sơ đồ thuật toán các chức năng của người dùng](#326-sơ-đồ-thuật-toán-các-chức-năng-của-người-dùng)
-- [4. Giao diện](#4-giao-diện)
+- [4. Giao diện chính](#4-giao-diện-chính)
+  - [4.1. Đăng nhập](#41-đăng-nhập)
+  - [4.2. Trang chủ](#42-trang-chủ)
+  - [4.3. Quản lý thành viên](#43-quản-lý-thành-viên)
+  - [4.4. Quản lý gia đình](#44-quản-lý-gia-đình)
+  - [4.5. Quản lý sự kiện](#45-quản-lý-sự-kiện)
+  - [4.6. Quản lý tài chính](#46-quản-lý-tài-chính)
+  - [4.7. Quản lý người dùng](#47-quản-lý-người-dùng)
+  - [4.8. Xem cây gia phả](#48-xem-cây-gia-phả)
 - [5. Triển khai](#5-triển-khai)
 
 # 1. Giới thiệu chung
