@@ -66,7 +66,7 @@ public class EventService {
         LocalDateTime now = LocalDateTime.now();
         if (event.getStartTime().isAfter(now)) {
             event.setStatus(EventStatus.UPCOMING);
-        } else if (now.isAfter(event.getStartTime()) && now.isBefore(event.getEndTime())) {
+        } else if (!now.isBefore(event.getStartTime()) && !now.isAfter(event.getEndTime())) {
             event.setStatus(EventStatus.ONGOING);
         } else {
             event.setStatus(EventStatus.COMPLETED);
