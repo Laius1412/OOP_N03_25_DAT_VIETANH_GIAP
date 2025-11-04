@@ -61,9 +61,9 @@
 -LocalDate dob
 -LocalDate dod
 -String address
--String phone
 -Person father
 -Person mother
+-String phone
 -Person spouse
 -Family family
 -LocalDateTime createdAt
@@ -75,13 +75,11 @@
 ```
 +Constrcutors()
 +Getters()
-+Settters()
-+addPerson()
-+editPerson()
-+deletePerson()
++Setters()
 +isAlive() : boolean
 +getAge() : int
 +preUpdate()
++toString()
 ```
 
 ## 2.2. Gender (Giới tính) <<enumeration>>
@@ -92,11 +90,13 @@
 MALE
 FEMALE
 OTHER
+-String displayName
 ```
 
 ### 2.2.2. Methods (Phương thức)
 
 ```
++Constructor(String displayName)
 +getDisplayName() String
 +fromCode(String) Gender
 ```
@@ -121,10 +121,8 @@ OTHER
 ```
 +Constrcutors()
 +Getters()
-+Settters()
-+Login()
-+Logout()
-+Register()
++Setters()
++toString()
 ```
 
 ## 2.4. Role (Vai trò) <<enumeration>>
@@ -137,15 +135,20 @@ MEMBER_MANAGER
 EVENT_MANAGER
 FINANCE_MANAGER
 USER
+-String code
+-String displayName
+-String description
 ```
 
 ### 2.4.2. Methods (Phương thức)
 
 ```
++Constrcutor(String code, String displayName, String description)
 +getCode() String
 +getDisplayName() String
-+hasPermission(String) boolean
++getDescription() String
 +fromCode(String) Role
++hasPermission(String) boolean
 ```
 
 ## 2.5. Family (Gia đình)
@@ -165,18 +168,142 @@ USER
 ```
 +Constrcutors()
 +Getters()
-+Settters()
++Setters()
 +addFamilyMember(Person)
 +removeFamilyMember(Person)
 +getMemberCount() int
 +getOldestMaleMember() Person
 +updateFamilyName()
 +preUpdate()
++toString()
 ```
 
-## 2.5. ReceiveManagement (Quản lý thu)
+## 2.6. Event (Sự kiện)
 
-### 2.5.1. Attribute (Thuộc tính)
+### 2.6.1. Attribute (Thuộc tính)
+
+```
+-Long id
+-String title
+-String description
+-String location
+-LocalDateTime startTime
+-LocalDateTime endTime
+-Integer maxParticipants
+-Integer currentParticipants
+-Long createdById
+-LocalDateTime createdAt
+-LocalDateTime updatedAt
+-EventStatus status
+-EventRecurrenceType recurrence
+-EventCategory category
+-List<EventParticipant> participants
+```
+
+### 2.6.2. Methods (Phương thức)
+
+```
++Constrcutors()
++Getters()
++Setters()
++isUpcoming() : boolean
++isOngoing() : boolean
++getDurationInHours() : long
+```
+
+## 2.7. EventCategory (Thể loại sự kiện)
+
+### 2.7.1. Attribute (Thuộc tính)
+
+```
+-Long id
+-String name
+-String description
+```
+
+### 2.7.2. Methods (Phương thức)
+
+```
++Constrcutors()
++Getters()
++Setters()
+```
+
+## 2.8. EventParticipant (Người tham gia sự kiện)
+
+### 2.8.1. Attribute (Thuộc tính)
+
+```
+-Long id
+-Event event
+-Long userId
+-ParticipantStatus status
+-LocalDateTime registeredAt
+```
+
+### 2.8.2. Methods (Phương thức)
+
+```
++Constrcutors()
++Getters()
++Setters()
+```
+
+## 2.9. EventRecurrenceType (Kiểu lặp lại sự kiện) <<enumeration>>
+
+### 2.9.1. Attribute (Thuộc tính)
+
+```
+NONE
+MONTHLY
+YEARLY
+```
+
+### 2.9.2. Methods (Phương thức)
+
+```
++values()
++valueOf(String)
+```
+
+## 2.10. EventStatus (Trạng thái sự kiện) <<enumeration>>
+
+### 2.10.1. Attribute (Thuộc tính)
+
+```
+UPCOMING
+ONGOING
+COMPLETED
+CANCELLED
+```
+
+### 2.10.2. Methods (Phương thức)
+
+```
++values()
++valueOf(String)
+```
+
+## 2.11. ParticipantStatus (Trạng thái người tham gia) <<enumeration>>
+
+### 2.11.1. Attribute (Thuộc tính)
+
+```
+REGISTERED
+CHECKED_IN
+CANCELLED
+```
+
+### 2.11.2. Methods (Phương thức)
+
+```
++values()
++valueOf(String)
+```
+
+## 2.12. ReceiveManagement (Quản lý thu)
+
+### 2.12.1. Attribute (Thuộc tính)
 
 ```
 - String id (mã khoản thu).
@@ -188,7 +315,7 @@ USER
 - List <ReceiveManagement> finishedmembers (danh sách thành viên đóng tiền).
 ```
 
-### 2.5.2. Methods (Phương thức)
+### 2.12.2. Methods (Phương thức)
 
 ```
 - getName()
@@ -197,9 +324,9 @@ USER
 - getdescription()
 - getDate()
 ```
-## 2.6. ExpenseManagement (Quản lý chi)
+## 2.13. ExpenseManagement (Quản lý chi)
 
-### 2.6.1. Attribute (Thuộc tính)
+### 2.13.1. Attribute (Thuộc tính)
 
 ```
 - String id (mã khoản chi).
@@ -210,7 +337,7 @@ USER
 - Date date (ngày chi tiền),
 ```
 
-### 2.6.2. Methods (Phương thức)
+### 2.13.2. Methods (Phương thức)
 
 ```
 - getName()
@@ -219,9 +346,9 @@ USER
 - getdescription()
 - getDate()
 ```
-## 2.7. FinancialManagement (Quản lý tài chính)
+## 2.14. FinancialManagement (Quản lý tài chính)
 
-### 2.7.1. Attribute (Thuộc tính)
+### 2.14.1. Attribute (Thuộc tính)
 
 ```
 - incomes: List<ReceiveManagement>,
@@ -229,7 +356,7 @@ USER
 
 ```
 
-### 2.7.2. Methods (Phương thức)
+### 2.14.2. Methods (Phương thức)
 
 ```
 addIncome(receive: ReceiveManagement),
@@ -238,6 +365,191 @@ getTotalReceive(),
 getTotalExpense(),
 getBalance(),
 getCategoryReport(),
+```
+
+## 2.15. AbstractFinanceEntity (Thực thể tài chính trừu tượng)
+
+### 2.15.1. Attribute (Thuộc tính)
+
+```
+-String notes
+```
+
+### 2.15.2. Methods (Phương thức)
+
+```
++Getters()
++Setters()
+```
+
+## 2.16. FinanceCategory (Danh mục tài chính)
+
+### 2.16.1. Attribute (Thuộc tính)
+
+```
+-Long id
+-String name
+-String description
+-TransactionType type
+-Boolean isActive
+-LocalDateTime createdAt
+-LocalDateTime updatedAt
+-List<Transaction> transactions
+```
+
+### 2.16.2. Methods (Phương thức)
+
+```
++Constrcutors()
++Getters()
++Setters()
++toString()
+```
+
+## 2.17. FinancialReport (Báo cáo tài chính)
+
+### 2.17.1. Attribute (Thuộc tính)
+
+```
+-Long id
+-String reportName
+-ReportType reportType
+-LocalDate startDate
+-LocalDate endDate
+-BigDecimal totalIncome
+-BigDecimal totalExpense
+-BigDecimal netBalance
+-Integer transactionCount
+-Long generatedById
+-LocalDateTime generatedAt
+-String reportData
+-String notes (inherited from AbstractFinanceEntity)
+```
+
+### 2.17.2. Methods (Phương thức)
+
+```
++Constrcutors()
++Getters()
++Setters()
++isProfit() : boolean
++isLoss() : boolean
++isBreakEven() : boolean
++getProfitMargin() : BigDecimal
++getExpenseRatio() : BigDecimal
++getDaysInPeriod() : long
++getAverageDailyIncome() : BigDecimal
++getAverageDailyExpense() : BigDecimal
++toString()
+```
+
+## 2.18. PaymentMethod (Phương thức thanh toán) <<enumeration>>
+
+### 2.18.1. Attribute (Thuộc tính)
+
+```
+CASH
+BANK_TRANSFER
+CREDIT_CARD
+CHECK
+OTHER
+-String code
+-String displayName
+-String description
+```
+
+### 2.18.2. Methods (Phương thức)
+
+```
++Constructor(String code, String displayName, String description)
++getCode() String
++getDisplayName() String
++getDescription() String
++fromCode(String) PaymentMethod
+```
+
+## 2.19. ReportType (Loại báo cáo) <<enumeration>>
+
+### 2.19.1. Attribute (Thuộc tính)
+
+```
+MONTHLY
+QUARTERLY
+YEARLY
+CUSTOM
+WEEKLY
+DAILY
+-String code
+-String displayName
+-String description
+```
+
+### 2.19.2. Methods (Phương thức)
+
+```
++Constructor(String code, String displayName, String description)
++getCode() String
++getDisplayName() String
++getDescription() String
++fromCode(String) ReportType
+```
+
+## 2.20. Transaction (Giao dịch)
+
+### 2.20.1. Attribute (Thuộc tính)
+
+```
+-Long id
+-String title
+-String description
+-BigDecimal amount
+-TransactionType transactionType
+-FinanceCategory category
+-Long createdById
+-LocalDate transactionDate
+-PaymentMethod paymentMethod
+-String receiptNumber
+-String contributorName
+-String contributorPhone
+-String contributorRelationship
+-Person contributor
+-LocalDateTime createdAt
+-LocalDateTime updatedAt
+-String notes (inherited from AbstractFinanceEntity)
+```
+
+### 2.20.2. Methods (Phương thức)
+
+```
++Constrcutors()
++Getters()
++Setters()
++isIncome() : boolean
++isExpense() : boolean
++getSignedAmount() : BigDecimal
++toString()
+```
+
+## 2.21. TransactionType (Loại giao dịch) <<enumeration>>
+
+### 2.21.1. Attribute (Thuộc tính)
+
+```
+INCOME
+EXPENSE
+-String code
+-String displayName
+-String description
+```
+
+### 2.21.2. Methods (Phương thức)
+
+```
++Constructor(String code, String displayName, String description)
++getCode() String
++getDisplayName() String
++getDescription() String
++fromCode(String) TransactionType
 ```
 
 # 3. Sơ đồ khối
