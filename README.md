@@ -251,23 +251,26 @@ getCategoryReport(),
 
 <img width="2947" height="3186" alt="đăng kí đăng nhập , đăng xuất" src="https://github.com/user-attachments/assets/6fe0337c-3b9b-49d1-8ea6-446527475943" />
 
-
-- Create
-
-<img width="1077" height="680" alt="createUser" src="https://github.com/user-attachments/assets/dc7863b9-22c0-46d2-ba61-5eabe009f52b" />
-
+### 3.2.2. Sơ đồ thuật toán CRUD của đối tương user.
 
 - Read
 
-<img width="840" height="518" alt="readUser" src="https://github.com/user-attachments/assets/b608274b-efe1-4bd6-b598-260e662431e9" />
+<img width="2884" height="1134" alt="danh sách" src="https://github.com/user-attachments/assets/5c4f6289-97ae-4c3b-9935-efe94f923a26" />
+
+- Create
+
+<img width="2920" height="1330" alt="them user" src="https://github.com/user-attachments/assets/bb7ca677-cf5c-4f23-9d89-821b55a9347a" />
+
 
 - Update
 
-<img width="904" height="576" alt="updateUser" src="https://github.com/user-attachments/assets/45161c96-d7a0-4a28-aca5-307f748c7949" />
+<img width="2432" height="1618" alt="sửa user" src="https://github.com/user-attachments/assets/671468fc-dca8-4658-8570-9cb862d6212f" />
+
 
 - Delete
 
-<img width="827" height="576" alt="deleteUser" src="https://github.com/user-attachments/assets/e8d7717a-8fd4-413d-8051-1df1d0028088" />
+<img width="2530" height="1326" alt="xóa user" src="https://github.com/user-attachments/assets/1125593a-945f-4c6f-8a58-572b7f270e4a" />
+
 
 ### 3.2.2 Sơ đồ thuật toán CRUD của đối tượng Person
 
