@@ -247,7 +247,10 @@ getCategoryReport(),
 <img width="2022" height="1664" alt="OOP (1)" src="https://github.com/user-attachments/assets/bfd590c7-dc4b-4646-b3f1-34d3f99bd139" />
 
 ## 3.2 UML Sequence Diagram
-### 3.2.1 Sơ đồ thuật toán CRUD của đối tượng User
+### 3.2.1 Sơ đồ thuật toán chức năng đăng kí, đăng nhập và đăng xuất.
+
+<img width="2947" height="3186" alt="đăng kí đăng nhập , đăng xuất" src="https://github.com/user-attachments/assets/6fe0337c-3b9b-49d1-8ea6-446527475943" />
+
 
 - Create
 
