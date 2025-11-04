@@ -20,8 +20,28 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:8.0.28'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.junit.platform:junit-platform-launcher'
 }
 
 test {
 	useJUnitPlatform()
+}
+
+// Convenience task to run the TestMain in test sources
+tasks.register('runTestMain', JavaExec) {
+    group = 'verification'
+    description = 'Runs TestMain (JUnit Platform) from test sources'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'TestMain'
+}
+
+// Run the pure-Java finance demo Main
+tasks.register('runFinanceDemo', JavaExec) {
+    group = 'application'
+    description = 'Runs com.example.servingwebcontent.Test.Main (pure Java demos)'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.example.servingwebcontent.Test.Main'
+    standardInput = System.in
+    // Improve Vietnamese console output
+    jvmArgs = ['-Dfile.encoding=UTF-8']
 }
