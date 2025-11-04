@@ -55,87 +55,123 @@
 ### 2.1.1. Attribute (Thuộc tính)
 
 ```
-- String id (mã thành viên)
-- String name (họ và tên)
-- String gender (giới tính)
-- Date dob (ngày sinh)
-- Date dod (ngày mất, có thể null)
-- String address (địa chỉ)
-- Person father (bố)
-- Person mother (mẹ)
-- String phone (số điện thoại)
-- Person spouse (quan hệ vợ chồng, có thể null)
+-Long id
+-String name
+-Gender gender
+-LocalDate dob
+-LocalDate dod
+-String address
+-String phone
+-Person father
+-Person mother
+-Person spouse
+-Family family
+-LocalDateTime createdAt
+-LocalDateTime updatedAt
 ```
 
 ### 2.1.2. Methods (Phương thức)
 
 ```
-- Person().
-- set(), get() cho từng thuộc tính.
-- int getAge().
-- setParents().
-- setSpouse().
-- editMembereditMember().
-- removeMember().
-- display().
++Constrcutors()
++Getters()
++Settters()
++addPerson()
++editPerson()
++deletePerson()
++isAlive() : boolean
++getAge() : int
++preUpdate()
 ```
 
-## 2.2. User (Người dùng)
+## 2.2. Gender (Giới tính) <<enumeration>>
 
 ### 2.2.1. Attribute (Thuộc tính)
 
 ```
-- String username (tài khoản)
-- String password (mật khẩu)
-- String role (chức vụ)
+MALE
+FEMALE
+OTHER
 ```
 
 ### 2.2.2. Methods (Phương thức)
 
 ```
-- User().
-- set(), get() cho từng thuộc tính.
-- login().
-- logout().
-- changePassword().
-- resetPassword().
++getDisplayName() String
++fromCode(String) Gender
 ```
 
-## 2.3. Family (Gia đình)
+## 2.3. User (Người dùng)
 
 ### 2.3.1. Attribute (Thuộc tính)
 
 ```
-- String id (mã gia đình)
-- String nameFamily (tên của gia đình, lấy tên con trai lớn tuổi nhất hiện tại trong gia đình)
-- List <Person> familyMembers (danh sách thành viên trong gia đình)
+-Long id
+-String username
+-String password
+-Role role
+-String name
+-String email
+-String phone
+-LocalDateTime createdAt
 ```
+
 ### 2.3.2. Methods (Phương thức)
 
 ```
-- Family().
-- getMember().
-- addMembers().
-- removeMember().
-- display().
-- removeFamily().
++Constrcutors()
++Getters()
++Settters()
++Login()
++Logout()
++Register()
 ```
 
-## 2.4. FamilyTree (Cây gia phả)
+## 2.4. Role (Vai trò) <<enumeration>>
 
 ### 2.4.1. Attribute (Thuộc tính)
 
 ```
-- Person root (thành viên đời thứ nhất - tổ tiên)
-- List <Person> members (danh sách thành viên)
+ADMIN
+MEMBER_MANAGER
+EVENT_MANAGER
+FINANCE_MANAGER
+USER
 ```
 
 ### 2.4.2. Methods (Phương thức)
 
 ```
-- FamilyTree().
-- addNode().
-- display().
++getCode() String
++getDisplayName() String
++hasPermission(String) boolean
++fromCode(String) Role
+```
+
+## 2.5. Family (Gia đình)
+
+### 2.5.1. Attribute (Thuộc tính)
+
+```
+-Long id
+-String familyId
+-String nameFamily
+-LocalDateTime createdAt
+-LocalDateTime updatedAt
+-List<Person> familyMembers
+```
+### 2.5.2. Methods (Phương thức)
+
+```
++Constrcutors()
++Getters()
++Settters()
++addFamilyMember(Person)
++removeFamilyMember(Person)
++getMemberCount() int
++getOldestMaleMember() Person
++updateFamilyName()
++preUpdate()
 ```
 
 ## 2.5. ReceiveManagement (Quản lý thu)
