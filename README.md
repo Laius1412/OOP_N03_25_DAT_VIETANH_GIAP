@@ -754,7 +754,7 @@ EXPENSE
 # 5. Triển khai
 
 - Link Github Source Code: https://github.com/Laius1412/OOP_N03_25_DAT_VIETANH_GIAP
-- Link Youtube demo ứng dụng:
+- Link Youtube demo ứng dụng: https://youtu.be/mIbHR26mr_M?si=Rvy8ySu00JX2oguj
 - Link trang web chính thức: https://oop-n03-25-dat-vietanh-giap.onrender.com
 
 * Lưu ý: Liên kết trang web có thể mất vài phút để khởi động do deploy free.
