@@ -1,6 +1,6 @@
 # OOP_Project
 
-- Tên dự án: Xây dựng ứng dụng quản lý gia phả
+- Tên dự án: Xây dựng hệ thống quản lý gia phả
 
 # Mục lục
 - [1. Giới thiệu chung](#1-giới-thiệu-chung)
