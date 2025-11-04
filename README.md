@@ -208,7 +208,7 @@ getCategoryReport(),
 
 ## 3.1 UML Class Diagram
 
-<img width="1241" height="1284" alt="OPP2 drawio" src="https://github.com/user-attachments/assets/f000eac5-b27d-414d-891f-535525d108c2" />
+<img width="2022" height="1664" alt="OOP (1)" src="https://github.com/user-attachments/assets/bfd590c7-dc4b-4646-b3f1-34d3f99bd139" />
 
 ## 3.2 UML Sequence Diagram
 ### 3.2.1 Sơ đồ thuật toán CRUD của đối tượng User
