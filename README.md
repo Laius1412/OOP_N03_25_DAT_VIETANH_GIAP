@@ -565,64 +565,71 @@ EXPENSE
 
 ### 3.2.2. Sơ đồ thuật toán CRUD của đối tương user.
 
-- Read
+- Chức năng hiển thị danh sách User
 
-<img width="2884" height="1134" alt="danh sách" src="https://github.com/user-attachments/assets/5c4f6289-97ae-4c3b-9935-efe94f923a26" />
+<img width="2884" height="1134" alt="danh sách" src="https://github.com/user-attachments/assets/d58c4e61-9d3c-4e47-a4dc-d5357916bea5" />
 
-- Create
+- Chức năng thêm User
 
-<img width="2920" height="1330" alt="them user" src="https://github.com/user-attachments/assets/bb7ca677-cf5c-4f23-9d89-821b55a9347a" />
+<img width="2920" height="1330" alt="them user" src="https://github.com/user-attachments/assets/515990d3-7f71-4248-b73c-cc0c31ce3cb7" />
 
+- Chức năng chỉnh sửa User
 
-- Update
+<img width="2432" height="1618" alt="sửa user" src="https://github.com/user-attachments/assets/94646a50-e374-4967-a288-451f4117085f" />
 
-<img width="2432" height="1618" alt="sửa user" src="https://github.com/user-attachments/assets/671468fc-dca8-4658-8570-9cb862d6212f" />
+- Chức năng xóa User
 
-
-- Delete
-
-<img width="2530" height="1326" alt="xóa user" src="https://github.com/user-attachments/assets/1125593a-945f-4c6f-8a58-572b7f270e4a" />
+<img width="2530" height="1326" alt="xóa user" src="https://github.com/user-attachments/assets/c46fb8e9-65a8-4db1-88ba-26dfc09b9bfe" />
 
 
-### 3.2.2 Sơ đồ thuật toán CRUD của đối tượng Person
+### 3.2.3 Sơ đồ thuật toán CRUD của đối tượng Person
 
-- Create
+- Chức năng hiển thị danh sách và tìm kiếm thành viên
 
-<img width="3730" height="3840" alt="themPerson" src="https://github.com/user-attachments/assets/550ab705-7e96-4794-a931-69972fb610c7" />
+<img width="3038" height="2006" alt="hiển thị danh sách và tìm kiếm person" src="https://github.com/user-attachments/assets/ac3fce8a-27d6-472b-bb7f-3dc1736b0bb0" />
 
-- Read
+- Chức năng thêm, sửa, xóa thành viên 
 
-<img width="3840" height="3574" alt="XemPerson" src="https://github.com/user-attachments/assets/af45512f-d536-441e-9c2c-45ff4ea728ab" />
+<img width="3642" height="4158" alt="thêm sửa xóa person" src="https://github.com/user-attachments/assets/60458c18-1435-4f30-a5e1-54efb696cf83" />
 
-- Update
+- Chức năng tạo cây gia phả và xem chi tiết thành viên
 
-<img width="2875" height="3840" alt="Chinhsua" src="https://github.com/user-attachments/assets/3f33bb46-7f80-4f67-8c84-8489623b38ba" />
+<img width="2920" height="2094" alt="cây gia phả và thông tin chi tiết " src="https://github.com/user-attachments/assets/c2b16818-0dd6-42a5-8096-2dddd24574dc" />
 
-- Delete
+### 3.2.4 Sơ đồ thuật toán CRUD của đối tượng Finance.
 
-<img width="2712" height="3840" alt="xóa" src="https://github.com/user-attachments/assets/e575d163-0abc-4b35-8702-051d01ff764f" />
-
-### 3.2.3 Sơ đồ thuật toán CRUD của đối tượng Receive
-
-- Create
+- Chức năng thêm danh mục 
   
-<img width="3840" height="3193" alt="themtk" src="https://github.com/user-attachments/assets/e87fcbd3-3383-41a9-a7ba-da6f9944ff0f" />
+<img width="2626" height="1402" alt="thêm danh mục" src="https://github.com/user-attachments/assets/e0108c8c-d598-44b3-bf03-d41489500253" />
 
-- Read
+- Chức năng sửa và xóa danh mục 
 
-<img width="3840" height="1960" alt="xem danh sách" src="https://github.com/user-attachments/assets/cca3238a-567d-467a-9daa-470f9eb1f9a3" />
+<img width="3124" height="2418" alt="sửa- xóa danh mục" src="https://github.com/user-attachments/assets/f7fc0f66-bda7-4a30-89fe-edc8cfac61a5" />
+
+- Chức năng thêm, sửa và xóa giao dịch
   
-- Update
+<img width="3068" height="3286" alt="them sua xoa , giao dich" src="https://github.com/user-attachments/assets/0b0cec43-fc32-4898-919a-3fd00be9bbfc" />
+
+- Chức năng tạo báo cáo
   
-<img width="3840" height="2753" alt="sửatk" src="https://github.com/user-attachments/assets/91e5053d-fc34-44d2-a874-5df5a0a8eadc" />
-  
-- Delete
-  
-<img width="3840" height="3019" alt="xoatk" src="https://github.com/user-attachments/assets/bcce7f8c-1f04-43ff-addb-1b9c293c3809" />
-  
-- Search
-  
-<img width="3840" height="2150" alt="tìm kiếm" src="https://github.com/user-attachments/assets/a8100e59-8908-479e-8e82-2b2bc7aaa5d4" />
+<img width="2914" height="2126" alt="tạo bao cao" src="https://github.com/user-attachments/assets/3cf1350d-db37-4527-b23a-c92fd1f264b8" />
+
+### 3.2.5 Sơ đồ thuật toán CRUD của đối tượng Event.
+
+- Chức năng hiển thị danh sách sự kiện và tìm kiếm
+
+<img width="3028" height="1870" alt="danh sách sự kiện và tìm kiếm event " src="https://github.com/user-attachments/assets/5c2542d0-3f9f-45e6-9ecd-107c6fa736b1" />
+
+- Chức năng thêm, sửa, xóa sự kiện
+
+<img width="2461" height="3310" alt="thêm sửa xóa event" src="https://github.com/user-attachments/assets/9cba1fb1-b29e-495e-9c20-8db59db65a93" />
+
+### 3.2.6 Sơ đồ thuật toán các chức năng của người dùng
+
+<img width="4090" height="1554" alt="người dùng" src="https://github.com/user-attachments/assets/718f4b12-1814-4eb9-b07d-b3a575d24e74" />
+
+ 
+
 
 
 
