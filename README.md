@@ -1,6 +1,8 @@
 # OOP_Project
 
-## Mục lục
+- Tên dự án: Xây dựng ứng dụng quản lý gia tộc
+
+# Mục lục
 - [1. Giới thiệu chung](#1-giới-thiệu-chung)
   - [1.1. Members (Thành viên dự án):](#11-members-thành-viên-dự-án)
   - [1.2. Yêu cầu chính:](#12-yêu-cầu-chính)
@@ -80,8 +82,6 @@
     - [3.2.6 Sơ đồ thuật toán các chức năng của người dùng](#326-sơ-đồ-thuật-toán-các-chức-năng-của-người-dùng)
 - [4. Giao diện](#4-giao-diện)
 - [5. Triển khai](#5-triển-khai)
-
-- Tên dự án: Xây dựng ứng dụng quản lý gia tộc
 
 # 1. Giới thiệu chung
 
@@ -709,8 +709,39 @@ EXPENSE
 
 <img width="4090" height="1554" alt="người dùng" src="https://github.com/user-attachments/assets/718f4b12-1814-4eb9-b07d-b3a575d24e74" />
 
-# 4. Giao diện
+# 4. Giao diện chính
 
+## 4.1. Đăng nhập
+
+<img width="1861" height="874" alt="image" src="https://github.com/user-attachments/assets/c27bb646-3320-42ad-a534-3f0d9c8ff156" />
+
+## 4.2. Trang chủ
+
+<img width="1838" height="877" alt="image" src="https://github.com/user-attachments/assets/efa52773-ebd8-444a-875c-95429141d971" />
+
+## 4.3. Quản lý thành viên
+
+<img width="1860" height="875" alt="image" src="https://github.com/user-attachments/assets/47dbdd65-1a79-4912-be56-b44d838250a0" />
+
+## 4.4. Quản lý gia đình
+
+<img width="1864" height="879" alt="image" src="https://github.com/user-attachments/assets/7ebf2266-ee30-4b55-a6d6-09e2e3e0f974" />
+
+## 4.5. Quản lý sự kiện
+
+<img width="1849" height="886" alt="image" src="https://github.com/user-attachments/assets/b3f966f4-3996-412e-9d50-b5d442e9aa9f" />
+
+## 4.6. Quản lý tài chính
+
+<img width="1862" height="880" alt="image" src="https://github.com/user-attachments/assets/f3af37fe-c47a-451c-b976-1071dff76a60" />
+
+## 4.7. Quản lý người dùng
+
+<img width="1860" height="876" alt="image" src="https://github.com/user-attachments/assets/7762b8ff-3251-47bf-925c-a19369d54076" />
+
+## 4.8. Xem cây gia phả
+
+<img width="1856" height="881" alt="image" src="https://github.com/user-attachments/assets/958a4902-5cf8-4eb7-8a41-13af0aeaf683" />
 
 # 5. Triển khai
 
@@ -721,7 +752,3 @@ EXPENSE
 * Lưu ý: Liên kết trang web có thể mất vài phút để khởi động do deploy free.
 * Tài khoản admin (full chức năng): admin
 * Mật khẩu admin: admin123
-
-
-
-
