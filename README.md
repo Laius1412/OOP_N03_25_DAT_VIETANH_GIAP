@@ -628,7 +628,18 @@ EXPENSE
 
 <img width="4090" height="1554" alt="người dùng" src="https://github.com/user-attachments/assets/718f4b12-1814-4eb9-b07d-b3a575d24e74" />
 
- 
+# 4. Giao diện
+
+
+# 5. Triển khai
+
+- Link Github Source Code: https://github.com/Laius1412/OOP_N03_25_DAT_VIETANH_GIAP
+- Link Youtube demo ứng dụng:
+- Link trang web chính thức: https://oop-n03-25-dat-vietanh-giap.onrender.com
+
+* Lưu ý: Liên kết trang web có thể mất vài phút để khởi động do deploy free.
+* Tài khoản admin (full chức năng): admin
+* Mật khẩu admin: admin123
 
 
 
